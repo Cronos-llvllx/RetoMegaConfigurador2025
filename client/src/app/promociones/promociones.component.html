@@ -1,0 +1,39 @@
+<h2>Administrador de Promociones</h2>
+
+<div class="formulario">
+  <input [(ngModel)]="nuevaPromo.nombre" placeholder="Nombre de promoción">
+  <input [(ngModel)]="nuevaPromo.tipo" placeholder="Tipo">
+  <input [(ngModel)]="nuevaPromo.colonia" placeholder="Colonia">
+  <input [(ngModel)]="nuevaPromo.ciudad" placeholder="Ciudad">
+  <input [(ngModel)]="nuevaPromo.alcance" placeholder="Alcance">
+  <input [(ngModel)]="nuevaPromo.descuento" placeholder="Descuento %" type="number">
+  <input [(ngModel)]="nuevaPromo.duracion" placeholder="Duración (Meses)" type="number">
+  <input [(ngModel)]="nuevaPromo.vigencia" placeholder="Vigencia" type="date">
+  <button (click)="registrarPromo()">Registrar</button>
+</div>
+
+<h3>Promociones Existentes</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th><th>Tipo</th><th>Colonia</th><th>Ciudad</th>
+      <th>Alcance</th><th>Descuento</th><th>Duración</th><th>Vigencia</th><th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let promo of promociones; let i = index">
+      <td>{{ promo.nombre }}</td>
+      <td>{{ promo.tipo }}</td>
+      <td>{{ promo.colonia }}</td>
+      <td>{{ promo.ciudad }}</td>
+      <td>{{ promo.alcance }}</td>
+      <td>{{ promo.descuento }}%</td>
+      <td>{{ promo.duracion }}</td>
+      <td>{{ promo.vigencia }}</td>
+      <td>
+        <button (click)="editarPromo(i)">✏️</button>
+        <button (click)="eliminarPromo(i)">🗑️</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
