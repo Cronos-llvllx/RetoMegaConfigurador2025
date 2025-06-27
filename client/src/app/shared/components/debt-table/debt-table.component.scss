@@ -1,0 +1,112 @@
+table {
+  border: 2px solid #c2c2c2;
+  border-radius: 8px;
+  border-spacing: 0;
+  overflow: hidden;
+  width: 100%;
+
+  th {
+    color: #274bad;
+    padding: 8px 12px 8px;
+    text-align: left;
+  }
+
+  td:nth-child(2),
+  td:nth-child(3) {
+    width: 140px;
+  }
+
+  th,
+  td {
+    border-bottom: 1px solid #ddd;
+  }
+
+  tr.info {
+    td {
+      color: #3d3d3d;
+      font-size: 0.92rem;
+      padding: 4px 20px 4px;
+    }
+  }
+
+  tr.dropdown {
+    background-color: #4165b4;
+    color: #ddd;
+
+    td>div {
+      height: 0px;
+      opacity: 0;
+      overflow: hidden;
+    }
+
+    p {
+      margin-bottom: 4px;
+      margin-left: 32px;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    p.p1 {
+      margin-left: 40px;
+      margin-top: 0;
+      font-size: 0.95rem;
+    }
+
+    p.p2 {
+      margin-left: 48px;
+      margin-top: 0;
+      font-size: 0.90rem;
+    }
+
+    p.p3 {
+      margin-left: 56px;
+      margin-top: 0;
+      font-size: 0.85rem;
+    }
+
+    p.p4 {
+      margin-left: 64px;
+      margin-top: 0;
+      font-size: 0.8 rem;
+    }
+
+    p>span {
+      font-weight: normal;
+    }
+  }
+
+  tr.dropdown.show {
+    td>div {
+      animation: details-show 0.5s ease-in-out 0s 1 normal forwards;
+    }
+  }
+
+  tr.dropdown.idle {
+    td>div {
+      opacity: 1;
+      height: 185px;
+    }
+  }
+
+  tr.dropdown.hide {
+    td>div {
+      animation: details-show 0.5s ease-in-out 0s 1 reverse forwards;
+    }
+  }
+
+  @keyframes details-show {
+    from {
+      opacity: 0;
+      height: 0px;
+    }
+
+    to {
+      opacity: 1;
+      height: 185px;
+    }
+  }
+
+  td.btn-container {
+    width: 0;
+  }
+}

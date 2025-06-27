@@ -1,0 +1,5 @@
+<button type="button" (click)="onButtonClick($event)" [class]="getClass()" [disabled]="this.disabled" #buttonComponent>
+  <img *ngIf="icon !== undefined" [src]="icon" alt="btn-icon">
+  <p *ngIf="placeholder !== undefined">{{getPlaceholder()}}</p>
+  <span class="wait-curtain" *ngIf="this.waiting"></span>
+</button>

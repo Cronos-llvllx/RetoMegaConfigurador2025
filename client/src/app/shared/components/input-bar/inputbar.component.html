@@ -1,0 +1,5 @@
+<div [class]="'inputbar' + getStatusClass()" [style]="getCustomStyle()">
+  <input (input)="onInputChange($event)" (blur)="this.onBlur ? onInputBlur() : undefined" type={{getType()}}
+    [defaultValue]="defaultValue" [disabled]="disabled">
+  <p>{{getCurrentPlaceholder()}}</p>
+</div>
