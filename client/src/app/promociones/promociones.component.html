@@ -1,39 +1,76 @@
-<h2>Administrador de Promociones</h2>
 
-<div class="formulario">
-  <input [(ngModel)]="nuevaPromo.nombre" placeholder="Nombre de promoción">
-  <input [(ngModel)]="nuevaPromo.tipo" placeholder="Tipo">
-  <input [(ngModel)]="nuevaPromo.colonia" placeholder="Colonia">
-  <input [(ngModel)]="nuevaPromo.ciudad" placeholder="Ciudad">
-  <input [(ngModel)]="nuevaPromo.alcance" placeholder="Alcance">
-  <input [(ngModel)]="nuevaPromo.descuento" placeholder="Descuento %" type="number">
-  <input [(ngModel)]="nuevaPromo.duracion" placeholder="Duración (Meses)" type="number">
-  <input [(ngModel)]="nuevaPromo.vigencia" placeholder="Vigencia" type="date">
-  <button (click)="registrarPromo()">Registrar</button>
+<div class="formulario-container">
+    <h1>Administrador de Promociones</h1>
+
+    <div class="formulario">
+        <div class="campo">
+        <label>Nombre:</label>
+        <input [(ngModel)]="nuevaPromo.nombre" placeholder="Nombre de promoción">
+        </div>
+    
+        <div class="campo">
+        <label>Tipo:</label>
+        <input [(ngModel)]="nuevaPromo.tipo" placeholder="Tipo">
+        </div>
+    
+        <div class="campo">
+        <label>Colonia:</label>
+        <input [(ngModel)]="nuevaPromo.colonia" placeholder="Colonia">
+        </div>
+    
+        <div class="campo">
+        <label>Ciudad:</label>
+        <input [(ngModel)]="nuevaPromo.ciudad" placeholder="Ciudad">
+        </div>
+    
+        <div class="campo">
+        <label>Alcance:</label>
+        <input [(ngModel)]="nuevaPromo.alcance" placeholder="Alcance">
+        </div>
+    
+        <div class="campo">
+        <label>Descuento:</label>
+        <input [(ngModel)]="nuevaPromo.descuento" placeholder="%" type="number">
+        </div>
+    
+        <div class="campo">
+        <label>Duración:</label>
+        <input [(ngModel)]="nuevaPromo.duracion" placeholder="Meses" type="number">
+        </div>
+    
+        <div class="campo">
+        <label>Vigencia:</label>
+        <input [(ngModel)]="nuevaPromo.vigencia" placeholder="Vigencia" type="date">
+        </div>
+    
+        <button (click)="registrarPromo()">Registrar</button>
+    </div>  
 </div>
 
-<h3>Promociones Existentes</h3>
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th><th>Tipo</th><th>Colonia</th><th>Ciudad</th>
-      <th>Alcance</th><th>Descuento</th><th>Duración</th><th>Vigencia</th><th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let promo of promociones; let i = index">
-      <td>{{ promo.nombre }}</td>
-      <td>{{ promo.tipo }}</td>
-      <td>{{ promo.colonia }}</td>
-      <td>{{ promo.ciudad }}</td>
-      <td>{{ promo.alcance }}</td>
-      <td>{{ promo.descuento }}%</td>
-      <td>{{ promo.duracion }}</td>
-      <td>{{ promo.vigencia }}</td>
-      <td>
-        <button (click)="editarPromo(i)">✏️</button>
-        <button (click)="eliminarPromo(i)">🗑️</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-container">
+    <h1>Promociones Existentes</h1>
+        <table>
+        <thead>
+            <tr>
+            <th>Nombre</th><th>Tipo</th><th>Colonia</th><th>Ciudad</th>
+            <th>Alcance</th><th>Descuento</th><th>Duración</th><th>Vigencia</th><th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let promo of promociones; let i = index">
+            <td>{{ promo.nombre }}</td>
+            <td>{{ promo.tipo }}</td>
+            <td>{{ promo.colonia }}</td>
+            <td>{{ promo.ciudad }}</td>
+            <td>{{ promo.alcance }}</td>
+            <td>{{ promo.descuento }}%</td>
+            <td>{{ promo.duracion }}</td>
+            <td>{{ promo.vigencia }}</td>
+            <td>
+                <button (click)="editarPromo(i)">✏️</button>
+                <button (click)="eliminarPromo(i)">🗑️</button>
+            </td>
+            </tr>
+        </tbody>
+        </table>
+</div>
