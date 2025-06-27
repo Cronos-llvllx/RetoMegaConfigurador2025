@@ -1,0 +1,34 @@
+<div class="main-container">
+
+  <header class="header-container">
+    <h1>Gestor Suscriptores</h1>
+  </header>
+
+  <section class="search-container">
+    <div class="search-input-group">
+      <label for="contractNumber">Número de contrato</label>
+      <input id="contractNumber" type="text" placeholder="e.g., 45657" [(ngModel)]="contractNumber" />
+      <button (click)="searchContract()">Buscar</button>
+    </div>
+  </section>
+
+    <section class="add-container">
+    <div class="add-contract">
+      <label for="contractNumber">Número de contrato</label>
+      <input id="contractNumber" type="text" placeholder="e.g., 45657" [(ngModel)]="contractNumber" />
+      <button (click)="searchContract()">Buscar</button>
+    </div>
+  </section>
+
+  <section class="info-cards-container">
+
+    <div class="card subscriber-info-card">
+      <h2>Información del suscriptor</h2>
+      <p><strong>Número de contrato:</strong> {{ subscriberInfo?.contractNumber }}</p>
+      <p><strong>Nombre:</strong> {{ subscriberInfo?.name }}</p>
+      <p><strong>Fecha de contratación:</strong> {{ subscriberInfo?.contractDate }}</p>
+      <p><strong>Estado del servicio:</strong> {{ subscriberInfo?.status }}</p>
+    </div>
+
+  </section>
+</div>
