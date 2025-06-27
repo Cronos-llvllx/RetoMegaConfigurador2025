@@ -72,6 +72,18 @@ CREATE TABLE Contrato (
 
 GO
 
+CREATE TABLE PromoPersonalizada (
+  Idpromopersonalizada INTEGER PRIMARY KEY IDENTITY(1, 1) NOT NULL,
+  Idcontrato INTEGER NOT NULL,
+  FechaAplicacion DATE NOT NULL,
+  Descripcion NVARCHAR(100) NOT NULL,
+  PrecioPorcen NUMERIC(6,2) NOT NULL,
+
+  CONSTRAINT fk_promopersonalizada_idcontrato FOREIGN KEY(Idcontrato) REFERENCES dbo.Contrato(Idcontrato)
+);
+
+GO
+
 -- RELACIONES.
 CREATE TABLE ContratoPaquete (
 	Idcontrato INTEGER NOT NULL,
@@ -134,3 +146,25 @@ CREATE TABLE PromocionContrato (
 
 
 -- CASOS DE USO.
+-- Solo para promociones para servicios (mensualidades).
+-- Existe restricción en cómo aplicar promociones específicamente para colonias o ciudades:
+--  1. Si se aplican promociones a una o más colonias, solo se puede aplicar a una ciudad (de esas colonias).
+--  2. Si se aplican promociones a una o más ciudades, no se pueden aplicar a colonias específicas (por defecto, ya aplican a todas las colonias).
+--  2. Cada restricción puede agregar paquetes específicos que aplicarán para esas promociones. Si no se especifican paquetes, entonces todos los paquetes aplicarán para dichas promociones.
+
+-- **CONSIDERACIONES EXTRSA**
+-- Promociones por desperfectos técnicos...
+
+-- El tipo de suscriptor, promociones que aplican al precio de contratación, promociones que aplican a paquetes contratados
+
+-- 1. Promoción de contratación.
+-- Paquetes previamente registrados.
+
+-- 2. Promociones de paquetes que aplican al público general a todos o varios paquetes.
+-- Alta de promoción.
+
+-- 3. Promociones de paquetes que aplican a una o varias colonias (solo aplica para una ciudad).
+
+-- 4. Promociones de paquetes que aplican a una o varias ciudades (todas las colonias).
+
+-- 5. Promociones que aplican 
