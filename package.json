@@ -1,0 +1,21 @@
+{
+  "name": "control_de_deudas",
+  "version": "1.0.0",
+  "description": "Este es un reto hecho por MEGA para los ingenieros en desarollo 2025. Consta de un configurador de promociones y calculo de la deuda de un suscriptor para vendedores o usuarios que manejen contrataciones y ofrezcan productos o servicios que se les puedan aplicar estas promociones.",
+  "homepage": "https://github.com/Cronos-llvllx/RetoMegaConfigurador2025#readme",
+  "bugs": {
+    "url": "https://github.com/Cronos-llvllx/RetoMegaConfigurador2025/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cronos-llvllx/RetoMegaConfigurador2025.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "scripts": {
+    "client": "cd client && ng serve",
+    "clients": "cd client && ng serve --host 0.0.0.0",
+    "install-all": "cd client && npm i && cd ../server && dotnet restore",
+    "server": "cd server && dotnet run"
+  }
+}
