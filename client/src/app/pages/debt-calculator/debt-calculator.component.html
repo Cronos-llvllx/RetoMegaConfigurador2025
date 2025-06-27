@@ -3,8 +3,8 @@
   <!-- Número de contrato. -->
   <div class="box" id="subscriptor-input">
     <app-inputbar (onChange)="onContractNumberChange($event)" [placeholder]="{ default: 'Número de contrato' }"
-      [maxLength]="5" [filters]="getContractNumberFilters()" [width]="'400px'" alignment="center" [disabled]="disableUI"
-      [validators]="validators()" />
+      [maxLength]="5" [filters]="getContractNumberFilters()" [width]="'400px'" alignment="center"
+      [disabled]="disableUI" />
     <app-button [id]="'searchClientBtn'" [placeholder]="{ default: 'Buscar', waiting: 'Buscando...' }"
       (onAction)="onSearchClientBtnAction($event)" [disabled]="!contractNumber || disableUI" />
   </div>

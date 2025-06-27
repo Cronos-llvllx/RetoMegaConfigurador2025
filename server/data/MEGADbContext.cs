@@ -15,6 +15,8 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
   public DbSet<Colonia> Colonias => Set<Colonia>();
   /// <summary>Entidad Contrato.</summary>
   public DbSet<Contrato> Contratos => Set<Contrato>();
+  /// <summary>Entidad PromoPersonalizada</summary>
+  public DbSet<PromoPersonalizada> PromosPersonalizadas => Set<PromoPersonalizada>();
   /// <summary>Relación Contrato-Paquete.</summary>
   public DbSet<ContratoPaquete> ContratosPaquetes => Set<ContratoPaquete>();
   /// <summary>Entidad Paquete.</summary>
@@ -44,6 +46,7 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
     modelBuilder.Entity<Ciudad>().HasKey(e => e.Idciudad);
     modelBuilder.Entity<Colonia>().HasKey(e => e.IdColonia);
     modelBuilder.Entity<Contrato>().HasKey(e => e.Idcontrato);
+    modelBuilder.Entity<PromoPersonalizada>().HasKey(e => e.Idpromopersonalizada);
     modelBuilder.Entity<Paquete>().HasKey(e => e.Idpaquete);
     modelBuilder.Entity<Promocion>().HasKey(e => e.Idpromocion);
     modelBuilder.Entity<Servicio>().HasKey(e => e.Idservicio);
@@ -64,6 +67,11 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
       .HasOne(con => con.Suscriptor)
       .WithOne(sus => sus.Contrato)
       .HasForeignKey<Contrato>(con => con.Idsuscriptor);
+
+    modelBuilder.Entity<PromoPersonalizada>()
+      .HasOne(pp => pp.Contrato)
+      .WithMany(con => con.PromosPersonalizadas)
+      .HasForeignKey(pp => pp.Idcontrato);
 
     // Define las llaves primarias de relaciones.
     modelBuilder.Entity<ContratoPaquete>().HasKey(e => new { e.Idcontrato, e.Idpaquete });

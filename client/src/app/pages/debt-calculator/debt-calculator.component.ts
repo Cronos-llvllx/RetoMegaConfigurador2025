@@ -21,15 +21,6 @@ export class DebtCalculator {
   public subscriptor?: Subscriptor;
   public showTable: boolean = false;
 
-  validators(): InputbarValidatorObject[] {
-    return [
-      {
-        validate: (input?: string) => input === '1',
-        rejectPlaceholder: 'Debes ingresar 1'
-      }
-    ]
-  }
-
   /** @deprecated solo para pruebas */
   auxChange() { }
 

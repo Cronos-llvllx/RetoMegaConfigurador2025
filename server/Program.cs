@@ -1,5 +1,6 @@
 using megaapi.data;
 using megaapi.interfaces;
+using megaapi.models;
 using megaapi.repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,7 @@ builder.Services.AddDbContext<MEGADbContext>(options =>
 builder.Services.AddScoped<ICiudad, RepoCiudad>(); // Modelos de Ciudad.
 builder.Services.AddScoped<IColonia, RepoColonia>(); // Modelos de Colonia.
 builder.Services.AddScoped<IContrato, RepoContrato>(); // Modelos de Contrato.
+builder.Services.AddScoped<IPromoPersonalizada, RepoPromopersonalizada>(); // Modelos de promos personalizadas.
 builder.Services.AddScoped<IPaquete, RepoPaquete>(); // Modelos de Paquete.
 builder.Services.AddScoped<IPromocion, RepoPromocion>(); // Modelos de Promoción.
 builder.Services.AddScoped<IServicio, RepoServicio>(); // Modelos de Servicio.

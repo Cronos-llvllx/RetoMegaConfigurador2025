@@ -1,8 +1,6 @@
 class Generic {
   constructor(private _id: number, private _creationDate?: Date) { }
 
-  // *** GETTERS & SETTERS
-
   /** Obtiene la fecha de creación del objeto. */
   getCreationDate() {
     return this._creationDate;
