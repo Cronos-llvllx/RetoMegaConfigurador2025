@@ -1,0 +1,13 @@
+<div class="box-elements">
+  <div class="box-container" (click)="onElementRemoveBtnClick($event)" #elementsContainer>
+    <div *ngFor="let e of getElements()" class="element">
+      <div class="content">
+        <p>{{e}}</p>
+        <span class="button-sim">
+          <span class="x1"></span>
+          <span class="x2"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
