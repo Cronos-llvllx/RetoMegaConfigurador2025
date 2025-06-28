@@ -1,6 +1,7 @@
 using megaapi.data;
 using megaapi.interfaces;
 using megaapi.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace megaapi.repositories;
 
@@ -10,27 +11,27 @@ public class RepoContrato(MEGADbContext dbContext) : IContrato
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Contrato> CreateAsync(Contrato entity)
+  public Task<Contrato> CreateAsync(Contrato contrato)
   {
     throw new NotImplementedException();
   }
 
-  public Task<IEnumerable<Contrato>> GetAllAsync()
+  public async Task<IEnumerable<Contrato>> GetAllAsync()
+  {
+    return await _dbContext.Contratos.ToListAsync();
+  }
+
+  public async Task<Contrato?> GetByIdAsync(int id)
+  {
+    return await _dbContext.Contratos.FindAsync(id);
+  }
+
+  public Task<bool> RemoveAsync(Contrato contrato)
   {
     throw new NotImplementedException();
   }
 
-  public Task<Contrato?> GetByIdAsync(int id)
-  {
-    throw new NotImplementedException();
-  }
-
-  public Task<bool> RemoveAsync(Contrato entity)
-  {
-    throw new NotImplementedException();
-  }
-
-  public Task<bool> UpdateAsync(Contrato entity)
+  public Task<bool> UpdateAsync(Contrato contrato)
   {
     throw new NotImplementedException();
   }

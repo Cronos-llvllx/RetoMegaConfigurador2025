@@ -1,6 +1,7 @@
 using megaapi.data;
 using megaapi.interfaces;
 using megaapi.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace megaapi.repositories;
 
@@ -15,14 +16,14 @@ public class RepoCiudad(MEGADbContext dbContext) : ICiudad
     throw new NotImplementedException();
   }
 
-  public Task<IEnumerable<Ciudad>> GetAllAsync()
+  public async Task<IEnumerable<Ciudad>> GetAllAsync()
   {
-    throw new NotImplementedException();
+    return await _dbContext.Ciudades.ToListAsync();
   }
 
-  public Task<Ciudad?> GetByIdAsync(int id)
+  public async Task<Ciudad?> GetByIdAsync(int id)
   {
-    throw new NotImplementedException();
+    return await _dbContext.Ciudades.FindAsync(id);
   }
 
   public Task<bool> RemoveAsync(Ciudad entity)

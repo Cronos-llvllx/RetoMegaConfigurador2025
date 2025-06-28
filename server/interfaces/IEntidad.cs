@@ -10,32 +10,33 @@ public interface IEntidad<T, R>
 where T : class
 {
   /// <summary>
-  /// Obtiene todas las entidades <typeparamref name="T"/>.
+  /// Obtiene todos los registros de la entidad <typeparamref name="T"/>.
   /// </summary>
   /// <returns></returns>
   Task<IEnumerable<T>> GetAllAsync();
   /// <summary>
-  /// Obtiene una entidad <typeparamref name="T"/> con el id "<paramref name="id"/>" dado.
+  /// Obtiene un registro de la entidad <typeparamref name="T"/> con el id "<paramref name="id"/>"
+  /// dado.
   /// </summary>
   /// <param name="id">El identificador de búsqueda.</param>
   /// <returns></returns>
   Task<T?> GetByIdAsync(R id);
   /// <summary>
-  /// Crea una nueva entidad <typeparamref name="T"/>.
+  /// Crea un nuevo registro en la entidad <typeparamref name="T"/>.
   /// </summary>
-  /// <param name="entity">La entidad por crear.</param>
+  /// <param name="record">La entidad por crear.</param>
   /// <returns></returns>
-  Task<T> CreateAsync(T entity);
+  Task<T> CreateAsync(T record);
   /// <summary>
-  /// Actualiza una entidad <typeparamref name="T"/>.
+  /// Actualiza un registro de la entidad <typeparamref name="T"/>.
   /// </summary>
-  /// <param name="entity">La entidad por actualizar.</param>
+  /// <param name="record">La entidad por actualizar.</param>
   /// <returns></returns>
-  Task<bool> UpdateAsync(T entity);
+  Task<bool> UpdateAsync(T record);
   /// <summary>
-  /// Elimina una entidad <typeparamref name="T"/>.
+  /// Elimina un registro de la entidad <typeparamref name="T"/>.
   /// </summary>
-  /// <param name="entity">La entidad por eliminar.</param>
+  /// <param name="record">El registro por eliminar.</param>
   /// <returns></returns>
-  Task<bool> RemoveAsync(T entity);
+  Task<bool> RemoveAsync(T record);
 }

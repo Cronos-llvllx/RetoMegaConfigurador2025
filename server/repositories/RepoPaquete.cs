@@ -1,6 +1,7 @@
 using megaapi.data;
 using megaapi.interfaces;
 using megaapi.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace megaapi.repositories;
 
@@ -10,27 +11,27 @@ public class RepoPaquete(MEGADbContext dbContext) : IPaquete
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Paquete> CreateAsync(Paquete entity)
+  public Task<Paquete> CreateAsync(Paquete paquete)
   {
     throw new NotImplementedException();
   }
 
-  public Task<IEnumerable<Paquete>> GetAllAsync()
+  public async Task<IEnumerable<Paquete>> GetAllAsync()
+  {
+    return await _dbContext.Paquetes.ToListAsync();
+  }
+
+  public async Task<Paquete?> GetByIdAsync(int id)
+  {
+    return await _dbContext.Paquetes.FindAsync(id);
+  }
+
+  public Task<bool> RemoveAsync(Paquete paquete)
   {
     throw new NotImplementedException();
   }
 
-  public Task<Paquete?> GetByIdAsync(int id)
-  {
-    throw new NotImplementedException();
-  }
-
-  public Task<bool> RemoveAsync(Paquete entity)
-  {
-    throw new NotImplementedException();
-  }
-
-  public Task<bool> UpdateAsync(Paquete entity)
+  public Task<bool> UpdateAsync(Paquete paquete)
   {
     throw new NotImplementedException();
   }

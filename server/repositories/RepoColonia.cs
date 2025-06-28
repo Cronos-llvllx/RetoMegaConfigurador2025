@@ -1,6 +1,7 @@
 using megaapi.data;
 using megaapi.interfaces;
 using megaapi.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace megaapi.repositories;
 
@@ -10,27 +11,27 @@ public class RepoColonia(MEGADbContext dbContext) : IColonia
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Colonia> CreateAsync(Colonia entity)
+  public Task<Colonia> CreateAsync(Colonia colonia)
   {
     throw new NotImplementedException();
   }
 
-  public Task<IEnumerable<Colonia>> GetAllAsync()
+  public async Task<IEnumerable<Colonia>> GetAllAsync()
+  {
+    return await _dbContext.Colonias.ToListAsync();
+  }
+
+  public async Task<Colonia?> GetByIdAsync(int id)
+  {
+    return await _dbContext.Colonias.FindAsync(id);
+  }
+
+  public Task<bool> RemoveAsync(Colonia colonia)
   {
     throw new NotImplementedException();
   }
 
-  public Task<Colonia?> GetByIdAsync(int id)
-  {
-    throw new NotImplementedException();
-  }
-
-  public Task<bool> RemoveAsync(Colonia entity)
-  {
-    throw new NotImplementedException();
-  }
-
-  public Task<bool> UpdateAsync(Colonia entity)
+  public Task<bool> UpdateAsync(Colonia colonia)
   {
     throw new NotImplementedException();
   }

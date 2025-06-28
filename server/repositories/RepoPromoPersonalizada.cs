@@ -1,6 +1,7 @@
 using megaapi.data;
 using megaapi.interfaces;
 using megaapi.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace megaapi.repositories;
 
@@ -10,27 +11,27 @@ public class RepoPromopersonalizada(MEGADbContext dbContext) : IPromoPersonaliza
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<PromoPersonalizada> CreateAsync(PromoPersonalizada entity)
+  public Task<PromoPersonalizada> CreateAsync(PromoPersonalizada promo)
   {
     throw new NotImplementedException();
   }
 
-  public Task<IEnumerable<PromoPersonalizada>> GetAllAsync()
+  public async Task<IEnumerable<PromoPersonalizada>> GetAllAsync()
+  {
+    return await _dbContext.PromosPersonalizadas.ToListAsync();
+  }
+
+  public async Task<PromoPersonalizada?> GetByIdAsync(int id)
+  {
+    return await _dbContext.PromosPersonalizadas.FindAsync(id);
+  }
+
+  public Task<bool> RemoveAsync(PromoPersonalizada promo)
   {
     throw new NotImplementedException();
   }
 
-  public Task<PromoPersonalizada?> GetByIdAsync(int id)
-  {
-    throw new NotImplementedException();
-  }
-
-  public Task<bool> RemoveAsync(PromoPersonalizada entity)
-  {
-    throw new NotImplementedException();
-  }
-
-  public Task<bool> UpdateAsync(PromoPersonalizada entity)
+  public Task<bool> UpdateAsync(PromoPersonalizada promo)
   {
     throw new NotImplementedException();
   }
