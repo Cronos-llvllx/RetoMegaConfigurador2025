@@ -1,13 +1,12 @@
 import Generic from "./generic.model";
 
 class Service extends Generic {
-  /** Servicio de tipo internet. */
-  static get TYPE_INTERNET() { return 3 }
-
   /** Servicio de tipo telefonía. */
   static get TYPE_PHONE_LINE() { return 1 }
   /** Servicio de tipo televisión */
   static get TYPE_TV() { return 2 }
+  /** Servicio de tipo internet. */
+  static get TYPE_INTERNET() { return 3 }
 
   /**
    * @param id El identificador el servicio.

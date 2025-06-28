@@ -6,6 +6,7 @@ public class Promocion()
   public int Alcance { set; get; }
   public string Nombre { set; get; } = null!;
   public int? Duracion { set; get; }
+  public DateTime FechaRegistro { set; get; }
   public float PrecioBase { set; get; }
   public int Tipo { set; get; }
   public DateTime Vigencia { set; get; }
