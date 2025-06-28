@@ -6,7 +6,6 @@ import InputbarFilterObject from '../../shared/components/input-bar/models/input
 import Subscriptor from '../../models/subscriptor.model';
 import { NgIf } from '@angular/common';
 import { DebtTableComponent } from "../../shared/components/debt-table/debt-table.component";
-import InputbarValidatorObject from '../../shared/components/input-bar/models/inputbarvalidatorobject.interface';
 
 @Component({
   selector: 'app-debt-calculator',
