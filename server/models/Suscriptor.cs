@@ -8,6 +8,6 @@ public class Suscriptor()
   public string Nombre { set; get; } = null!;
   public string Telefono { set; get; } = null!;
   public byte Tipo { set; get; }
+  // Referencias.
   public Colonia Colonia { set; get; } = null!;
-  public Contrato Contrato { set; get; } = null!;
 }

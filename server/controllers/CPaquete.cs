@@ -8,7 +8,7 @@ namespace megaapi.controllers;
 /// <param name="repo">Inyección de dependencia del repositorio.</param>
 [ApiController]
 [Route("api/[controller]")]
-public class CPaquete(IPaquete repo) : ControllerBase
+public class Paquete(IPaquete repo) : ControllerBase
 {
   private readonly IPaquete _repo = repo;
 

@@ -8,7 +8,7 @@ namespace megaapi.controllers;
 /// <param name="repo">Inyección de dependencia del repositorio.</param>
 [ApiController]
 [Route("api/[controller]")]
-public class CSuscriptor(ISuscriptor repo) : ControllerBase
+public class Suscriptor(ISuscriptor repo) : ControllerBase
 {
   /// <summary>Repositorio de suscriptores</summary>
   public readonly ISuscriptor _repo = repo;
@@ -26,7 +26,7 @@ public class CSuscriptor(ISuscriptor repo) : ControllerBase
   {
     try
     {
-      var suscriptor = (await _repo.GetAll()).Find(s => s.Idsuscriptor == id);
+      var suscriptor = await _repo.GetByIdAsync(id);
 
       if (suscriptor != null)
         return Ok(suscriptor);

@@ -77,17 +77,17 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
 
     modelBuilder.Entity<Suscriptor>()
       .HasOne(sus => sus.Colonia)
-      .WithMany(col => col.Suscriptores)
+      .WithMany()
       .HasForeignKey(sus => sus.Idcolonia);
 
     modelBuilder.Entity<Contrato>()
-      .HasOne(con => con.Suscriptor)
-      .WithOne(sus => sus.Contrato)
+      .HasOne<Suscriptor>()
+      .WithOne()
       .HasForeignKey<Contrato>(con => con.Idsuscriptor);
 
     modelBuilder.Entity<PromoPersonalizada>()
-      .HasOne(pp => pp.Contrato)
-      .WithMany(con => con.PromosPersonalizadas)
+      .HasOne<Contrato>()
+      .WithMany()
       .HasForeignKey(pp => pp.Idcontrato);
 
     // Define las llaves primarias de relaciones.
@@ -101,62 +101,62 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
     // Define las llaves foráneas de relaciones.
     modelBuilder.Entity<ContratoPaquete>()
       .HasOne(cp => cp.Contrato)
-      .WithMany(con => con.Paquetes)
+      .WithMany()
       .HasForeignKey(cp => cp.Idcontrato);
 
     modelBuilder.Entity<ContratoPaquete>()
       .HasOne(cp => cp.Paquete)
-      .WithMany(paq => paq.Contratos)
+      .WithMany()
       .HasForeignKey(cp => cp.Idpaquete);
 
     modelBuilder.Entity<PaqueteServicio>()
       .HasOne(ps => ps.Paquete)
-      .WithMany(paq => paq.Servicios)
+      .WithMany()
       .HasForeignKey(ps => ps.Idpaquete);
 
     modelBuilder.Entity<PaqueteServicio>()
       .HasOne(ps => ps.Servicio)
-      .WithMany(ser => ser.Paquetes)
+      .WithMany()
       .HasForeignKey(ps => ps.Idservicio);
 
     modelBuilder.Entity<PromocionCiudad>()
       .HasOne(pc => pc.Promocion)
-      .WithMany(pro => pro.Ciudades)
+      .WithMany()
       .HasForeignKey(pc => pc.Idpromocion);
 
     modelBuilder.Entity<PromocionCiudad>()
       .HasOne(pc => pc.Ciudad)
-      .WithMany(ciu => ciu.Promociones)
+      .WithMany()
       .HasForeignKey(pc => pc.Idciudad);
 
     modelBuilder.Entity<PromocionColonia>()
       .HasOne(pc => pc.Promocion)
-      .WithMany(pro => pro.Colonias)
+      .WithMany()
       .HasForeignKey(pc => pc.Idpromocion);
 
     modelBuilder.Entity<PromocionColonia>()
       .HasOne(pc => pc.Colonia)
-      .WithMany(col => col.Promociones)
+      .WithMany()
       .HasForeignKey(pc => pc.Idcolonia);
 
     modelBuilder.Entity<PromocionContrato>()
       .HasOne(pc => pc.Promocion)
-      .WithMany(pro => pro.Contratos)
+      .WithMany()
       .HasForeignKey(pc => pc.Idpromocion);
 
     modelBuilder.Entity<PromocionContrato>()
       .HasOne(pc => pc.Contrato)
-      .WithMany(con => con.Promociones)
+      .WithMany()
       .HasForeignKey(pc => pc.Idcontrato);
 
     modelBuilder.Entity<PromocionPaquete>()
       .HasOne(pp => pp.Promocion)
-      .WithMany(pro => pro.Paquetes)
+      .WithMany()
       .HasForeignKey(pp => pp.Idpromocion);
 
     modelBuilder.Entity<PromocionPaquete>()
       .HasOne(pp => pp.Paquete)
-      .WithMany(paq => paq.Promociones)
+      .WithMany()
       .HasForeignKey(pp => pp.Idpaquete);
   }
 }

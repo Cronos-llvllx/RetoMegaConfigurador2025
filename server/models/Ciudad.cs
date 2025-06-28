@@ -7,5 +7,4 @@ public class Ciudad()
 
   // Relación.
   public ICollection<Colonia> Colonias { set; get; } = null!;
-  public ICollection<PromocionCiudad> Promociones { set; get; } = null!;
 }

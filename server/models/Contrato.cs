@@ -7,10 +7,4 @@ public class Contrato()
   public DateTime FechaContr { set; get; }
   public DateTime? FechaFin { set; get; }
   public decimal PrecioBase { set; get; }
-
-  // Relaciones.
-  public Suscriptor Suscriptor { set; get; } = null!;
-  public ICollection<ContratoPaquete> Paquetes { set; get; } = null!;
-  public ICollection<PromocionContrato> Promociones { set; get; } = null!;
-  public ICollection<PromoPersonalizada> PromosPersonalizadas { set; get; } = null!;
 }

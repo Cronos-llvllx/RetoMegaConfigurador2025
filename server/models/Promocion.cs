@@ -10,10 +10,4 @@ public class Promocion()
   public decimal PrecioBase { set; get; }
   public byte Tipo { set; get; }
   public DateTime Vigencia { set; get; }
-
-  // Relaciones.
-  public ICollection<PromocionCiudad> Ciudades { set; get; } = null!;
-  public ICollection<PromocionColonia> Colonias { set; get; } = null!;
-  public ICollection<PromocionPaquete> Paquetes { set; get; } = null!;
-  public ICollection<PromocionContrato> Contratos { set; get; } = null!;
 }

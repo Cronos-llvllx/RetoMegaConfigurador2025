@@ -11,17 +11,21 @@ public class RepoSuscriptor(MEGADbContext dbContext) : ISuscriptor
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public async Task<List<Suscriptor>> GetAll()
+  public Task<Suscriptor> CreateAsync(Suscriptor suscriptor)
   {
-    // Incluye información de la colonia y de la ciudad.
-    var suscriptores = await _dbContext.Suscriptor
-      .Include(s => s.Colonia)
-      .Include(s => s.Colonia.Ciudad)
-      .ToListAsync();
+    throw new NotImplementedException();
+  }
 
-    // Omite los arreglos de colonias en Ciudad (Colonias) y suscriptores en Colonia (Suscriptores)
-    // para evitar bucles.
-    var resultado = suscriptores.Select(s => new Suscriptor
+  public async Task<IEnumerable<Suscriptor>> GetAllAsync()
+  {
+    // Incluye la información de la colonia y de la ciudad.
+    var auxList = await _dbContext.Suscriptor
+          .Include(s => s.Colonia)
+          .Include(s => s.Colonia.Ciudad)
+          .ToListAsync();
+
+    // Filtra la información para evitar bucles infinitos.
+    return auxList.Select(s => new Suscriptor
     {
       Idsuscriptor = s.Idsuscriptor,
       Idcolonia = s.Idcolonia,
@@ -32,33 +36,45 @@ public class RepoSuscriptor(MEGADbContext dbContext) : ISuscriptor
       Colonia = new Colonia
       {
         IdColonia = s.Idcolonia,
+        Idciudad = s.Colonia.Idciudad,
         Nombre = s.Colonia.Nombre,
         Ciudad = new Ciudad
         {
-          Idciudad = s.Colonia.Ciudad.Idciudad,
+          Idciudad = s.Colonia.Idciudad,
           Nombre = s.Colonia.Ciudad.Nombre
         }
       }
-    }).ToList();
-
-    return resultado;
+    });
   }
-
-  public Task<Suscriptor> CreateAsync(Suscriptor suscriptor)
-  {
-    throw new NotImplementedException();
-  }
-
-  public async Task<IEnumerable<Suscriptor>> GetAllAsync()
-  {
-    return await GetAll();
-  }
-
-
 
   public async Task<Suscriptor?> GetByIdAsync(int id)
   {
-    return (await GetAll()).Find(s => s.Idsuscriptor == id);
+    var auxSus = (await _dbContext.Suscriptor
+      .Include(s => s.Colonia)
+      .Include(s => s.Colonia.Ciudad)
+      .ToListAsync()
+      ).Where(s => s.Idsuscriptor == id);
+
+    return auxSus.Select(s => new Suscriptor
+    {
+      Idsuscriptor = s.Idsuscriptor,
+      Idcolonia = s.Idcolonia,
+      Email = s.Email,
+      Nombre = s.Nombre,
+      Telefono = s.Telefono,
+      Tipo = s.Tipo,
+      Colonia = new Colonia
+      {
+        IdColonia = s.Idcolonia,
+        Idciudad = s.Colonia.Idciudad,
+        Nombre = s.Colonia.Nombre,
+        Ciudad = new Ciudad
+        {
+          Idciudad = s.Colonia.Idciudad,
+          Nombre = s.Colonia.Ciudad.Nombre
+        }
+      }
+    }).FirstOrDefault();
   }
 
   public Task<bool> RemoveAsync(Suscriptor suscriptor)
