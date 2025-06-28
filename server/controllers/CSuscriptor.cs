@@ -1,5 +1,6 @@
 using megaapi.interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace megaapi.controllers;
 
@@ -13,15 +14,39 @@ public class CSuscriptor(ISuscriptor repo) : ControllerBase
   public readonly ISuscriptor _repo = repo;
 
   // ** Definir endpoints...
-  [HttpGet("hola")]
-  public IActionResult HolaMundo()
-  {
-    return Ok("¡Hola mundo!");
-  }
 
   [HttpGet("")]
-  public async Task<IActionResult> ObtenerClientes()
+  public async Task<IActionResult> ObtenerSuscriptores()
   {
     return Ok(await _repo.GetAllAsync());
+  }
+
+  [HttpGet("{id}")]
+  public async Task<IActionResult> ObtenerSuscriptorPorId(int id)
+  {
+    try
+    {
+      var suscriptor = (await _repo.GetAll()).Find(s => s.Idsuscriptor == id);
+
+      if (suscriptor != null)
+        return Ok(suscriptor);
+
+      throw new NullReferenceException($"No existe el suscriptor con id {id}");
+    }
+    catch (SqlException ex)
+    {
+      Console.Error.WriteLine(ex);
+      return BadRequest(ex.Message);
+    }
+    catch (NullReferenceException ex)
+    {
+      Console.Error.WriteLine(ex);
+      return NotFound(ex.Message);
+    }
+    catch (Exception ex)
+    {
+      Console.Error.WriteLine(ex);
+      return StatusCode(500, ex.Message);
+    }
   }
 }
