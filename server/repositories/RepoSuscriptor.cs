@@ -18,12 +18,42 @@ public class RepoSuscriptor(MEGADbContext dbContext) : ISuscriptor
 
   public async Task<IEnumerable<Suscriptor>> GetAllAsync()
   {
-    return await _dbContext.Suscriptores.ToListAsync();
+    // Incluye información de la colonia y de la ciudad.
+    var suscriptores = await _dbContext.Suscriptor
+      .Include(s => s.Colonia)
+      .Include(s => s.Colonia.Ciudad)
+      .ToListAsync();
+
+    // Omite los arreglos de colonias en Ciudad (Colonias) y suscriptores en Colonia (Suscriptores)
+    // para evitar bucles.
+    var resultado = suscriptores.Select(s => new Suscriptor
+    {
+      Idsuscriptor = s.Idsuscriptor,
+      Idcolonia = s.Idcolonia,
+      Email = s.Email,
+      Nombre = s.Nombre,
+      Telefono = s.Telefono,
+      Tipo = s.Tipo,
+      Colonia = new Colonia
+      {
+        IdColonia = s.Idcolonia,
+        Nombre = s.Colonia.Nombre,
+        Ciudad = new Ciudad
+        {
+          Idciudad = s.Colonia.Ciudad.Idciudad,
+          Nombre = s.Colonia.Ciudad.Nombre
+        }
+      }
+    }).ToList();
+
+    return resultado;
   }
+
+
 
   public async Task<Suscriptor?> GetByIdAsync(int id)
   {
-    return await _dbContext.Suscriptores.FindAsync(id);
+    return await _dbContext.Suscriptor.FindAsync(id);
   }
 
   public Task<bool> RemoveAsync(Suscriptor suscriptor)

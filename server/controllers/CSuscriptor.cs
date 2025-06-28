@@ -18,4 +18,10 @@ public class CSuscriptor(ISuscriptor repo) : ControllerBase
   {
     return Ok("¡Hola mundo!");
   }
+
+  [HttpGet("")]
+  public async Task<IActionResult> ObtenerClientes()
+  {
+    return Ok(await _repo.GetAllAsync());
+  }
 }

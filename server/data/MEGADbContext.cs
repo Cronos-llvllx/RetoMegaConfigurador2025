@@ -10,33 +10,33 @@ namespace megaapi.data;
 public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(options)
 {
   /// <summary>Entidad Ciudad.</summary>
-  public DbSet<Ciudad> Ciudades => Set<Ciudad>();
+  public DbSet<Ciudad> Ciudad => Set<Ciudad>();
   /// <summary>Entidad Colonia.</summary>
-  public DbSet<Colonia> Colonias => Set<Colonia>();
+  public DbSet<Colonia> Colonia => Set<Colonia>();
   /// <summary>Entidad Contrato.</summary>
-  public DbSet<Contrato> Contratos => Set<Contrato>();
+  public DbSet<Contrato> Contrato => Set<Contrato>();
   /// <summary>Entidad PromoPersonalizada</summary>
-  public DbSet<PromoPersonalizada> PromosPersonalizadas => Set<PromoPersonalizada>();
+  public DbSet<PromoPersonalizada> PromoPersonalizada => Set<PromoPersonalizada>();
   /// <summary>Relación Contrato-Paquete.</summary>
-  public DbSet<ContratoPaquete> ContratosPaquetes => Set<ContratoPaquete>();
+  public DbSet<ContratoPaquete> ContratoPaquete => Set<ContratoPaquete>();
   /// <summary>Entidad Paquete.</summary>
   public DbSet<Paquete> Paquetes => Set<Paquete>();
   /// <summary>Relación Paquete-Servicio.</summary>
-  public DbSet<PaqueteServicio> PaquetesServicios => Set<PaqueteServicio>();
+  public DbSet<PaqueteServicio> PaqueteServicio => Set<PaqueteServicio>();
   /// <summary>Entidad Promocion.</summary>
-  public DbSet<Promocion> Promociones => Set<Promocion>();
+  public DbSet<Promocion> Promocion => Set<Promocion>();
   /// <summary>Relación Promocion-Ciudad</summary>
-  public DbSet<PromocionCiudad> PromocionesCiudades => Set<PromocionCiudad>();
+  public DbSet<PromocionCiudad> PromocionCiudade => Set<PromocionCiudad>();
   /// <summary>Relación Promocion-Colonia.</summary>
-  public DbSet<PromocionColonia> PromocionesColonias => Set<PromocionColonia>();
+  public DbSet<PromocionColonia> PromocionColonia => Set<PromocionColonia>();
   /// <summary>Relación Promocion-Contrato.</summary>
-  public DbSet<PromocionContrato> PromocionesContratos => Set<PromocionContrato>();
+  public DbSet<PromocionContrato> PromocionContrato => Set<PromocionContrato>();
   /// <summary>Relación Promocion-Paquete.</summary>
-  public DbSet<PromocionPaquete> PromocionesPaquetes => Set<PromocionPaquete>();
+  public DbSet<PromocionPaquete> PromocionPaquete => Set<PromocionPaquete>();
   /// <summary>Entidad Servicio.</summary>
-  public DbSet<Servicio> Servicios => Set<Servicio>();
+  public DbSet<Servicio> Servicio => Set<Servicio>();
   /// <summary>Entidad Suscriptor.</summary>
-  public DbSet<Suscriptor> Suscriptores => Set<Suscriptor>();
+  public DbSet<Suscriptor> Suscriptor => Set<Suscriptor>();
 
   /// <summary>Se ejecuta cuando se crea el modelo de la BD.</summary>
   /// <param name="modelBuilder"></param>
@@ -51,6 +51,23 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
     modelBuilder.Entity<Promocion>().HasKey(e => e.Idpromocion);
     modelBuilder.Entity<Servicio>().HasKey(e => e.Idservicio);
     modelBuilder.Entity<Suscriptor>().HasKey(e => e.Idsuscriptor);
+
+    // Asigna la precisión para tipos de dato decimal.
+    modelBuilder.Entity<Contrato>()
+      .Property(c => c.PrecioBase)
+      .HasPrecision(6, 2);
+    modelBuilder.Entity<Paquete>()
+      .Property(c => c.PrecioBase)
+      .HasPrecision(6, 2);
+    modelBuilder.Entity<Promocion>()
+      .Property(c => c.PrecioBase)
+      .HasPrecision(6, 2);
+    modelBuilder.Entity<PromoPersonalizada>()
+      .Property(c => c.PrecioPorcen)
+      .HasPrecision(6, 2);
+    modelBuilder.Entity<Servicio>()
+      .Property(c => c.PrecioBase)
+      .HasPrecision(6, 2);
 
     // Define las llaves foráneas de las entidades.
     modelBuilder.Entity<Colonia>()

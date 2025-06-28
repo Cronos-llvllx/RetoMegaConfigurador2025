@@ -4,8 +4,8 @@ public class Paquete()
 {
   public int Idpaquete { set; get; }
   public string Nombre { set; get; } = null!;
-  public float PrecioBase { set; get; }
-  public int Tipo { set; get; }
+  public decimal PrecioBase { set; get; }
+  public byte Tipo { set; get; }
 
   // Relaciones.
   public ICollection<PaqueteServicio> Servicios { set; get; } = null!;

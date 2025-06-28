@@ -18,12 +18,12 @@ public class RepoServicio(MEGADbContext dbContext) : IServicio
 
   public async Task<IEnumerable<Servicio>> GetAllAsync()
   {
-    return await _dbContext.Servicios.ToListAsync();
+    return await _dbContext.Servicio.ToListAsync();
   }
 
   public async Task<Servicio?> GetByIdAsync(int id)
   {
-    return await _dbContext.Servicios.FindAsync(id);
+    return await _dbContext.Servicio.FindAsync(id);
   }
 
   public Task<bool> RemoveAsync(Servicio servicio)

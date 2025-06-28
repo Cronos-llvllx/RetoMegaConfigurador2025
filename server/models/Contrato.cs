@@ -6,7 +6,7 @@ public class Contrato()
   public int Idsuscriptor { set; get; }
   public DateTime FechaContr { set; get; }
   public DateTime? FechaFin { set; get; }
-  public int PrecioBase { set; get; }
+  public decimal PrecioBase { set; get; }
 
   // Relaciones.
   public Suscriptor Suscriptor { set; get; } = null!;
