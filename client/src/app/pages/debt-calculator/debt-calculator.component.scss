@@ -1,0 +1,61 @@
+div.component-body {
+  margin: 0 auto;
+  max-width: 1000px;
+  min-height: 95vh;
+
+  div.box {
+    animation: box-show 0.5s ease-in-out 0s 1 normal forwards;
+    background-color: #e9e9e9;
+    border: 2px solid #3a5699;
+    border-radius: 12px;
+    margin: 8px;
+    opacity: 0;
+    padding: 4px 20px;
+  }
+
+  @keyframes box-show {
+    from {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  div#subscriptor-input {
+    text-align: center;
+  }
+
+  div#subscriptor-calculator-container {
+    display: flex;
+
+    >div {
+      width: 50%;
+    }
+
+    p {
+      color: #000000bd;
+      font-size: 0.95rem;
+      font-weight: bold;
+      margin: 4px 0;
+      margin-left: 8px;
+    }
+
+    p>span {
+      font-weight: normal;
+    }
+
+    div#calculator {
+      div.flex-container {
+        display: flex;
+        justify-content: center;
+      }
+
+      div.btn-container {
+        text-align: center;
+      }
+    }
+  }
+}

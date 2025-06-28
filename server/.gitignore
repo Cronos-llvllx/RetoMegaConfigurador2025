@@ -1,1 +1,6 @@
+# Archivos innecesarios para el control de versiones
+# Ignorar archivos de compilación y temporales
 /obj
+/bin
+# Ignorar archivos de configuración sensibles
+appsettings.Development.json

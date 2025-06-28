@@ -1,0 +1,70 @@
+<table (animationend)="onDropDownAnimationEnd($event)">
+  <tr class="header">
+    <th>Periodo</th>
+    <th class="mon-container">Subtotal</th>
+    <th class="mon-container">Total</th>
+  </tr>
+  <tr class="info">
+    <td>2025/03 - 2025/04</td>
+    <td>$1 099 MXN</td>
+    <td>$799 MXN</td>
+    <td class="btn-container">
+      <app-button id="btn-1" [placeholder]="{ default: '+' }" (onClick)="onExpandBtnClick($event)" />
+    </td>
+  </tr>
+  <tr class="dropdown" id="d1">
+    <td colspan="4">
+      <div>
+        <p>Paquete: <span>Residencial 1</span></p>
+        <p class="p2">Servicios: <span>Telefonía, Intenet, TV</span></p>
+        <p class="p2">Precio base: <span>$1 099 MXN</span></p>
+        <p class="p2">Subtotal: <span>$ 1 099 MXN</span></p>
+        <p>Promociones aplicadas.</p>
+        <p class="p2">Residencial 1: <span>- $300 MXN</span></p>
+        <p>Total: <span>$799 MXN</span></p>
+      </div>
+    </td>
+  </tr>
+  <tr class="info">
+    <td>2025/04 - 2025/05</td>
+    <td>$1 099 MXN</td>
+    <td>$799 MXN</td>
+    <td class="btn-container">
+      <app-button id="btn-2" [placeholder]="{ default: '+' }" (onClick)="onExpandBtnClick($event)" />
+    </td>
+  </tr>
+  <tr class="dropdown" id="d2">
+    <td colspan="4">
+      <div>
+        <p>Paquete: <span>Residencial 1</span></p>
+        <p class="p2">Servicios: <span>Telefonía, Intenet, TV</span></p>
+        <p class="p2">Precio base: <span>$1 099 MXN</span></p>
+        <p class="p2">Subtotal: <span>$ 1 099 MXN</span></p>
+        <p>Promociones aplicadas.</p>
+        <p class="p2">Residencial 1: <span>- $300 MXN</span></p>
+        <p>Total: <span>$799 MXN</span></p>
+      </div>
+    </td>
+  </tr>
+  <tr class="info">
+    <td>2025/05 - 2025/06</td>
+    <td>$1 099 MXN</td>
+    <td>$799 MXN</td>
+    <td class="btn-container">
+      <app-button id="btn-3" [placeholder]="{ default: '+' }" (onClick)="onExpandBtnClick($event)" />
+    </td>
+  </tr>
+  <tr class="dropdown" id="d3">
+    <td colspan="4">
+      <div>
+        <p>Paquete: <span>Residencial 1</span></p>
+        <p class="p2">Servicios: <span>Telefonía, Intenet, TV</span></p>
+        <p class="p2">Precio base: <span>$1 099 MXN</span></p>
+        <p class="p2">Subtotal: <span>$ 1 099 MXN</span></p>
+        <p>Promociones aplicadas.</p>
+        <p class="p2">Residencial 1: <span>- $300 MXN</span></p>
+        <p>Total: <span>$799 MXN</span></p>
+      </div>
+    </td>
+  </tr>
+</table>

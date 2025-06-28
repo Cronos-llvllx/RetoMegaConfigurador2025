@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+// $compo-background-color-enabled: none;
+// $compo-background-color-disabled: #999999;
+// $compo-border-color-enabled: #3a3a99;
+// $compo-boder-color-disabled: #8a8a8a;
+// $compo-text-color-enabled: #5555a7;
+// $compo-text-color-disabled: #d3d3d3;
+
+
+// ** Estilos globales. **
+// Fuente.
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #33519c;
+  background: linear-gradient(180deg, rgba(51, 81, 156, 1) 0%, rgba(23, 44, 97, 1) 100%);
+}
+
+// ** Estilos para el texto. **
+.highlight {
+  color: #c0cfff;
+}
+
+.highlight-dark {
+  color: #2d57c9;
+}

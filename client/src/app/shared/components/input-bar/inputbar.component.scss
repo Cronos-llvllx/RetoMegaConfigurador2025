@@ -1,0 +1,152 @@
+// *** Colores comunes ***
+$inputbar-background-color: #fff;
+$inputbar-boder-color: #3a5699;
+$inputbar-label-text-color: #3a5699;
+$inputbar-text-color: #6975a1;
+// **** Componente en error *****
+$inputbar-background-color-error: #ffe7e7;
+$inputbar-boder-color-error: #cf2020;
+$inputbar-label-text-color-error: #af2b2b;
+$inputbar-text-color-error: #be3535;
+// *** Inhabilitado ***
+$inputbar-disabled-background-color: #c2c2c2;
+$inputbar-disabled-boder-color: #a3a3a3;
+$inputbar-disabled-text-color: #f1f1f1;
+// *** Enfoque ***
+$inputbar-focus-background-color: #4862b6;
+$inputbar-focus-label-color : #c9d8ff;
+$inputbar-focus-text-color: #ced8ff;
+// **** Componente en error ****
+$inputbar-focus-background-color-error: #c72a2a;
+$inputbar-focus-boder-color-error: #9b1010;
+$inputbar-focus-text-color-error: #ff9292;
+$inputbar-focus-label-color-error: #ffa2a2;
+
+div.inputbar {
+  font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+  padding: 0.8rem 4px 0;
+
+  * {
+    transition: 0.2s;
+  }
+
+  p {
+    background-color: $inputbar-background-color;
+    border: 2px solid $inputbar-boder-color;
+    border-bottom: 2px solid $inputbar-background-color;
+    color: $inputbar-label-text-color;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    left: 16px;
+    max-width: calc(100% - 38px);
+    position: absolute;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0px 4px 0px;
+    top: -12px;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  input:focus~p {
+    background-color: $inputbar-boder-color;
+    border: 2px solid transparent;
+    color: $inputbar-focus-label-color;
+  }
+
+  input[disabled] {
+    border-color: $inputbar-disabled-boder-color;
+    background-color: $inputbar-disabled-background-color;
+    color: $inputbar-disabled-text-color;
+  }
+
+  input[disabled]~p {
+    background-color: $inputbar-disabled-background-color;
+    border-color: $inputbar-disabled-boder-color;
+    border-bottom: solid 2px transparent;
+    color: $inputbar-disabled-text-color;
+  }
+
+  input {
+    color: $inputbar-text-color;
+    background-color: $inputbar-background-color;
+    border: 2px solid $inputbar-boder-color;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    margin: 5px auto;
+    padding: 10px;
+    width: calc(100% - 24px);
+  }
+
+  input::placeholder {
+    opacity: 0;
+  }
+
+  input:focus {
+    color: $inputbar-focus-text-color;
+    background-color: $inputbar-focus-background-color;
+    outline: none;
+  }
+}
+
+div.inputbar.err {
+  input {
+    background-color: $inputbar-background-color-error;
+    border: 2px solid $inputbar-boder-color-error;
+    color: $inputbar-text-color-error;
+  }
+
+  input:focus {
+    background-color: $inputbar-focus-background-color-error;
+    border: 2px solid $inputbar-focus-boder-color-error;
+    color: $inputbar-focus-text-color-error;
+  }
+
+  p {
+    background-color: $inputbar-focus-background-color-error;
+    border: 2px solid $inputbar-boder-color-error;
+    border-bottom: 2px solid transparent;
+    color: $inputbar-label-text-color-error;
+  }
+
+  input:focus~p {
+    background-color: $inputbar-boder-color-error;
+    border: 2px solid $inputbar-focus-boder-color-error;
+    border-bottom: 2px solid transparent;
+    color: $inputbar-focus-label-color-error;
+  }
+
+  input:not(:focus)~p {
+    animation: input-error-shake-label 0.3s ease-in-out 0s 1 normal none;
+    background-color: $inputbar-background-color-error;
+  }
+
+  @keyframes input-error-shake-label {
+    10% {
+      transform: translateX(1px);
+    }
+
+    25% {
+      transform: translateX(-2px);
+    }
+
+    50% {
+      transform: translateX(5px);
+    }
+
+    75% {
+      transform: translateX(-2px);
+    }
+
+    90% {
+      transform: translateX(1px);
+    }
+
+    100% {
+      transform: translateX(0px);
+    }
+  }
+}

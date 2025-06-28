@@ -1,0 +1,39 @@
+<div class="component-body">
+  <h1 class="highlight">Calculadora de deudas.</h1>
+  <!-- Número de contrato. -->
+  <div class="box" id="subscriptor-input">
+    <app-inputbar (onChange)="onContractNumberChange($event)" [placeholder]="{ default: 'Número de contrato' }"
+      [maxLength]="5" [filters]="getContractNumberFilters()" [width]="'400px'" alignment="center"
+      [disabled]="disableUI" />
+    <app-button [id]="'searchClientBtn'" [placeholder]="{ default: 'Buscar', waiting: 'Buscando...' }"
+      (onAction)="onSearchClientBtnAction($event)" [disabled]="!contractNumber || disableUI" />
+  </div>
+  <!-- Información del suscriptor. -->
+  <div *ngIf="subscriptor" id="subscriptor-calculator-container">
+    <div class="box" id="subscriptor-info">
+      <h3 class="highlight-dark">Información del suscriptor</h3>
+      <p>Número de contrato: <span>{{this.contractNumber}}</span></p>
+      <p>Nombre: <span>Juan Escutia</span></p>
+      <p>Fecha de contratación: <span>2025-03-01</span></p>
+      <p>Estado del servicio: <span>ACTIVO</span></p>
+    </div>
+    <!-- Calcular deudas. -->
+    <div class="box" id="calculator">
+      <h3 class="highlight-dark">Calcular deuda.</h3>
+      <div class="flex-container">
+        <app-inputbar (onChange)="auxChange()" [placeholder]="{ default: 'Desde' }" [type]="'month'"
+          [disabled]="disableUI" />
+        <app-inputbar (onChange)="auxChange()" [placeholder]="{ default: 'Hasta' }" [type]="'month'"
+          [disabled]="disableUI" />
+      </div>
+      <div class="btn-container">
+        <app-button [placeholder]="{ default: 'Calcular', waiting: 'Calculando...' }"
+          (onAction)="onCalculateBtnAction($event)" />
+      </div>
+    </div>
+  </div>
+  <!-- Tabla de deudas. -->
+  <div *ngIf="showTable" class="box" id="debt-table">
+    <h3 class="highlight-dark">Resumen del cálculo.</h3>
+    <app-debt-table />
+  </div>
