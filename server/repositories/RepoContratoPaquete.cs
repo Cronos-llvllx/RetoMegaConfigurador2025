@@ -46,4 +46,14 @@ public class RepoContratoPaquete(MEGADbContext dbContext) : IContratoPaquete
   {
     throw new NotImplementedException();
   }
+
+  /// <summary>
+  /// Obtiene los paquetes relacionados a un contrato.
+  /// </summary>
+  /// <param name="contrato">El contrato del que se desea buscar.</param>
+  public async Task<IEnumerable<ContratoPaquete>> ObtenerPaquetes(Contrato contrato)
+  {
+    return (await _dbContext.ContratoPaquete.ToListAsync())
+      .Where(cP => cP.Idcontrato == contrato.Idcontrato);
+  }
 }

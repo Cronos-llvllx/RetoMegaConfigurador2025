@@ -46,4 +46,14 @@ public class RepoPromocionCiudad(MEGADbContext dbContext) : IPromocionCiudad
   {
     throw new NotImplementedException();
   }
+
+  /// <summary>
+  /// Obtiene las ciudades relacionadas a una promoción.
+  /// </summary>
+  /// <param name="promocion">La promoción de la que se desea buscar.</param>
+  public async Task<IEnumerable<PromocionCiudad>> ObtenerCiudades(Promocion promocion)
+  {
+    return (await _dbContext.PromocionCiudad.ToListAsync())
+      .Where(pC => pC.Idpromocion == promocion.Idpromocion);
+  }
 }

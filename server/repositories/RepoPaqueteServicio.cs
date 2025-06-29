@@ -46,4 +46,14 @@ public class RepoPaqueteServicio(MEGADbContext dbContext) : IPaqueteServicio
   {
     throw new NotImplementedException();
   }
+
+  /// <summary>
+  /// Obtiene los servicios relacionados a un paquete.
+  /// </summary>
+  /// <param name="paquete">El paquete del que se desea buscar.</param>
+  public async Task<IEnumerable<PaqueteServicio>> ObtenerServicios(Paquete paquete)
+  {
+    return (await _dbContext.PaqueteServicio.ToListAsync())
+      .Where(pS => pS.Idpaquete == paquete.Idpaquete);
+  }
 }
