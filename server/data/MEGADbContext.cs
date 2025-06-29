@@ -81,7 +81,7 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
       .HasForeignKey(sus => sus.Idcolonia);
 
     modelBuilder.Entity<Contrato>()
-      .HasOne<Suscriptor>()
+      .HasOne(con => con.Suscriptor)
       .WithOne()
       .HasForeignKey<Contrato>(con => con.Idsuscriptor);
 
