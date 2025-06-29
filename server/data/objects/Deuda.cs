@@ -292,7 +292,7 @@ public static class Deuda
         }
       });
 
-      // Agrega el periodo al objeto de respuesta.
+      // Agrega el periodo al objeto de respuesta .
       deudaRes.Deuda.Periodos.Add(auxPeriodo);
 
       // Actualización de variables.
