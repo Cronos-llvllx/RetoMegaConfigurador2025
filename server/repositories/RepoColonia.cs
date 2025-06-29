@@ -11,27 +11,27 @@ public class RepoColonia(MEGADbContext dbContext) : IColonia
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Colonia> CreateAsync(Colonia colonia)
+  public Task<Colonia> CrearAsync(Colonia colonia)
   {
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Colonia>> GetAllAsync()
+  public async Task<IEnumerable<Colonia>> ObtenerTodoAsync()
   {
     return await _dbContext.Colonia.ToListAsync();
   }
 
-  public async Task<Colonia?> GetByIdAsync(int id)
+  public async Task<Colonia?> ObtenerPorIdAsync(int id)
   {
     return await _dbContext.Colonia.FindAsync(id);
   }
 
-  public Task<bool> RemoveAsync(Colonia colonia)
+  public Task<bool> EliminarAsync(Colonia colonia)
   {
     throw new NotImplementedException();
   }
 
-  public Task<bool> UpdateAsync(Colonia colonia)
+  public Task<bool> ActualizarAsync(Colonia colonia)
   {
     throw new NotImplementedException();
   }

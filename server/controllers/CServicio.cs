@@ -17,6 +17,6 @@ public class Servicio(IServicio repo) : ControllerBase
   [Route("")]
   public async Task<IActionResult> ObtenerServicios()
   {
-    return Ok(await _repo.GetAllAsync());
+    return Ok(await _repo.ObtenerTodoAsync());
   }
 }

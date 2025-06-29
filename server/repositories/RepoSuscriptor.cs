@@ -11,12 +11,12 @@ public class RepoSuscriptor(MEGADbContext dbContext) : ISuscriptor
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Suscriptor> CreateAsync(Suscriptor suscriptor)
+  public Task<Suscriptor> CrearAsync(Suscriptor suscriptor)
   {
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Suscriptor>> GetAllAsync()
+  public async Task<IEnumerable<Suscriptor>> ObtenerTodoAsync()
   {
     // Incluye la información de la colonia y de la ciudad.
     var auxList = await _dbContext.Suscriptor
@@ -47,7 +47,7 @@ public class RepoSuscriptor(MEGADbContext dbContext) : ISuscriptor
     });
   }
 
-  public async Task<Suscriptor?> GetByIdAsync(int id)
+  public async Task<Suscriptor?> ObtenerPorIdAsync(int id)
   {
     var auxSus = (await _dbContext.Suscriptor
       .Include(s => s.Colonia)
@@ -77,12 +77,12 @@ public class RepoSuscriptor(MEGADbContext dbContext) : ISuscriptor
     }).FirstOrDefault();
   }
 
-  public Task<bool> RemoveAsync(Suscriptor suscriptor)
+  public Task<bool> EliminarAsync(Suscriptor suscriptor)
   {
     throw new NotImplementedException();
   }
 
-  public Task<bool> UpdateAsync(Suscriptor suscriptor)
+  public Task<bool> ActualizarAsync(Suscriptor suscriptor)
   {
     throw new NotImplementedException();
   }

@@ -11,27 +11,27 @@ public class RepoServicio(MEGADbContext dbContext) : IServicio
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Servicio> CreateAsync(Servicio servicio)
+  public Task<Servicio> CrearAsync(Servicio servicio)
   {
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Servicio>> GetAllAsync()
+  public async Task<IEnumerable<Servicio>> ObtenerTodoAsync()
   {
     return await _dbContext.Servicio.ToListAsync();
   }
 
-  public async Task<Servicio?> GetByIdAsync(int id)
+  public async Task<Servicio?> ObtenerPorIdAsync(int id)
   {
     return await _dbContext.Servicio.FindAsync(id);
   }
 
-  public Task<bool> RemoveAsync(Servicio servicio)
+  public Task<bool> EliminarAsync(Servicio servicio)
   {
     throw new NotImplementedException();
   }
 
-  public Task<bool> UpdateAsync(Servicio servicio)
+  public Task<bool> ActualizarAsync(Servicio servicio)
   {
     throw new NotImplementedException();
   }

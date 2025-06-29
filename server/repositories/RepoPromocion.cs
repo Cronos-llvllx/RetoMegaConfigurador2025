@@ -11,27 +11,27 @@ public class RepoPromocion(MEGADbContext dbContext) : IPromocion
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Promocion> CreateAsync(Promocion promocion)
+  public Task<Promocion> CrearAsync(Promocion promocion)
   {
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Promocion>> GetAllAsync()
+  public async Task<IEnumerable<Promocion>> ObtenerTodoAsync()
   {
     return await _dbContext.Promocion.ToListAsync();
   }
 
-  public async Task<Promocion?> GetByIdAsync(int id)
+  public async Task<Promocion?> ObtenerPorIdAsync(int id)
   {
     return await _dbContext.Promocion.FindAsync(id);
   }
 
-  public Task<bool> RemoveAsync(Promocion promocion)
+  public Task<bool> EliminarAsync(Promocion promocion)
   {
     throw new NotImplementedException();
   }
 
-  public Task<bool> UpdateAsync(Promocion promocion)
+  public Task<bool> ActualizarAsync(Promocion promocion)
   {
     throw new NotImplementedException();
   }

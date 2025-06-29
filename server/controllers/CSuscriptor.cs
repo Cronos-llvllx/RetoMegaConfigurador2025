@@ -18,7 +18,7 @@ public class Suscriptor(ISuscriptor repo) : ControllerBase
   [HttpGet("")]
   public async Task<IActionResult> ObtenerSuscriptores()
   {
-    return Ok(await _repo.GetAllAsync());
+    return Ok(await _repo.ObtenerTodoAsync());
   }
 
   [HttpGet("{id}")]
@@ -26,7 +26,7 @@ public class Suscriptor(ISuscriptor repo) : ControllerBase
   {
     try
     {
-      var suscriptor = await _repo.GetByIdAsync(id);
+      var suscriptor = await _repo.ObtenerPorIdAsync(id);
 
       if (suscriptor != null)
         return Ok(suscriptor);

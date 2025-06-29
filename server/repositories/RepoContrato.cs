@@ -11,27 +11,27 @@ public class RepoContrato(MEGADbContext dbContext) : IContrato
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Contrato> CreateAsync(Contrato contrato)
+  public Task<Contrato> CrearAsync(Contrato contrato)
   {
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Contrato>> GetAllAsync()
+  public async Task<IEnumerable<Contrato>> ObtenerTodoAsync()
   {
     return await _dbContext.Contrato.ToListAsync();
   }
 
-  public async Task<Contrato?> GetByIdAsync(int id)
+  public async Task<Contrato?> ObtenerPorIdAsync(int id)
   {
     return await _dbContext.Contrato.FindAsync(id);
   }
 
-  public Task<bool> RemoveAsync(Contrato contrato)
+  public Task<bool> EliminarAsync(Contrato contrato)
   {
     throw new NotImplementedException();
   }
 
-  public Task<bool> UpdateAsync(Contrato contrato)
+  public Task<bool> ActualizarAsync(Contrato contrato)
   {
     throw new NotImplementedException();
   }

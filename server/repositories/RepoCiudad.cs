@@ -11,27 +11,27 @@ public class RepoCiudad(MEGADbContext dbContext) : ICiudad
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Ciudad> CreateAsync(Ciudad entity)
+  public Task<Ciudad> CrearAsync(Ciudad entity)
   {
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Ciudad>> GetAllAsync()
+  public async Task<IEnumerable<Ciudad>> ObtenerTodoAsync()
   {
     return await _dbContext.Ciudad.ToListAsync();
   }
 
-  public async Task<Ciudad?> GetByIdAsync(int id)
+  public async Task<Ciudad?> ObtenerPorIdAsync(int id)
   {
     return await _dbContext.Ciudad.FindAsync(id);
   }
 
-  public Task<bool> RemoveAsync(Ciudad entity)
+  public Task<bool> EliminarAsync(Ciudad entity)
   {
     throw new NotImplementedException();
   }
 
-  public Task<bool> UpdateAsync(Ciudad entity)
+  public Task<bool> ActualizarAsync(Ciudad entity)
   {
     throw new NotImplementedException();
   }

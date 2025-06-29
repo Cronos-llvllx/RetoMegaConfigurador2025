@@ -1,8 +1,7 @@
 namespace megaapi.interfaces;
 
-
 /// <summary>
-/// Interfaz genérica para las demás interfaces.
+/// Interfaz genérica para las interfaces de entidades (llaves de un solo atributo).
 /// </summary>
 /// <typeparam name="T">Tipo de dato abstracto (clase)</typeparam>
 /// <typeparam name="R">Tipo de dato primitivo para acceder a tuplas por sus identificadores.</typeparam>
@@ -13,30 +12,30 @@ where T : class
   /// Obtiene todos los registros de la entidad <typeparamref name="T"/>.
   /// </summary>
   /// <returns></returns>
-  Task<IEnumerable<T>> GetAllAsync();
+  Task<IEnumerable<T>> ObtenerTodoAsync();
   /// <summary>
   /// Obtiene un registro de la entidad <typeparamref name="T"/> con el id "<paramref name="id"/>"
   /// dado.
   /// </summary>
   /// <param name="id">El identificador de búsqueda.</param>
   /// <returns></returns>
-  Task<T?> GetByIdAsync(R id);
+  Task<T?> ObtenerPorIdAsync(R id);
   /// <summary>
   /// Crea un nuevo registro en la entidad <typeparamref name="T"/>.
   /// </summary>
   /// <param name="record">La entidad por crear.</param>
   /// <returns></returns>
-  Task<T> CreateAsync(T record);
+  Task<T> CrearAsync(T record);
   /// <summary>
   /// Actualiza un registro de la entidad <typeparamref name="T"/>.
   /// </summary>
   /// <param name="record">La entidad por actualizar.</param>
   /// <returns></returns>
-  Task<bool> UpdateAsync(T record);
+  Task<bool> ActualizarAsync(T record);
   /// <summary>
   /// Elimina un registro de la entidad <typeparamref name="T"/>.
   /// </summary>
   /// <param name="record">El registro por eliminar.</param>
   /// <returns></returns>
-  Task<bool> RemoveAsync(T record);
+  Task<bool> EliminarAsync(T record);
 }

@@ -1,4 +1,5 @@
 using megaapi.data;
+using megaapi.data.objects;
 using megaapi.interfaces;
 using megaapi.models;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ namespace megaapi.repositories;
 public class RepoPromocionCiudad(MEGADbContext dbContext) : IPromocionCiudad
 {
   private readonly MEGADbContext _dbContext = dbContext;
-  public async Task<PromocionCiudad> CreateAsync(PromocionCiudad record)
+  public async Task<PromocionCiudad> CrearAsync(PromocionCiudad record)
   {
     await _dbContext.PromocionCiudad.AddAsync(record);
     await _dbContext.SaveChangesAsync();
@@ -16,12 +17,12 @@ public class RepoPromocionCiudad(MEGADbContext dbContext) : IPromocionCiudad
     return record;
   }
 
-  public async Task<IEnumerable<PromocionCiudad>> GetAllAsync()
+  public async Task<IEnumerable<PromocionCiudad>> ObtenerTodoAsync()
   {
     return await _dbContext.PromocionCiudad.ToListAsync();
   }
 
-  public async Task<PromocionCiudad?> GetByIdAsync(int[] id)
+  public async Task<PromocionCiudad?> ObtenerPorIdAsync(int[] id)
   {
     if (id.Length != 2)
       throw new ArgumentException("La cadena recibida debe contener solo dos elementos");
@@ -33,7 +34,7 @@ public class RepoPromocionCiudad(MEGADbContext dbContext) : IPromocionCiudad
     return await _dbContext.PromocionCiudad.FindAsync(new { Idpromocion = id[0], Idciudad = id[1] });
   }
 
-  public async Task<bool> RemoveAsync(PromocionCiudad record)
+  public async Task<bool> EliminarAsync(PromocionCiudad record)
   {
     _dbContext.PromocionCiudad.Remove(record);
 
@@ -42,18 +43,20 @@ public class RepoPromocionCiudad(MEGADbContext dbContext) : IPromocionCiudad
     return coincidencias > 0;
   }
 
-  public Task<bool> UpdateAsync(PromocionCiudad record)
+  public Task<bool> ActualizarAsync(PromocionCiudad record)
   {
     throw new NotImplementedException();
   }
 
-  /// <summary>
-  /// Obtiene las ciudades relacionadas a una promoción.
-  /// </summary>
-  /// <param name="promocion">La promoción de la que se desea buscar.</param>
-  public async Task<IEnumerable<PromocionCiudad>> ObtenerCiudades(Promocion promocion)
+  public async Task<IEnumerable<PromocionCiudad>> ObtenerPorReferencia(int id)
   {
     return (await _dbContext.PromocionCiudad.ToListAsync())
-      .Where(pC => pC.Idpromocion == promocion.Idpromocion);
+      .Where(pC => pC.Idpromocion == id);
+  }
+
+  public async Task<IEnumerable<PromocionCiudad>> ObtenerPorReferencia(int id, string nombreIdentificador)
+  {
+    return (await _dbContext.PromocionCiudad.ToListAsync())
+      .Where(pC => OperadorObj<PromocionCiudad, int>.Comparar(pC, nombreIdentificador, id));
   }
 }
