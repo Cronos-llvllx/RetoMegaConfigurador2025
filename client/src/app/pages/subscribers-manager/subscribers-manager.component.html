@@ -1,34 +1,56 @@
-<!-- <div class="main-container">
+<div class="main-container">
+  <h2>Gestor de Suscriptores</h2>
 
-  <header class="header-container">
-    <h1>Gestor Suscriptores</h1>
-  </header>
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="contractNumber"
+      placeholder="Número de contrato"
+      (keyup.enter)="searchContract()"
+    />
+    <button (click)="searchContract()" [disabled]="isLoading">
+      {{ isLoading ? 'Buscando...' : 'Buscar' }}
+    </button>
+  </div>
 
-  <section class="search-container">
-    <div class="search-input-group">
-      <label for="contractNumber">Número de contrato</label>
-      <input id="contractNumber" type="text" placeholder="e.g., 45657" [(ngModel)]="contractNumber" />
-      <button (click)="searchContract()">Buscar</button>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="subscriberInfo && !isLoading" class="subscriber-info-card">
+    <h3>Información del Contrato</h3>
+    <div class="info-grid">
+      <p>
+        <strong>Contrato No:</strong>
+        <span>{{ subscriberInfo.idcontrato }}</span>
+      </p>
+      <p>
+        <strong>Nombre:</strong>
+        <span>{{ subscriberInfo.suscriptor.nombre }}</span>
+      </p>
+      <p>
+        <strong>Email:</strong>
+        <span>{{ subscriberInfo.suscriptor.email }}</span>
+      </p>
+      <p>
+        <strong>Fecha de Contratación:</strong>
+        <span>{{ subscriberInfo.fechaContr | date:'dd/MM/yyyy' }}</span>
+      </p>
+      <p>
+        <strong>Estado:</strong>
+        <span [ngClass]="subscriberInfo.fechaFin ? 'status-inactive' : 'status-active'">
+          {{ subscriberInfo.fechaFin ? 'INACTIVO' : 'ACTIVO' }}
+        </span>
+      </p>
     </div>
-  </section>
 
-    <section class="add-container">
-    <div class="add-contract">
-      <label for="contractNumber">Número de contrato</label>
-      <input id="contractNumber" type="text" placeholder="e.g., 45657" [(ngModel)]="contractNumber" />
-      <button (click)="searchContract()">Buscar</button>
+    <div class="debt-section">
+        <h4>Calcular Adeudo</h4>
+        <div class="date-inputs">
+            <input type="date" [(ngModel)]="startDate" />
+            <input type="date" [(ngModel)]="endDate" />
+        </div>
+        <button (click)="calculateDebt()">Calcular</button>
     </div>
-  </section>
-
-  <section class="info-cards-container">
-
-    <div class="card subscriber-info-card">
-      <h2>Información del suscriptor</h2>
-      <p><strong>Número de contrato:</strong> {{ subscriberInfo?.contractNumber }}</p>
-      <p><strong>Nombre:</strong> {{ subscriberInfo?.name }}</p>
-      <p><strong>Fecha de contratación:</strong> {{ subscriberInfo?.contractDate }}</p>
-      <p><strong>Estado del servicio:</strong> {{ subscriberInfo?.status }}</p>
-    </div>
-
-  </section>
-</div> -->
+  </div>
+</div>

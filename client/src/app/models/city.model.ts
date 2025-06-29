@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-export interface City {
-        IdCity: number; // Primary key para la entidad "ciudad"
-         Name: string; // Nombre de la ciudad
-}
-=======
+
 import Colony from "./colony.model";
 import Generic from "./generic.model";
 
@@ -36,4 +31,3 @@ class City extends Generic {
 }
 
 export default City;
->>>>>>> origin/aldo_kalid

@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-export interface Contract {
-        IdContract: number;  // Clave primaria para la entidad "contrato"
-        StartTime: Date;  // Fecha y hora del contrato inicio
-        EndTime: Date | null;  // Fecha y hora del contrato fin
-        PriceContract: number;  // Precio del contrato (sin IVA)
-}
-=======
+
 import PackageAdition from "./packageadition.iterface";
 import ContractPromotion from "./contractpromotion.model";
 import Generic from "./generic.model";
@@ -82,4 +75,3 @@ class Contract extends Generic {
 }
 
 export default Contract;
->>>>>>> origin/aldo_kalid

@@ -1,22 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import Susscriptor from '../models/suscriptor.model';
-import Promocion from '../models/promocion.model';
-import { environment } from '../../environments/environment';
 
-// DTOs del backend (necesitarás crear estos archivos)
+// --- IMPORTACIONES CORREGIDAS ---
+// Se importan como "named exports" usando llaves {}
+import  Subscriptor  from '../models/subscriptor.model';
+import  Promotion  from '../models/promotion.model'; // El modelo se llama Promotion (inglés)
+import  Contract  from '../models/contract.model'; // Tu modelo se llama Contrato
+
+// DTOs
 import { NewContractRequest } from '../models/new-contract-request.model';
-import { ContractInfo } from '../models/contract-info.model';
+// ---------------------------------
 
 @Injectable({
   providedIn: 'root'
 })
 export class SuscriptoresService {
 
-  private apiUrl = environment.apiUrl;
+  // La URL del backend. Se coloca aquí directamente porque el archivo environment.ts no existe.
+  // Asegúrate de que el puerto (5026) coincida con el de tu backend.
+  private apiUrl = 'http://localhost:5026/api';
 
   constructor(private http: HttpClient) { }
+
+  /**
+   * Obtiene la información completa de un contrato por su número.
+   * @param contractNumber El número/ID del contrato.
+   * @returns Un Observable con la información del contrato y su suscriptor.
+   */
+  getContractInfo(contractNumber: string): Observable<Contract> {
+    // Llama al nuevo endpoint GET /api/CContrato/{id}
+    return this.http.get<Contract>(`${this.apiUrl}/CContrato/${contractNumber}`);
+  }
 
   /**
    * Obtiene la información del suscriptor por su ID.
@@ -24,8 +39,9 @@ export class SuscriptoresService {
    * @returns Un Observable con la información del suscriptor.
    */
   getSubscriberById(id: number): Observable<Subscriptor> {
-    // Llama al endpoint GET /api/Subscribers/{id}
-    return this.http.get<Subscriptor>(`${this.apiUrl}/Suscriptors/${id}`);
+    // Llama al endpoint GET /api/CSuscriptor/{id}
+    // Nota: El controlador en tu backend se llama CSuscriptor
+    return this.http.get<Subscriptor>(`${this.apiUrl}/CSuscriptor/${id}`);
   }
 
   /**
@@ -34,8 +50,8 @@ export class SuscriptoresService {
    * @returns Un Observable con la respuesta del backend.
    */
   createSubscriberAndContract(altaRequest: NewContractRequest): Observable<any> {
-    // Llama al endpoint POST /api/Subscribers/alta en tu controlador de C#.
-    return this.http.post<any>(`${this.apiUrl}/Subscribers/alta`, altaRequest);
+    // Llama al endpoint POST /api/CSuscriptor/alta en tu controlador de C#.
+    return this.http.post<any>(`${this.apiUrl}/CSuscriptor/alta`, altaRequest);
   }
 
   /**
@@ -44,7 +60,6 @@ export class SuscriptoresService {
    * @returns Un Observable con la lista de promociones.
    */
   getPromotionsByType(type: number): Observable<Promotion[]> {
-    // Llama al endpoint que Marlene debe implementar en CPromocion.
     // Asumimos un endpoint GET /api/Promocion/byType/{type}
     return this.http.get<Promotion[]>(`${this.apiUrl}/Promocion/byType/${type}`);
   }

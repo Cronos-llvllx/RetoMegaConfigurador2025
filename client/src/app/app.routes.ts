@@ -30,11 +30,11 @@ export const routes: Routes = [
         title: 'Administrador de Paquetes',
         loadComponent: () => import('./pages/debt-calculator/debt-calculator.component').then(c => c.DebtCalculator) // Placeholder
       },
-      // {
-      //   path: 'gestor-suscriptores',
-      //   title: 'Gestor de Suscriptores',
-      //   loadComponent: () => import('./pages/subscribers-manager.component').then(c => c.SubscribersManagerComponent)
-      // }
+      {
+        path: 'gestor-suscriptores',
+        title: 'Gestor de Suscriptores',
+        loadComponent: () => import('./pages/subscribers-manager/subscribers-manager.component').then(c => c.SubscribersManagerComponent)
+      }
       // Puedes añadir más rutas de páginas aquí
     ]
   },
