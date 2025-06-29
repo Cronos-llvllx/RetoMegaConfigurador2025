@@ -60,7 +60,7 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
       .Property(c => c.PrecioBase)
       .HasPrecision(6, 2);
     modelBuilder.Entity<Promocion>()
-      .Property(c => c.PrecioBase)
+      .Property(c => c.PrecioPorcen)
       .HasPrecision(6, 2);
     modelBuilder.Entity<PromoPersonalizada>()
       .Property(c => c.PrecioPorcen)

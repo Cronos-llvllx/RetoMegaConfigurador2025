@@ -7,7 +7,7 @@ public class Promocion()
   public string Nombre { set; get; } = null!;
   public int? Duracion { set; get; }
   public DateTime FechaRegistro { set; get; }
-  public decimal PrecioBase { set; get; }
+  public decimal PrecioPorcen { set; get; }
   public byte Tipo { set; get; }
   public DateTime Vigencia { set; get; }
 }
