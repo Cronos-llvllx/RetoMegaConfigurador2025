@@ -337,7 +337,7 @@ INSERT INTO PromocionContrato (Idpromocion, Idcontrato) VALUES (1, 7);
 INSERT INTO PromocionContrato (Idpromocion, Idcontrato) VALUES (1, 8);
 --
 -- Promociones por paquete.
-INSERT INTO Promocion (Alcance, Nombre, Duracion, FechaRegistro, PrecioPorcen, Tipo, Vigencia) VALUES (1, 'Promo Inicial 6 Meses', 6, '2025-01-01', 0.4, 1, '2025-08-1')
+INSERT INTO Promocion (Alcance, Nombre, Duracion, FechaRegistro, PrecioPorcen, Tipo, Vigencia) VALUES (1, 'Promo Inicial 6 Meses', 6, '2025-01-01', 0.4, 2, '2025-08-1')
 GO
 -- Relaciones.
 INSERT INTO PromocionPaquete (Idpromocion, Idpaquete) VALUES (2, 1);
