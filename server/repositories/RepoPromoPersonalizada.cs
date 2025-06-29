@@ -7,7 +7,7 @@ namespace megaapi.repositories;
 
 /// <summary>Repositorio de promociones personalizadas.</summary>
 /// <param name="dbContext">Inyección de dependencia DbContext.</param>
-public class RepoPromopersonalizada(MEGADbContext dbContext) : IPromoPersonalizada
+public class RepoPromoPersonalizada(MEGADbContext dbContext) : IPromoPersonalizada
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
