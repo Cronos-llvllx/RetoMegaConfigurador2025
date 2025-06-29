@@ -7,4 +7,6 @@ public class Contrato()
   public DateTime FechaContr { set; get; }
   public DateTime? FechaFin { set; get; }
   public decimal PrecioBase { set; get; }
+  // Referencias.
+  public Suscriptor Suscriptor { set; get; } = null!;
 }
