@@ -26,7 +26,7 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
   /// <summary>Entidad Promocion.</summary>
   public DbSet<Promocion> Promocion => Set<Promocion>();
   /// <summary>Relación Promocion-Ciudad</summary>
-  public DbSet<PromocionCiudad> PromocionCiudade => Set<PromocionCiudad>();
+  public DbSet<PromocionCiudad> PromocionCiudad => Set<PromocionCiudad>();
   /// <summary>Relación Promocion-Colonia.</summary>
   public DbSet<PromocionColonia> PromocionColonia => Set<PromocionColonia>();
   /// <summary>Relación Promocion-Contrato.</summary>
