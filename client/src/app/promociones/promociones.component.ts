@@ -30,8 +30,8 @@ export class PromocionesComponent {
   nuevaPromo: any = {
     nombre: '',
     tipo: '',
-    colonia: '',
-    ciudad: '',
+    colonias: [] as string[],
+    ciudades: [] as string[],
     alcance: '',
     descuento: '',
     duracion: '',
@@ -63,8 +63,8 @@ export class PromocionesComponent {
     this.nuevaPromo = {
       nombre: '',
       tipo: '',
-      colonia: '',
-      ciudad: '',
+      colonias: [] as string[],
+      ciudades: [] as string[],
       alcance: '',
       descuento: '',
       duracion: '',
@@ -88,4 +88,56 @@ export class PromocionesComponent {
   eliminarPromo(index: number) {
     this.promociones.splice(index, 1);
   }
+
+  /**
+   * Limpia el formulario y resetea el índice de edición.
+   */
+  seleccionarTipo(valor: string) {
+    // Si ya está seleccionado, desmarcarlo
+    if (this.nuevaPromo.tipo === valor) {
+      this.nuevaPromo.tipo = '';
+    } else {
+      this.nuevaPromo.tipo = valor;
+    }
+  }
+  
+    /**
+   * Limpia el formulario y resetea el índice de edición.
+   */
+    seleccionarAlcance(valor: string) {
+      // Si ya está seleccionado, desmarcarlo
+      if (this.nuevaPromo.alcance === valor) {
+        this.nuevaPromo.alcance = '';
+      } else {
+        this.nuevaPromo.alcance = valor;
+      }
+    }
+    
+    // Funciones para colonia (box-elemts)
+  agregarColonia(valor: string) {
+    // Verifica si el valor no está vacío antes de agregarlo
+    // y lo agrega a la lista de colonias.
+    if (valor.trim()) this.nuevaPromo.colonias.push(valor.trim());
+  }
+  // Elimina una colonia de la lista según su índice.
+  eliminarColonia(index: number) {
+    this.nuevaPromo.colonias.splice(index, 1);
+  }
+
+  // Funciones para ciudad (box-elemts)
+  agregarCiudad(valor: string) {
+    // Verifica si el valor no está vacío antes de agregarlo
+    if (valor.trim()) this.nuevaPromo.ciudades.push(valor.trim());
+  }
+  // Elimina una ciudad de la lista según su índice.
+  eliminarCiudad(index: number) {
+    this.nuevaPromo.ciudades.splice(index, 1);
+  }
+
 }
+
+
+
+
+
+

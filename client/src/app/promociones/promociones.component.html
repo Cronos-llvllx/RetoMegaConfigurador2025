@@ -2,45 +2,93 @@
 <div class="formulario-container">
     <h1>Administrador de Promociones</h1>
 
-    <div class="formulario">
-        <div class="campo">
-        <label>Nombre:</label>
-        <input [(ngModel)]="nuevaPromo.nombre" placeholder="Nombre de promoción">
+        <div class="formulario">
+            <div class="campo">
+            <label>Nombre:</label>
+            <input [(ngModel)]="nuevaPromo.nombre" placeholder="Nombre de promoción">
         </div>
     
         <div class="campo">
-        <label>Tipo:</label>
-        <input [(ngModel)]="nuevaPromo.tipo" placeholder="Tipo">
+            <label>Tipo:</label>
+            <div class="tipo-checkboxes">
+                <label>
+                    <input type="checkbox" [checked]="nuevaPromo.tipo === 'Contratacion'"
+                            (change)="seleccionarTipo('Contratacion')">
+                            Contratación
+                </label>
+                <label>
+                    <input type="checkbox" [checked]="nuevaPromo.tipo === 'Mensualidad'"
+                            (change)="seleccionarTipo('Mensualidad')">
+                            Mensualidad
+                </label>
+            </div>
         </div>
     
         <div class="campo">
-        <label>Colonia:</label>
-        <input [(ngModel)]="nuevaPromo.colonia" placeholder="Colonia">
+            <label>Colonia:</label>
+            <input #coloniaInput (keydown.enter)="agregarColonia(coloniaInput.value); coloniaInput.value=''" placeholder="Escribe y presiona Enter" />
+            <div class="box-elements">
+                <div class="box-container">
+                    <div *ngFor="let c of nuevaPromo.colonias; let i = index" class="element">
+                    <div class="content">
+                        <p>{{c}}</p>
+                        <span class="button-sim" (click)="eliminarColonia(i)">
+                            <span class="x1"></span>
+                            <span class="x2"></span>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </div>
     
         <div class="campo">
-        <label>Ciudad:</label>
-        <input [(ngModel)]="nuevaPromo.ciudad" placeholder="Ciudad">
+            <label>Ciudad:</label>
+            <input #ciudadInput (keydown.enter)="agregarCiudad(ciudadInput.value); ciudadInput.value=''" placeholder="Escribe y presiona Enter" />
+            <div class="box-elements">
+                <div class="box-container">
+                    <div *ngFor="let c of nuevaPromo.ciudades; let i = index" class="element">
+                    <div class="content">
+                        <p>{{c}}</p>
+                        <span class="button-sim" (click)="eliminarCiudad(i)">
+                            <span class="x1"></span>
+                            <span class="x2"></span>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>          
+    
+        <div class="campo">
+            <label>Alcance:</label>
+            <div class="alcance-checkboxes">
+                <label>
+                    <input type="checkbox" [checked]="nuevaPromo.alcance === 'Nuevos suscriptores'"
+                            (change)="seleccionarAlcance('Nuevos suscriptores')">
+                            Nuevos suscriptores
+                </label>
+                <label>
+                    <input type="checkbox" [checked]="nuevaPromo.alcance === 'Actuales y nuevos suscriptores'"
+                            (change)="seleccionarAlcance('Actuales y nuevos suscriptores')">
+                            Actuales y nuevos suscriptores
+                </label>
+            </div>
         </div>
     
         <div class="campo">
-        <label>Alcance:</label>
-        <input [(ngModel)]="nuevaPromo.alcance" placeholder="Alcance">
+            <label>Descuento:</label>
+            <input [(ngModel)]="nuevaPromo.descuento" placeholder="%" type="number">
         </div>
     
         <div class="campo">
-        <label>Descuento:</label>
-        <input [(ngModel)]="nuevaPromo.descuento" placeholder="%" type="number">
+            <label>Duración:</label>
+            <input [(ngModel)]="nuevaPromo.duracion" placeholder="Meses" type="number">
         </div>
     
         <div class="campo">
-        <label>Duración:</label>
-        <input [(ngModel)]="nuevaPromo.duracion" placeholder="Meses" type="number">
-        </div>
-    
-        <div class="campo">
-        <label>Vigencia:</label>
-        <input [(ngModel)]="nuevaPromo.vigencia" placeholder="Vigencia" type="date">
+            <label>Vigencia:</label>
+            <input [(ngModel)]="nuevaPromo.vigencia" placeholder="Vigencia" type="date">
         </div>
     
         <button (click)="registrarPromo()">Registrar</button>
@@ -60,8 +108,10 @@
             <tr *ngFor="let promo of promociones; let i = index">
             <td>{{ promo.nombre }}</td>
             <td>{{ promo.tipo }}</td>
-            <td>{{ promo.colonia }}</td>
-            <td>{{ promo.ciudad }}</td>
+            <!---.join(', ')
+            Es un método de los arrays en JavaScript que convierte el arreglo en un solo string, uniendo cada elemento con una coma y un espacio. -->
+            <td>{{ promo.colonias?.join(', ') }}</td>
+            <td>{{ promo.ciudades?.join(', ') }}</td>
             <td>{{ promo.alcance }}</td>
             <td>{{ promo.descuento }}%</td>
             <td>{{ promo.duracion }}</td>
