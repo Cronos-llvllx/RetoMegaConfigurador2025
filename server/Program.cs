@@ -34,12 +34,12 @@ builder.Services.AddScoped<IPromocion, RepoPromocion>(); // Modelos de Promoció
 builder.Services.AddScoped<IServicio, RepoServicio>(); // Modelos de Servicio.
 builder.Services.AddScoped<ISuscriptor, RepoSuscriptor>(); // Modelos de Suscriptor,
 // Modelos de relaciones.
-builder.Services.AddScoped<IEntidad<ContratoPaquete, int[]>, RepoContratoPaquete>();
-builder.Services.AddScoped<IEntidad<PaqueteServicio, int[]>, RepoPaqueteServicio>();
-builder.Services.AddScoped<IEntidad<PromocionCiudad, int[]>, RepoPromocionCiudad>();
-builder.Services.AddScoped<IEntidad<PromocionColonia, int[]>, RepoPromocionColonia>();
-builder.Services.AddScoped<IEntidad<PromocionContrato, int[]>, RepoPromocionContrato>();
-builder.Services.AddScoped<IEntidad<PromocionPaquete, int[]>, RepoPromocionPaquete>();
+builder.Services.AddScoped<IContratoPaquete, RepoContratoPaquete>();
+builder.Services.AddScoped<IPaqueteServicio, RepoPaqueteServicio>();
+builder.Services.AddScoped<IPromocionCiudad, RepoPromocionCiudad>();
+builder.Services.AddScoped<IPromocionColonia, RepoPromocionColonia>();
+builder.Services.AddScoped<IPromocionContrato, RepoPromocionContrato>();
+builder.Services.AddScoped<IPromocionPaquete, RepoPromocionPaquete>();
 
 // ** Agregar controladores.
 builder.Services.AddControllers();

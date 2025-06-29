@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace megaapi.repositories;
 
-public class RepoPromocionPaquete(MEGADbContext dbContext) : IEntidad<PromocionPaquete, int[]>
+public class RepoPromocionPaquete(MEGADbContext dbContext) : IPromocionPaquete
 {
   private readonly MEGADbContext _dbContext = dbContext;
   public async Task<PromocionPaquete> CreateAsync(PromocionPaquete record)
