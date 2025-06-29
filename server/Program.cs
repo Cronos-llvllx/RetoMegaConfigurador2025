@@ -1,5 +1,6 @@
 using megaapi.data;
 using megaapi.interfaces;
+using megaapi.models;
 using megaapi.repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,11 +28,18 @@ builder.Services.AddDbContext<MEGADbContext>(options =>
 builder.Services.AddScoped<ICiudad, RepoCiudad>(); // Modelos de Ciudad.
 builder.Services.AddScoped<IColonia, RepoColonia>(); // Modelos de Colonia.
 builder.Services.AddScoped<IContrato, RepoContrato>(); // Modelos de Contrato.
-builder.Services.AddScoped<IPromoPersonalizada, RepoPromopersonalizada>(); // Modelos de promos personalizadas.
+builder.Services.AddScoped<IPromoPersonalizada, RepoPromoPersonalizada>(); // Modelos de promos personalizadas.
 builder.Services.AddScoped<IPaquete, RepoPaquete>(); // Modelos de Paquete.
 builder.Services.AddScoped<IPromocion, RepoPromocion>(); // Modelos de Promoción.
 builder.Services.AddScoped<IServicio, RepoServicio>(); // Modelos de Servicio.
 builder.Services.AddScoped<ISuscriptor, RepoSuscriptor>(); // Modelos de Suscriptor,
+// Modelos de relaciones.
+builder.Services.AddScoped<IEntidad<ContratoPaquete, int[]>, RepoContratoPaquete>();
+builder.Services.AddScoped<IEntidad<PaqueteServicio, int[]>, RepoPaqueteServicio>();
+builder.Services.AddScoped<IEntidad<PromocionCiudad, int[]>, RepoPromocionCiudad>();
+builder.Services.AddScoped<IEntidad<PromocionColonia, int[]>, RepoPromocionColonia>();
+builder.Services.AddScoped<IEntidad<PromocionContrato, int[]>, RepoPromocionContrato>();
+builder.Services.AddScoped<IEntidad<PromocionPaquete, int[]>, RepoPromocionPaquete>();
 
 // ** Agregar controladores.
 builder.Services.AddControllers();
