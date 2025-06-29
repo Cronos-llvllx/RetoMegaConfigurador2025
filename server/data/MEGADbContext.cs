@@ -44,7 +44,7 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
   {
     // Define las llaves primarias de entidades.
     modelBuilder.Entity<Ciudad>().HasKey(e => e.Idciudad);
-    modelBuilder.Entity<Colonia>().HasKey(e => e.IdColonia);
+    modelBuilder.Entity<Colonia>().HasKey(e => e.Idcolonia);
     modelBuilder.Entity<Contrato>().HasKey(e => e.Idcontrato);
     modelBuilder.Entity<PromoPersonalizada>().HasKey(e => e.Idpromopersonalizada);
     modelBuilder.Entity<Paquete>().HasKey(e => e.Idpaquete);
