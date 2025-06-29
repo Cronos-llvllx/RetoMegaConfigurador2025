@@ -19,7 +19,8 @@ public class RepoPromocionContrato(MEGADbContext dbContext) : IPromocionContrato
 
   public async Task<IEnumerable<PromocionContrato>> ObtenerTodoAsync()
   {
-    return await _dbContext.PromocionContrato.ToListAsync();
+    return await _dbContext.PromocionContrato
+      .Include(pC => pC.Promocion).ToListAsync();
   }
 
   public async Task<PromocionContrato?> ObtenerPorIdAsync(int[] id)
@@ -31,7 +32,9 @@ public class RepoPromocionContrato(MEGADbContext dbContext) : IPromocionContrato
     else if (id[1] <= 0)
       throw new InvalidDataException($"La llave {id[1]} es inválida");
 
-    return await _dbContext.PromocionContrato.FindAsync(new { Idpromocion = id[0], Idciudad = id[1] });
+    return await _dbContext.PromocionContrato
+      .Include(pC => pC.Promocion)
+      .SingleOrDefaultAsync(pC => pC.Idpromocion == id[0] && pC.Idcontrato == id[1]);
   }
 
   public async Task<bool> EliminarAsync(PromocionContrato record)

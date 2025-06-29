@@ -19,7 +19,9 @@ public class RepoPaqueteServicio(MEGADbContext dbContext) : IPaqueteServicio
 
   public async Task<IEnumerable<PaqueteServicio>> ObtenerTodoAsync()
   {
-    return await _dbContext.PaqueteServicio.ToListAsync();
+    return await _dbContext.PaqueteServicio
+      .Include(pS => pS.Servicio)
+      .ToListAsync();
   }
 
   public async Task<PaqueteServicio?> ObtenerPorIdAsync(int[] id)
@@ -31,7 +33,9 @@ public class RepoPaqueteServicio(MEGADbContext dbContext) : IPaqueteServicio
     else if (id[1] <= 0)
       throw new InvalidDataException($"La llave {id[1]} es inválida");
 
-    return await _dbContext.PaqueteServicio.FindAsync(new { Idpromocion = id[0], Idciudad = id[1] });
+    return await _dbContext.PaqueteServicio
+      .Include(pS => pS.Servicio)
+      .SingleOrDefaultAsync(pS => pS.Idpaquete == id[0] && pS.Idservicio == id[1]);
   }
 
   public async Task<bool> EliminarAsync(PaqueteServicio record)

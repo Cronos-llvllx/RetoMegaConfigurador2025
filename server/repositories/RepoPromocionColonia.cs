@@ -19,7 +19,9 @@ public class RepoPromocionColonia(MEGADbContext dbContext) : IPromocionColonia
 
   public async Task<IEnumerable<PromocionColonia>> ObtenerTodoAsync()
   {
-    return await _dbContext.PromocionColonia.ToListAsync();
+    return await _dbContext.PromocionColonia
+      .Include(pC => pC.Promocion)
+      .ToListAsync();
   }
 
   public async Task<PromocionColonia?> ObtenerPorIdAsync(int[] id)
@@ -31,7 +33,9 @@ public class RepoPromocionColonia(MEGADbContext dbContext) : IPromocionColonia
     else if (id[1] <= 0)
       throw new InvalidDataException($"La llave {id[1]} es inválida");
 
-    return await _dbContext.PromocionColonia.FindAsync(new { Idpromocion = id[0], Idciudad = id[1] });
+    return await _dbContext.PromocionColonia
+      .Include(pC => pC.Promocion)
+      .SingleOrDefaultAsync(pC => pC.Idpromocion == id[0] && pC.Idcolonia == id[1]);
   }
 
   public async Task<bool> EliminarAsync(PromocionColonia record)
