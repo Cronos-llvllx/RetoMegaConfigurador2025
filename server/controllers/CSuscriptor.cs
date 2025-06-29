@@ -26,7 +26,7 @@ public class CSuscriptor(ISuscriptor repo) : ControllerBase
   {
     try
     {
-      var suscriptor = (await _repo.GetAll()).Find(s => s.Idsuscriptor == id);
+      var suscriptor = (await _repo.GetAllAsync()).FirstOrDefault(s => s.Idsuscriptor == id);
 
       if (suscriptor != null)
         return Ok(suscriptor);

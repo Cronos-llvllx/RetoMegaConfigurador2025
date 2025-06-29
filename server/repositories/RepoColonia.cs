@@ -18,12 +18,12 @@ public class RepoColonia(MEGADbContext dbContext) : IColonia
 
   public async Task<IEnumerable<Colonia>> GetAllAsync()
   {
-    return await _dbContext.Colonia.ToListAsync();
+    return await _dbContext.Colonias.ToListAsync();
   }
 
   public async Task<Colonia?> GetByIdAsync(int id)
   {
-    return await _dbContext.Colonia.FindAsync(id);
+    return await _dbContext.Colonias.FindAsync(id);
   }
 
   public Task<bool> RemoveAsync(Colonia colonia)

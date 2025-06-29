@@ -18,12 +18,12 @@ public class RepoPromopersonalizada(MEGADbContext dbContext) : IPromoPersonaliza
 
   public async Task<IEnumerable<PromoPersonalizada>> GetAllAsync()
   {
-    return await _dbContext.PromoPersonalizada.ToListAsync();
+    return await _dbContext.PromosPersonalizadas.ToListAsync();
   }
 
   public async Task<PromoPersonalizada?> GetByIdAsync(int id)
   {
-    return await _dbContext.PromoPersonalizada.FindAsync(id);
+    return await _dbContext.PromosPersonalizadas.FindAsync(id);
   }
 
   public Task<bool> RemoveAsync(PromoPersonalizada promo)
