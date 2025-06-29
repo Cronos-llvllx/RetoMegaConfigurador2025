@@ -61,7 +61,7 @@ public class RepoSuscriptor(MEGADbContext dbContext) : ISuscriptor
     var auxSuscriptor = await _dbContext.Suscriptor
       .Include(s => s.Colonia)
       .Include(s => s.Colonia.Ciudad)
-      .SingleAsync(s => s.Idsuscriptor == id);
+      .SingleOrDefaultAsync(s => s.Idsuscriptor == id);
 
     if (auxSuscriptor != null)
       auxSuscriptor = ReducirSuscriptor(auxSuscriptor);

@@ -72,7 +72,7 @@ public class RepoContrato(MEGADbContext dbContext) : IContrato
       .Include(con => con.Suscriptor)
       .Include(con => con.Suscriptor.Colonia)
       .Include(con => con.Suscriptor.Colonia.Ciudad)
-      .SingleAsync(con => con.Idcontrato == id);
+      .SingleOrDefaultAsync(con => con.Idcontrato == id);
 
     // Refactoriza la información para evitar bucles infinitos.
     if (auxContrato != null)

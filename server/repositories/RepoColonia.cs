@@ -48,7 +48,7 @@ public class RepoColonia(MEGADbContext dbContext) : IColonia
   {
     var auxColonia = await _dbContext.Colonia
       .Include(col => col.Ciudad)
-      .SingleAsync(col => col.Idcolonia == id);
+      .SingleOrDefaultAsync(col => col.Idcolonia == id);
 
     if (auxColonia != null)
       auxColonia = ReducirColonia(auxColonia);

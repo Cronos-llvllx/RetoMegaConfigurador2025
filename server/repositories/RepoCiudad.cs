@@ -47,7 +47,7 @@ public class RepoCiudad(MEGADbContext dbContext) : ICiudad
   {
     var auxCiudad = await _dbContext.Ciudad
       .Include(ciu => ciu.Colonias)
-      .SingleAsync(ciu => ciu.Idciudad == id);
+      .SingleOrDefaultAsync(ciu => ciu.Idciudad == id);
 
     if (auxCiudad != null)
       auxCiudad = ReducirCiudad(auxCiudad);
