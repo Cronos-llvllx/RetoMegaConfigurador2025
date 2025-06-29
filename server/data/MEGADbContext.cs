@@ -86,7 +86,7 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
       .HasForeignKey<Contrato>(con => con.Idsuscriptor);
 
     modelBuilder.Entity<PromoPersonalizada>()
-      .HasOne<Contrato>()
+      .HasOne(pP => pP.Contrato)
       .WithMany()
       .HasForeignKey(pp => pp.Idcontrato);
 
