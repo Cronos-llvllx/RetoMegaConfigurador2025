@@ -50,7 +50,9 @@ public class RepoPromocionPaquete(MEGADbContext dbContext) : IPromocionPaquete
 
   public async Task<IEnumerable<PromocionPaquete>> ObtenerPorReferencia(int id, string nombreIdentificador)
   {
-    return (await _dbContext.PromocionPaquete.ToListAsync())
+    return (await _dbContext.PromocionPaquete
+       .Include(pP => pP.Promocion)
+       .ToListAsync())
       .Where(pC => OperadorObj<PromocionPaquete, int>.Comparar(pC, nombreIdentificador, id));
   }
 }

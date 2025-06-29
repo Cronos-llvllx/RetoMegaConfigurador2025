@@ -20,7 +20,7 @@ public class MEGADbContext(DbContextOptions<MEGADbContext> options) : DbContext(
   /// <summary>Relación Contrato-Paquete.</summary>
   public DbSet<ContratoPaquete> ContratoPaquete => Set<ContratoPaquete>();
   /// <summary>Entidad Paquete.</summary>
-  public DbSet<Paquete> Paquetes => Set<Paquete>();
+  public DbSet<Paquete> Paquete => Set<Paquete>();
   /// <summary>Relación Paquete-Servicio.</summary>
   public DbSet<PaqueteServicio> PaqueteServicio => Set<PaqueteServicio>();
   /// <summary>Entidad Promocion.</summary>

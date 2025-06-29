@@ -48,15 +48,10 @@ public class RepoPaqueteServicio(MEGADbContext dbContext) : IPaqueteServicio
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<PaqueteServicio>> ObtenerPorReferencia(int id)
-  {
-    return (await _dbContext.PaqueteServicio.ToListAsync())
-      .Where(pS => pS.Idpaquete == id);
-  }
-
   public async Task<IEnumerable<PaqueteServicio>> ObtenerPorReferencia(int id, string nombreIdentificador)
   {
-    return (await _dbContext.PaqueteServicio.ToListAsync())
+    return (await _dbContext.PaqueteServicio
+      .ToListAsync())
       .Where(pC => OperadorObj<PaqueteServicio, int>.Comparar(pC, nombreIdentificador, id));
   }
 }

@@ -1,6 +1,5 @@
 using megaapi.data;
 using megaapi.interfaces;
-using megaapi.models;
 using megaapi.repositories;
 using Microsoft.EntityFrameworkCore;
 

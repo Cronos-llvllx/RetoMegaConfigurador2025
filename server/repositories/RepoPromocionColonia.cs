@@ -48,15 +48,11 @@ public class RepoPromocionColonia(MEGADbContext dbContext) : IPromocionColonia
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<PromocionColonia>> ObtenerPorReferencia(int id)
-  {
-    return (await _dbContext.PromocionColonia.ToListAsync())
-      .Where(pC => pC.Idpromocion == id);
-  }
-
   public async Task<IEnumerable<PromocionColonia>> ObtenerPorReferencia(int id, string nombreIdentificador)
   {
-    return (await _dbContext.PromocionColonia.ToListAsync())
+    return (await _dbContext.PromocionColonia
+      .Include(pC => pC.Promocion)
+      .ToListAsync())
       .Where(pC => OperadorObj<PromocionColonia, int>.Comparar(pC, nombreIdentificador, id));
   }
 }

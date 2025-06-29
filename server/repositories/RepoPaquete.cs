@@ -18,12 +18,12 @@ public class RepoPaquete(MEGADbContext dbContext) : IPaquete
 
   public async Task<IEnumerable<Paquete>> ObtenerTodoAsync()
   {
-    return await _dbContext.Paquetes.ToListAsync();
+    return await _dbContext.Paquete.ToListAsync();
   }
 
   public async Task<Paquete?> ObtenerPorIdAsync(int id)
   {
-    return await _dbContext.Paquetes.FindAsync(id);
+    return await _dbContext.Paquete.FindAsync(id);
   }
 
   public Task<bool> EliminarAsync(Paquete paquete)
