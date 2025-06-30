@@ -1,9 +1,10 @@
 namespace megaapi.models;
-
-public class Servicio()
+public class Servicio
 {
-  public int Idservicio { set; get; }
-  public int? Cantidad { set; get; }
-  public decimal PrecioBase { set; get; }
-  public byte Tipo { set; get; }
+    public int Idservicio { get; set; }
+    public int? Cantidad { get; set; }
+    public decimal PrecioBase { get; set; }
+    public byte Tipo { get; set; }
+    // Relaciones
+    public virtual ICollection<PaqueteServicio> Paquetes { get; set; } = new List<PaqueteServicio>();
 }

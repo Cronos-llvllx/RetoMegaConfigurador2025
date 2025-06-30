@@ -1,17 +1,16 @@
 using megaapi.models;
+using System.Collections.Generic;
 
 namespace megaapi.data.objects;
 
 /// <summary>
-///  Definición para Contato. Las clases Obj son extensiones de las clases de las que heredan.
+///  Definición para Paquete. Las clases Ext son extensiones de las clases de las que heredan.
 /// </summary>
 public class PaqueteContratoExt : Paquete
 {
-
-  /// <summary>Fecha en la que el paquete fue agregado a un contrato.</summary>
-  public DateTime FechaAdicion { get; set; }
-  /// <summary>Fecha en la que el paquete fue quitado de un contrato.</summary>
-  public DateTime? FechaRetiro { get; set; }
-  /// <summary>Lista de servicios ligados al paquete.</summary>
-  public ICollection<Servicio> Servicios { get; set; } = null!;
+    public DateTime FechaAdicion { get; set; }
+    public DateTime? FechaRetiro { get; set; }
+    /// <summary>Lista de servicios ligados al paquete.</summary>
+    // CORREGIDO: Se añade 'new' para ocultar intencionadamente la propiedad de la clase base.
+    public new ICollection<Servicio> Servicios { get; set; } = new List<Servicio>();
 }

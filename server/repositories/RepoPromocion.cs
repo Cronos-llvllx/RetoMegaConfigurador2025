@@ -3,40 +3,23 @@ using megaapi.interfaces;
 using megaapi.models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
-using System;
+using System.Threading.Tasks;
 
-namespace megaapi.repositories
+namespace megaapi.repositories;
+public class RepoPromocion(MEGADbContext dbContext) : IPromocion
 {
-  /// <summary>Repositorio de promociones.</summary>
-  /// <param name="dbContext">Inyección de dependencia DbContext.</param>
-  public class RepoPromocion(MEGADbContext dbContext) : IPromocion
-  {
     private readonly MEGADbContext _dbContext = dbContext;
-
-    public Task<Promocion> CrearAsync(Promocion promocion)
-    {
-      throw new NotImplementedException();
-    }
-
     public async Task<IEnumerable<Promocion>> ObtenerTodoAsync()
     {
-      return await _dbContext.Promocion.ToListAsync();
+        // CORREGIDO: Se usa 'Promociones' en plural
+        return await _dbContext.Promociones.ToListAsync();
     }
-
     public async Task<Promocion?> ObtenerPorIdAsync(int id)
     {
-      return await _dbContext.Promocion.FindAsync(id);
+        // CORREGIDO: Se usa 'Promociones' en plural
+        return await _dbContext.Promociones.FindAsync(id);
     }
-
-    public Task<bool> EliminarAsync(Promocion promocion)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<bool> ActualizarAsync(Promocion promocion)
-    {
-      throw new NotImplementedException();
-    }
-  }
+    public Task<Promocion> CrearAsync(Promocion promocion) => throw new NotImplementedException();
+    public Task<bool> ActualizarAsync(Promocion promocion) => throw new NotImplementedException();
+    public Task<bool> EliminarAsync(Promocion promocion) => throw new NotImplementedException();
 }

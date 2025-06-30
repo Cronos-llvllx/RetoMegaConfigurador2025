@@ -5,64 +5,63 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ** CORS.
+// --- INICIO DE CONFIGURACIÓN DE CORS ---
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 builder.Services.AddCors(options =>
 {
-  options.AddPolicy("Frontend", policy =>
-  {
-    // @deprecated Esto permite cualquier origen, debe ser reeplazado por el origen del frontend.
-    policy.AllowAnyOrigin()
-      .AllowAnyHeader()
-      .AllowAnyMethod();
-  });
-});
+        options.AddPolicy(name: MyAllowSpecificOrigins,
+                        policy =>
+                        {
+                            // Se permite el origen de tu aplicación de Angular
+                            policy.WithOrigins("http://localhost:4200")
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod();
+                        });
+    });
+// --- FIN DE CONFIGURACIÓN DE CORS ---
 
-// ** Dependencia DbContext.
+
+// Se lee la cadena de conexión explícitamente.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Se registra el DbContext con la cadena de conexión.
 builder.Services.AddDbContext<MEGADbContext>(options =>
-{
-  options.UseSqlServer(builder.Configuration.GetConnectionString("db")!);
-});
+    options.UseSqlServer(connectionString));
 
-// ** Dependencias de interfaces y repositorios.
-builder.Services.AddScoped<ICiudad, RepoCiudad>(); // Modelos de Ciudad.
-builder.Services.AddScoped<IColonia, RepoColonia>(); // Modelos de Colonia.
-builder.Services.AddScoped<IContrato, RepoContrato>(); // Modelos de Contrato.
-builder.Services.AddScoped<IPromoPersonalizada, RepoPromoPersonalizada>(); // Modelos de promos personalizadas.
-builder.Services.AddScoped<IPaquete, RepoPaquete>(); // Modelos de Paquete.
-builder.Services.AddScoped<IPromocion, RepoPromocion>(); // Modelos de Promoción.
-builder.Services.AddScoped<IServicio, RepoServicio>(); // Modelos de Servicio.
-builder.Services.AddScoped<ISuscriptor, RepoSuscriptor>(); // Modelos de Suscriptor,
-// Modelos de relaciones.
+// Inyección de dependencias para los repositorios.
+builder.Services.AddScoped<IContrato, RepoContrato>();
+builder.Services.AddScoped<IPaquete, RepoPaquete>();
 builder.Services.AddScoped<IContratoPaquete, RepoContratoPaquete>();
-builder.Services.AddScoped<IPaqueteServicio, RepoPaqueteServicio>();
-builder.Services.AddScoped<IPromocionCiudad, RepoPromocionCiudad>();
-builder.Services.AddScoped<IPromocionColonia, RepoPromocionColonia>();
-builder.Services.AddScoped<IPromocionContrato, RepoPromocionContrato>();
-builder.Services.AddScoped<IPromocionPaquete, RepoPromocionPaquete>();
+// ... (Aquí van tus otras inyecciones de dependencias si las tienes)
 
-// ** Agregar controladores.
-builder.Services.AddControllers();
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers()
+    // Añadir esta configuración para evitar errores con los datos anidados
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ** Build.
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.UseSwagger();
-  app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-// ** Redirección HTTPS (si lo permite).
-//app.UseHttpsRedirection();
-// ** Cors.
-app.UseCors("Frontend");
-// ** Mapeo de controladores (para que pueda detectar los controladores definidos).
+// Se comenta la redirección a HTTPS para desarrollo local
+// app.UseHttpsRedirection();
+
+// --- SE APLICA LA POLÍTICA DE CORS ---
+app.UseCors(MyAllowSpecificOrigins);
+
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

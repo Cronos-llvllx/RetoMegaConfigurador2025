@@ -1,13 +1,13 @@
 namespace megaapi.models;
-
-public class Suscriptor()
+public class Suscriptor
 {
-  public int Idsuscriptor { set; get; }
-  public int Idcolonia { set; get; }
-  public string Email { set; get; } = null!;
-  public string Nombre { set; get; } = null!;
-  public string Telefono { set; get; } = null!;
-  public byte Tipo { set; get; }
-  // Referencias.
-  public Colonia Colonia { set; get; } = null!;
+    public int Idsuscriptor { get; set; }
+    public int Idcolonia { get; set; }
+    public string Email { get; set; } = null!;
+    public string Nombre { get; set; } = null!;
+    public string Telefono { get; set; } = null!;
+    public byte Tipo { get; set; }
+    // Relaciones
+    public virtual Colonia Colonia { get; set; } = null!;
+    public virtual Contrato Contrato { get; set; } = null!;
 }

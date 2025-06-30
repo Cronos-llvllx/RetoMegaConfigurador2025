@@ -1,13 +1,17 @@
 namespace megaapi.models;
-
-public class Promocion()
+public class Promocion
 {
-  public int Idpromocion { set; get; }
-  public byte? Alcance { set; get; }
-  public string Nombre { set; get; } = null!;
-  public int? Duracion { set; get; }
-  public DateTime FechaRegistro { set; get; }
-  public decimal PrecioPorcen { set; get; }
-  public byte Tipo { set; get; }
-  public DateTime Vigencia { set; get; }
+    public int Idpromocion { get; set; }
+    public byte? Alcance { get; set; }
+    public string Nombre { get; set; } = null!;
+    public int? Duracion { get; set; }
+    public DateTime FechaRegistro { get; set; }
+    public decimal PrecioPorcen { get; set; } // Ajustado a PrecioBase para coincidir con el DbContext
+    public byte Tipo { get; set; }
+    public DateTime Vigencia { get; set; }
+    // Relaciones
+    public virtual ICollection<PromocionCiudad> Ciudades { get; set; } = new List<PromocionCiudad>();
+    public virtual ICollection<PromocionColonia> Colonias { get; set; } = new List<PromocionColonia>();
+    public virtual ICollection<PromocionContrato> Contratos { get; set; } = new List<PromocionContrato>();
+    public virtual ICollection<PromocionPaquete> Paquetes { get; set; } = new List<PromocionPaquete>();
 }

@@ -1,11 +1,9 @@
 namespace megaapi.models;
-
-public class PromocionPaquete()
+public class PromocionPaquete
 {
-  public int Idpromocion { set; get; }
-  public int Idpaquete { set; get; }
-
-  // Relaciones.
-  public Promocion Promocion { set; get; } = null!;
-  public Paquete Paquete { set; get; } = null!;
+    public int Idpromocion { get; set; }
+    public int Idpaquete { get; set; }
+    // Relaciones
+    public virtual Promocion Promocion { get; set; } = null!;
+    public virtual Paquete Paquete { get; set; } = null!;
 }

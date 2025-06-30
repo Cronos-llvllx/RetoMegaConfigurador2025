@@ -45,7 +45,7 @@ export class DebtCalculator {
     setTimeout(() => {
       s.complete();
       this.disableUI = false;
-      this.subscriptor = new Subscriptor(this.contractNumber, "Juan Escutia", "ejemplo@ejem.com", "331122334455", Subscriptor.TYPE_RESIDENTIAL)
+      //this.subscriptor = new Subscriptor(this.contractNumber, "Juan Escutia", "ejemplo@ejem.com", "331122334455", Subscriptor.TYPE_RESIDENTIAL)
     }, 3000);
   }
 
