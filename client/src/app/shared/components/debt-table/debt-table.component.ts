@@ -1,21 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ButtonComponent } from "../button/button.component";
+import DebtCalc from '../../../models/debt-calc.model';
+import { NgFor, NgIf } from '@angular/common';
+import Global from '../../objects/global.object';
 
 @Component({
   selector: 'app-debt-table',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, NgFor, NgIf],
   templateUrl: './debt-table.component.html',
   styleUrl: './debt-table.component.scss'
 })
 export class DebtTableComponent {
-  public currentExpand?: HTMLTableRowElement;
+  /** El cálculo de la deuda */
+  @Input({required: true}) public debt!: DebtCalc;
+  public currentExpand?: HTMLDivElement;
+  /** Acceso a global desde variable local. */
+  public global = Global;
 
   // *** EVENTOS ***
   onDropDownAnimationEnd(e: AnimationEvent) {
-    const target = (e.target as HTMLElement).parentElement?.parentElement as HTMLTableRowElement;
-
-    console.log(target);
+    const target = (e.target as HTMLElement) as HTMLDivElement;
 
     if (target.classList.contains('show')) {
       this.currentExpand = target;

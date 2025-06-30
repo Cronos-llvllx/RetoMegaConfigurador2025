@@ -20,9 +20,9 @@ class PackagePromotion extends Promotion {
     id: number,
     name: string,
     pricePorcent: number,
-    expiration: Date,
-    private _scope: number,
-    private _term: number,
+    expiration?: Date,
+    private _scope?: number,
+    private _term?: number,
   ) { super(id, name, pricePorcent, expiration) }
 
   /** Obtiene el alcance de la promoción. */
@@ -36,12 +36,12 @@ class PackagePromotion extends Promotion {
   }
 
   /** Asgina el alcance para la promoción. */
-  setScope(scope: number) {
+  setScope(scope?: number) {
     this._scope = scope;
   }
 
   /** Asgina una duración (en meses) para la promoción */
-  setTerm(term: number) {
+  setTerm(term?: number) {
     this._term = term;
   }
 }

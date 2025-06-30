@@ -11,15 +11,16 @@ class Contract extends Generic {
    * @param _basePrice El precio de contratación del servicio.
    * @param _subscriptor El suscriptor del contrato.
    * @param _promotions Lista de promociones aplicados al contrato (no a los paquetes).
+   * @param _contractPackages Los paquetes que contiene el contrato.
    */
   constructor(
     id: number,
     contrDate: Date,
-    private _endDate: Date,
     private _basePrice: number,
     private _subscriptor: Subscriptor,
     private _promotions: ContractPromotion[],
-    private _contractPackages: PackageAdition[]
+    private _contractPackages: PackageAdition[],
+    private _endDate?: Date
   ) { super(id, contrDate) }
 
   /** Obtiene la fecha de finalización del contrato. */

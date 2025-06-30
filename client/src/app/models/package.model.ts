@@ -17,15 +17,23 @@ class Package extends Generic {
    * @param _promotions Lista de promociones aplicables a este paquete.
    * @param _basePrice El precio base del paquete. Si no se define, se calculará el precio
    * base a partir de la suma del precio base de los servicios.
+   * @param _removalFromContractDate Fecha en la que un paquete fue eliminado de un contrato.
    */
   constructor(
     id: number,
     private _name: string,
     private _type: number,
-    private _services: Service[],
-    private _promotions: PackagePromotion[],
-    private _basePrice?: number
-  ) { super(id) }
+    aditionDate: Date,
+    private _services?: Service[],
+    private _promotions?: PackagePromotion[],
+    private _basePrice?: number,
+    private _removalFromContractDate?: Date
+  ) { super(id, aditionDate) }
+
+  /** Obtiene los servicios como una cadena. */
+  servicesToString(): string {
+    return this._services?.map(s => s.toString()).join(', ') ?? '';
+  }
 
   /** Obtiene el precio base del paquete. Si el precio base del paquete está indefinido,
    * regresará la suma de los precios base de cada servicio del paquete. */
@@ -33,12 +41,25 @@ class Package extends Generic {
     if (this._basePrice === undefined) {
       let auxSum = 0;
 
-      this._services.forEach(s => auxSum += s.getBasePrice())
+      this._services?.forEach(s => auxSum += s.getBasePrice())
 
       return auxSum;
     }
 
     return this._basePrice;
+  }
+
+  /** Obtiene el precio base del paquete con promociones aplicadas. */
+  getBasePriceWithDiscounts(): number {
+    let basePrice = this.getBasePrice();
+
+    this._promotions?.forEach(promo => {
+      basePrice -= promo.getPricePorcent() <= 1
+        ? basePrice * promo.getPricePorcent()
+        : promo.getPricePorcent();
+    });
+
+    return basePrice;
   }
 
   /** Obtiene el nombre del paquete. */
@@ -49,6 +70,11 @@ class Package extends Generic {
   /** Obtiene las promociones aplicables al paquete */
   getPromotions() {
     return this._promotions;
+  }
+
+  /** Obtiene la fecha en la que el paquete fue eliminado de un contrato. */
+  getRemovalFromContract() {
+    return this._removalFromContractDate;
   }
 
   /** Obtiene los servicios que contiene el paquete. */
@@ -72,12 +98,17 @@ class Package extends Generic {
   }
 
   /** Asigna una lista de promociones aplicables al paquete. */
-  setPromotions(promotions: PackagePromotion[]) {
+  setPromotions(promotions?: PackagePromotion[]) {
     this._promotions = promotions;
   }
 
+  /** Asigna una fecha de eliminación de un contrato. */
+  setRemovalFromContractDate(removalFromContractDate?: Date) {
+    this._removalFromContractDate = removalFromContractDate;
+  }
+
   /** Asigna los servicios para el paquete. */
-  setServices(services: Service[]) {
+  setServices(services?: Service[]) {
     this._services = services;
   }
 

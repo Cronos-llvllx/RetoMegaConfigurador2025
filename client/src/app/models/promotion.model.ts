@@ -1,3 +1,4 @@
+import Global from "../shared/objects/global.object";
 import Generic from "./generic.model";
 
 /** Clase Promoción (plantilla). No crees instancias de esta clase: 
@@ -15,8 +16,16 @@ class Promotion extends Generic {
     id: number,
     private _name: string,
     private _pricePorcent: number,
-    private _expiration: Date
+    private _expiration?: Date
   ) { super(id) }
+
+  /** Convierte el precio o porcentaje de descuento en cadena. */
+  pricePorcentToString() {
+    if (this._pricePorcent >= 0 && this._pricePorcent < 1)
+      return `% ${this._pricePorcent * 100}`;
+    else
+      return Global.formatNumberToCoin(this._pricePorcent);
+  }
 
   /** Obtiene la vigencia de la promoción (la fecha en la que la promoción ya no estará
    * disponible para el público). */
@@ -38,7 +47,7 @@ class Promotion extends Generic {
 
   /** Asigna una vigencia para la promoción (cuando dejará de estar disponible para el
    * público). */
-  setExpiration(expiration: Date) {
+  setExpiration(expiration?: Date) {
     this._expiration = expiration;
   }
 

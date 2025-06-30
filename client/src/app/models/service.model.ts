@@ -22,6 +22,16 @@ class Service extends Generic {
     private _type: number
   ) { super(id) }
 
+  /** Obtiene el servicio (solo el nombre según el tipo) */
+  override toString() {
+    switch(this._type) {
+      case (Service.TYPE_INTERNET): return 'Internet';
+      case (Service.TYPE_PHONE_LINE): return 'Telefonía';
+      case (Service.TYPE_TV): return 'Televisión';
+      default: return '?';
+    }
+  }
+
   /** Obtiene la cantidad que ofrece el servicio (según el tipo de servicio). */
   getQuantity() {
     return this._quantity;

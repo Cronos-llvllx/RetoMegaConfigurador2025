@@ -58,4 +58,15 @@ div.component-body {
       }
     }
   }
+
+  div.error-message {
+    background-color: #ffeaea;
+    border: 2px solid #c91a1a;
+    border-radius: 8px;
+    color: #a11212;
+    font-size: 0.9rem;
+    margin: 4px;
+    padding: 4px 12px 4px;
+    white-space: wrap;
+  }
 }
