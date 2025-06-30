@@ -16,7 +16,7 @@ class Contract extends Generic {
   constructor(
     id: number,
     contrDate: Date,
-    private _endDate: Date,
+    private _endDate: Date | null,
     private _basePrice: number,
     private _subscriptor: Subscriptor,
     private _promotions: ContractPromotion[],

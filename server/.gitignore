@@ -3,4 +3,4 @@
 /obj
 /bin
 # Ignorar archivos de configuración sensibles
-appsettings.Development.json
+**/appsettings.Development.json

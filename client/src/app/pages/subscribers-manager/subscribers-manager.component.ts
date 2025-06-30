@@ -1,26 +1,31 @@
-import { SuscriptoresService } from './../../services/suscriptores.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import  Subscriptor  from './../..//models/subscriptor.model';
-import  Contract  from '../../models/contract.model';
+
+// Importación de tus modelos
+import { SuscriptoresService } from '../../services/suscriptores.service';
+import Contract from '../../models/contract.model';
+import Subscriptor from '../../models/subscriptor.model';
 
 @Component({
   selector: 'app-subscribers-manager',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './subscribers-manager.component.html',
-  styleUrl: './subscribers-manager.component.scss'
+  styleUrls: ['./subscribers-manager.component.scss']
 })
 export class SubscribersManagerComponent {
 
   public contractNumber: string = '';
-  // --- 2. Propiedades mejoradas para la UI ---
-  public subscriberInfo: Contract | null = null; // Usamos el tipo Contract y lo inicializamos en null
-  public isLoading: boolean = false; // Para mostrar un spinner o mensaje de carga
-  public errorMessage: string | null = null; // Para mostrar errores al usuario
+  public subscriberInfo: Contract | null = null;
+  public isLoading: boolean = false;
+  public errorMessage: string | null = null;
 
-  constructor(private suscriptoresService: SuscriptoresService) { } // El servicio se inyecta en minúscula por convención
+  // --- 1. PROPIEDADES FECHAS PARA CALCULAR DEUDA ---
+  public startDate: string = '';
+  public endDate: string = '';
+
+  constructor(private suscriptoresService: SuscriptoresService) {}
 
   public searchContract(): void {
     if (!this.contractNumber) {
@@ -28,27 +33,58 @@ export class SubscribersManagerComponent {
       return;
     }
 
-    // --- 3. Lógica de llamada real a la API ---
-    this.isLoading = true; // Inicia la carga
-    this.errorMessage = null; // Limpia errores previos
-    this.subscriberInfo = null; // Limpia datos previos
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.subscriberInfo = null;
 
+    // Se asume que el servicio ahora tiene el método getContractInfo
     this.suscriptoresService.getContractInfo(this.contractNumber).subscribe({
-      // Esto se ejecuta si la llamada a la API es exitosa
-      next: (data) => {
-        this.subscriberInfo = data; // Asigna los datos reales del backend
-        this.isLoading = false; // Termina la carga
+      next: (data: any) => {
+        //Convertimos el JSON en instancias de Clases ---
+
+        // creamos la instancia del suscriptor a partir del JSON anidado.
+        const subData = data.suscriptor;
+        const subscriptor = new Subscriptor(
+          subData.idsuscriptor,
+          subData.nombre,
+          subData.email,
+          subData.telefono,
+          subData.tipo
+        );
+
+        // Luego, creamos la instancia del contrato, pasándole la instancia del suscriptor.
+        // Nota: Los argumentos deben coincidir con el constructor de tu clase Contract.
+        const contract = new Contract(
+          data.idcontrato,
+          new Date(data.fechaContr), // Convertimos el string de fecha a un objeto Date
+          data.fechaFin ? new Date(data.fechaFin) : null, // Hacemos lo mismo para la fecha de fin si existe
+          data.precioBase,
+          subscriptor, // Pasamos la instancia de Subscriptor que creamos arriba
+          [], // Asumimos listas vacías para promociones y paquetes por ahora
+          []
+        );
+
+        this.subscriberInfo = contract; // Asignamos la INSTANCIA REAL
+        this.isLoading = false;
       },
-      // Esto se ejecuta si la API devuelve un error
       error: (err) => {
         console.error('Error al buscar el contrato:', err);
-        this.errorMessage = `No se pudo encontrar el contrato #${this.contractNumber}. Verifique el número e intente de nuevo.`;
-        this.isLoading = false; // Termina la carga
+        this.errorMessage = `No se pudo encontrar el contrato #${this.contractNumber}.`;
+        this.isLoading = false;
       }
     });
   }
 
+  // --- 3. LÓGICA BÁSICA PARA CALCULATE DEBT ---
   public calculateDebt(): void {
-    // Esta lógica la implementarás después
+    if (!this.startDate || !this.endDate) {
+      alert('Por favor, seleccione una fecha de inicio y una de fin.');
+      return;
+    }
+
+    // Usamos los métodos getter porque subscriberInfo es una instancia de la clase
+    const contractId = this.subscriberInfo?.getId();
+    console.log(`Cálculo de deuda solicitado para el contrato ${contractId} desde ${this.startDate} hasta ${this.endDate}`);
+    alert(`Iniciando cálculo de deuda desde ${this.startDate} hasta ${this.endDate}.`);
   }
 }
