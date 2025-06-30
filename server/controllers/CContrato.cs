@@ -9,23 +9,25 @@ namespace megaapi.controllers;
 /// <param name="repo">Inyección de dependencia del repositorio.</param>
 [ApiController]
 [Route("api/[controller]")]
-public class CContrato(IContrato repo) : ControllerBase
+public class Contrato(IContrato repo) : ControllerBase
 {
   private readonly IContrato _repo = repo;
+
+  // ** Definir endpoints.
+  [HttpGet("")]
+  public async Task<IActionResult> ObtenerContratos()
+  {
+    return Ok(await _repo.ObtenerTodoAsync());
+  }
 
   [HttpGet("{id}")]
   public async Task<IActionResult> ObtenerContratoPorId(int id)
   {
-    // Usamos el método que ya existe en tu RepoContrato.
-    // Este método ya incluye la información del suscriptor, ¡perfecto!
-    var contrato = await _repo.GetByIdAsync(id);
+    var contrato = await _repo.ObtenerPorIdAsync(id);
 
     if (contrato == null)
-    {
-      return NotFound($"No se encontró el contrato con el ID: {id}");
-    }
+      return NotFound($"No se encontró un contrato con el identificador {id}");
 
     return Ok(contrato);
   }
-  // -------------------------
 }

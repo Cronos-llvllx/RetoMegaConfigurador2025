@@ -11,27 +11,56 @@ public class RepoCiudad(MEGADbContext dbContext) : ICiudad
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Ciudad> CreateAsync(Ciudad entity)
+  /// <summary>
+  /// Reduce la información de una ciudad para evitar bucles infinitos.
+  /// </summary>
+  /// <param name="ciudad">La instancia a reducir.</param>
+  public static Ciudad ReducirCiudad(Ciudad ciudad)
+  {
+    return new Ciudad
+    {
+      Idciudad = ciudad.Idciudad,
+      Nombre = ciudad.Nombre,
+      Colonias = [.. ciudad.Colonias.Select(col => new Colonia
+      {
+        Idcolonia = col.Idcolonia,
+        Nombre = col.Nombre
+      })]
+    };
+  }
+
+  public Task<Ciudad> CrearAsync(Ciudad entity)
   {
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Ciudad>> GetAllAsync()
+  public async Task<IEnumerable<Ciudad>> ObtenerTodoAsync()
   {
-    return await _dbContext.Ciudades.ToListAsync();
+    var auxCiudades = await _dbContext.Ciudad
+      .Include(ciu => ciu.Colonias)
+      .ToListAsync();
+
+    return auxCiudades.Select(ReducirCiudad);
   }
 
-  public async Task<Ciudad?> GetByIdAsync(int id)
+  public async Task<Ciudad?> ObtenerPorIdAsync(int id)
   {
-    return await _dbContext.Ciudades.FindAsync(id);
+    var auxCiudad = await _dbContext.Ciudad
+      .Include(ciu => ciu.Colonias)
+      .SingleOrDefaultAsync(ciu => ciu.Idciudad == id);
+
+    if (auxCiudad != null)
+      auxCiudad = ReducirCiudad(auxCiudad);
+
+    return auxCiudad;
   }
 
-  public Task<bool> RemoveAsync(Ciudad entity)
+  public Task<bool> EliminarAsync(Ciudad entity)
   {
     throw new NotImplementedException();
   }
 
-  public Task<bool> UpdateAsync(Ciudad entity)
+  public Task<bool> ActualizarAsync(Ciudad entity)
   {
     throw new NotImplementedException();
   }

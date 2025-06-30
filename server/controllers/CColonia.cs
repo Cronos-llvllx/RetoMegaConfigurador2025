@@ -7,7 +7,7 @@ namespace megaapi.controllers;
 /// <param name="repo">Inyección de dependencia del repositorio.</param>
 [ApiController]
 [Route("api/[controller]")]
-public class CColonia(IColonia repo) : ControllerBase
+public class Colonia(IColonia repo) : ControllerBase
 {
   private readonly IColonia _repo = repo;
 

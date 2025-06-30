@@ -7,31 +7,31 @@ namespace megaapi.repositories;
 
 /// <summary>Repositorio de promociones personalizadas.</summary>
 /// <param name="dbContext">Inyección de dependencia DbContext.</param>
-public class RepoPromopersonalizada(MEGADbContext dbContext) : IPromoPersonalizada
+public class RepoPromoPersonalizada(MEGADbContext dbContext) : IPromoPersonalizada
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<PromoPersonalizada> CreateAsync(PromoPersonalizada promo)
+  public Task<PromoPersonalizada> CrearAsync(PromoPersonalizada promo)
   {
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<PromoPersonalizada>> GetAllAsync()
+  public async Task<IEnumerable<PromoPersonalizada>> ObtenerTodoAsync()
   {
-    return await _dbContext.PromoPersonalizadas.ToListAsync();
+    return await _dbContext.PromoPersonalizada.ToListAsync();
   }
 
-  public async Task<PromoPersonalizada?> GetByIdAsync(int id)
+  public async Task<PromoPersonalizada?> ObtenerPorIdAsync(int id)
   {
-    return await _dbContext.PromoPersonalizadas.FindAsync(id);
+    return await _dbContext.PromoPersonalizada.FindAsync(id);
   }
 
-  public Task<bool> RemoveAsync(PromoPersonalizada promo)
+  public Task<bool> EliminarAsync(PromoPersonalizada promo)
   {
     throw new NotImplementedException();
   }
 
-  public Task<bool> UpdateAsync(PromoPersonalizada promo)
+  public Task<bool> ActualizarAsync(PromoPersonalizada promo)
   {
     throw new NotImplementedException();
   }

@@ -11,27 +11,27 @@ public class RepoPaquete(MEGADbContext dbContext) : IPaquete
 {
   private readonly MEGADbContext _dbContext = dbContext;
 
-  public Task<Paquete> CreateAsync(Paquete paquete)
+  public Task<Paquete> CrearAsync(Paquete paquete)
   {
     throw new NotImplementedException();
   }
 
-  public async Task<IEnumerable<Paquete>> GetAllAsync()
+  public async Task<IEnumerable<Paquete>> ObtenerTodoAsync()
   {
-    return await _dbContext.Paquetes.ToListAsync();
+    return await _dbContext.Paquete.ToListAsync();
   }
 
-  public async Task<Paquete?> GetByIdAsync(int id)
+  public async Task<Paquete?> ObtenerPorIdAsync(int id)
   {
-    return await _dbContext.Paquetes.FindAsync(id);
+    return await _dbContext.Paquete.FindAsync(id);
   }
 
-  public Task<bool> RemoveAsync(Paquete paquete)
+  public Task<bool> EliminarAsync(Paquete paquete)
   {
     throw new NotImplementedException();
   }
 
-  public Task<bool> UpdateAsync(Paquete paquete)
+  public Task<bool> ActualizarAsync(Paquete paquete)
   {
     throw new NotImplementedException();
   }

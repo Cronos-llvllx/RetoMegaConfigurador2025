@@ -7,7 +7,7 @@ namespace megaapi.controllers;
 /// <param name="repo">Inyección de dependencia del repositorio.</param>
 [ApiController]
 [Route("api/[controller]")]
-public class CCiudad(ICiudad repo) : ControllerBase
+public class Ciudad(ICiudad repo) : ControllerBase
 {
   /// <summary>Repositorio de ciudades.</summary>
   private readonly ICiudad _repo = repo;

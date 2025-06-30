@@ -7,7 +7,6 @@ public class PromoPersonalizada
   public DateTime FechaAplicacion { get; set; }
   public string Descripcion { get; set; } = null!;
   public decimal PrecioPorcen { get; set; }
-
   // Referencias.
   public Contrato Contrato { get; set; } = null!;
 }
