@@ -117,7 +117,7 @@ public class Deuda(IContrato repoContrato, IContratoPaquete repoContratoPaquete,
     }
     catch (NullReferenceException ex)
     {
-      return BadRequest(ex);
+      return NotFound(ex);
     }
     catch (Exception ex)
     {
