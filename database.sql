@@ -199,7 +199,7 @@ INSERT INTO dbo.Colonia (Idciudad, Nombre) VALUES (3, 'Bugambilias'); -- 9
 -- Telefonía (para paquetes resienciales).
 INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (1, 200, 1); -- 1
 -- Televisión (para paquetes residenciales).
-INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (1, 300, 2); -- 2
+INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (80, 300, 2); -- 2
 -- Internet (para paquetes residenciales).
 INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (100, 700, 3); -- 3
 INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (200, 1300, 3); -- 4
@@ -208,11 +208,11 @@ INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (300, 1800, 3); -- 
 -- Telefonía (para paquetes empresariales).
 INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (2, 500, 1); -- 6
 -- Televisión (para paquetes empresariales).
-INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (1, 400, 2); -- 7
+INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (80, 400, 2); -- 7
 -- Internet (para paquetes empresariales).
-INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (100, 800, 3); -- 8
-INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (200, 1400, 3); -- 9
-INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (300, 1900, 3); -- 10
+INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (1000, 2500, 3); -- 8
+INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (1200, 3000, 3); -- 9
+INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (1500, 4000, 3); -- 10
 
 --
 -- Paquetes.
