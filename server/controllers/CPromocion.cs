@@ -42,7 +42,7 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
   }
 
   [HttpPost("registro")]
-  public async Task<IActionResult> RegistrarPromocion([FromBody] PromocionRegistroDto promo)
+  public async Task<IActionResult> RegistrarPromocion([FromBody] PromocionDto promo)
   {
     try
     {
@@ -135,9 +135,104 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
       return StatusCode(500, ex);
     }
   }
+
+  [HttpPut("actualizar/{idPromocion}")]
+  public async Task<IActionResult> ActualizarPromocion(int idPromocion, [FromBody] PromocionDto promo)
+  {
+    try
+    {
+      var dbPromo = await _repo.ObtenerPorIdAsync(idPromocion)
+        ?? throw new NullReferenceException($"No existe una promoción con el id {idPromocion}");
+
+      if (dbPromo.Tipo != promo.Tipo)
+        throw new InvalidDataException($"No se puede cambiar el tipo de promoción ({dbPromo.Tipo} => {promo.Tipo})");
+
+      dbPromo.Alcance = dbPromo.Tipo == 1 ? null : promo.Alcance;
+      dbPromo.Duracion = dbPromo.Tipo == 1 ? null : promo.Duracion;
+      dbPromo.Nombre = promo.Nombre;
+      dbPromo.PrecioPorcen = promo.PrecioPorcen;
+
+      // Actualiza la tupla.
+      await _repo.ActualizarAsync(dbPromo);
+
+      // Actualiza las relaciones.
+      if (dbPromo.Tipo == 2 && (promo.Ciudaddes.Count > 0 || promo.Colonias.Count > 0 || promo.Paquetes.Count > 0))
+      {
+        // Borra las relaciones actuales.
+        var promoCius = await _repoPromocionCiudad.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
+        var promoCols = await _repoPromocionColonia.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
+        var promoPaqs = await _repoPromocionPaquete.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
+
+        foreach (var promoCiu in promoCius)
+          await _repoPromocionCiudad.EliminarAsync(promoCiu);
+
+        foreach (var promoCol in promoCols)
+          await _repoPromocionColonia.EliminarAsync(promoCol);
+
+        foreach (var promoPaq in promoPaqs)
+          await _repoPromocionPaquete.EliminarAsync(promoPaq);
+
+        // Las vuelve a agregar.
+        // Registro por colonia.
+        foreach (var col in promo.Colonias)
+        {
+          var promoCol = new models.PromocionColonia
+          {
+            Idcolonia = col,
+            Idpromocion = dbPromo.Idpromocion
+          };
+
+          await _repoPromocionColonia.CrearAsync(promoCol);
+        }
+
+        // Registro por ciudad (solo si no hay colonias).
+        if (promo.Colonias.Count == 0)
+        {
+          foreach (var ciu in promo.Ciudaddes)
+          {
+
+            var promoCol = new models.PromocionCiudad
+            {
+              Idciudad = ciu,
+              Idpromocion = dbPromo.Idpromocion
+            };
+
+            await _repoPromocionCiudad.CrearAsync(promoCol);
+          }
+        }
+
+        // Registro por paquete.
+        foreach (var paq in promo.Paquetes)
+        {
+          var promoCol = new models.PromocionPaquete
+          {
+            Idpaquete = paq,
+            Idpromocion = dbPromo.Idpromocion
+          };
+
+          await _repoPromocionPaquete.CrearAsync(promoCol);
+        }
+    
+      }
+
+      return Ok(dbPromo);
+    }
+    catch (InvalidDataException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+    catch (NullReferenceException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+    catch (Exception ex)
+    {
+      return StatusCode(500, ex.Message);
+    }
+  }
 }
 
-public class PromocionRegistroDto
+public class PromocionDto
 {
   public byte? Alcance { get; set; }
   public string Nombre { get; set; } = null!;
