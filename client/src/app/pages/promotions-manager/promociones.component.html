@@ -81,29 +81,6 @@
                 </div>
             </div>
         </div>
-
-
-        <!-- Selector de Paquetes (paquetes específicos) -->
-        <div class="campo">
-            <label>Paquetes:</label>
-            <select [(ngModel)]="coloniaSeleccionada" (change)="onColoniaEspecificaChange()" class="select-colonia">
-                <option value="">Selecciona un paquete de la lista</option>
-                <option *ngFor="let colonia of todasLasColonias" [value]="colonia.name">{{colonia.name}} ({{colonia.ciudadNombre}})</option>
-            </select>
-            <div class="box-elements" *ngIf="nuevaPromo.coloniasIds.length > 0">
-                <div class="box-container">
-                    <div *ngFor="let coloniaId of nuevaPromo.coloniasIds; let i = index" class="element">
-                      <div class="content">
-                          <p>{{getNombreColoniaCompleto(coloniaId)}}</p>
-                          <span class="button-sim" (click)="eliminarColonia(i)">
-                              <span class="x1"></span>
-                              <span class="x2"></span>
-                          </span>
-                      </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         
 
         <div class="campo">

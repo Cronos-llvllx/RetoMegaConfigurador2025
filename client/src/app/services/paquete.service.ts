@@ -19,7 +19,7 @@ export class PaqueteService {
    * Obtiene todos los paquetes disponibles desde el backend.
    */
   getAllPackages(): Observable<Paquete[]> {
-    return this.http.get<Paquete[]>(`${this.apiUrl}/Paquete`);
+    return this.http.get<Paquete[]>(`${this.apiUrl}Paquete`);
   }
 
   addNewPackage(pack: Package): Observable<Package> {
@@ -30,7 +30,7 @@ export class PaqueteService {
       Tipo: pack.getType(),
     }
 
-    return this.http.post<APIPackageResponse>(`${this.apiUrl}/Paquete/registrar`, req).pipe(
+    return this.http.post<APIPackageResponse>(`${this.apiUrl}Paquete/registrar`, req).pipe(
       map(res => {
         pack.setId(res.Idpaquete);
         return pack;
@@ -53,13 +53,13 @@ export class PaqueteService {
       Tipo: pack.getType(),
     }
 
-    return this.http.put<APIPackageResponse>(`${this.apiUrl}/Paquete/actualizar/${req.Idpaquete}`, req).pipe(
+    return this.http.put<APIPackageResponse>(`${this.apiUrl}Paquete/actualizar/${req.Idpaquete}`, req).pipe(
       map(() => pack)
     );
   }
 
   removePackage(pack: Package): Observable<boolean> {
-    return this.http.delete<boolean>(`${this.apiUrl}/Paquete/eliminar/${pack.getId()}`).pipe(
+    return this.http.delete<boolean>(`${this.apiUrl}Paquete/eliminar/${pack.getId()}`).pipe(
       map(res => res)
     );
   }
