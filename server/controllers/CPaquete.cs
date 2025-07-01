@@ -35,6 +35,53 @@ public class Paquete(IPaquete repo, IContratoPaquete repoCotratoPaquete, IPaquet
     }
   }
 
+  [HttpPost("registrar")]
+  public async Task<IActionResult> RegistrarPaquete([FromBody] PaqueteDto paquete)
+  {
+    try
+    {
+      if (!ModelState.IsValid)
+        throw new InvalidDataException("Modelo recibido inválido.");
+
+      // Registra un nuevo paquete.
+      var dbPaquete = new models.Paquete
+      {
+        Nombre = paquete.Nombre,
+        PrecioBase = paquete.PrecioBase,
+        Tipo = paquete.Tipo
+      };
+
+      dbPaquete = await _repo.CrearAsync(dbPaquete);
+
+      // Registra los servicios.
+      foreach (var serv in paquete.Servicios)
+      {
+        var dbServ = new models.PaqueteServicio
+        {
+          Idpaquete = dbPaquete.Idpaquete,
+          Idservicio = serv
+        };
+
+        // Registra el servicio.
+        await _repoPaqueteServicio.ActualizarAsync(dbServ);
+      }
+
+      return Ok(dbPaquete);
+    }
+    catch (InvalidDataException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+    catch (NullReferenceException ex)
+    {
+      return BadRequest(ex.Message);
+    }
+    catch (Exception ex)
+    {
+      return StatusCode(500, ex.Message);
+    }
+  }
+
   [HttpDelete("eliminar/{id}")]
   public async Task<IActionResult> EliminarPaquete(int id)
   {
@@ -67,6 +114,7 @@ public class Paquete(IPaquete repo, IContratoPaquete repoCotratoPaquete, IPaquet
     }
   }
 
+  [HttpPut("actualizar/{idPaquete}")]
   public async Task<IActionResult> ActualizarPaquete(int idPaquete, PaqueteDto paquete)
   {
     try
