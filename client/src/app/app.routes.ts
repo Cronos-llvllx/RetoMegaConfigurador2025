@@ -23,7 +23,7 @@ export const routes: Routes = [
         path: 'administrador-promociones',
         title: 'Administrador de Promociones',
         // Asume que este componente existe, si no, puedes usar SubscribersManagerComponent temporalmente
-        loadComponent: () => import('./pages/debt-calculator/debt-calculator.component').then(c => c.DebtCalculator) // Placeholder
+        loadComponent: () => import('./pages/promotions-manager/promociones.component').then(c => c.PromocionesComponent)
       },
       {
         path: 'administrador-paquetes',
