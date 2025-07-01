@@ -43,5 +43,10 @@ public class RepoPromocion(MEGADbContext dbContext) : IPromocion
     await _dbContext.SaveChangesAsync();
     return true;
   }
-  public Task<bool> EliminarAsync(Promocion promocion) => throw new NotImplementedException();
+  public async Task<bool> EliminarAsync(Promocion promocion)
+  {
+    _dbContext.Promociones.Remove(promocion);
+    await _dbContext.SaveChangesAsync();
+    return true;
+  }
 }
