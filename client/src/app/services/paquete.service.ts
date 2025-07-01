@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import Paquete from '../models/package.model';
+import Package from '../models/package.model';
+import { APIPackageRequest, APIPackageResponse } from '../models/api/api-package.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,4 +21,20 @@ export class PaqueteService {
     return this.http.get<Paquete[]>(`${this.apiUrl}/Paquete`);
   }
 
+  addNewPackage(pack: Package): Observable<Package> {
+    const req: APIPackageRequest = {
+      Nombre : pack.getName(),
+      PrecioBase: pack.getBasePrice(),
+      Servicios: pack.getServices()!.map(s => s.getId()),
+      Tipo: pack.getType(),
+    }
+
+    return this.http.post<APIPackageResponse>(`${this.apiUrl}/Paquete/registrar`, req).pipe(
+      map(res => {
+        console.log(res);
+        pack.setId(res.Idpaquete);
+        return pack;
+      })
+    )
+  }
 }

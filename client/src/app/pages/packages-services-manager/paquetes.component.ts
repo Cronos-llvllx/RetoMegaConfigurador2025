@@ -85,9 +85,20 @@ export class PaquetesComponent implements OnInit {
     );
 
     if (this.editIndex !== null) {
-      // Si hay edición en curso, actualiza el paquete existente
-      this.paquetes[this.editIndex] = auxPackage;
-      this.editIndex = null; // Finaliza la edición
+      // Asgina el id.
+      auxPackage.setId(this.paquetes[this.editIndex].getId());
+      const index = this.editIndex;
+
+      this.$paquetes.addNewPackage(auxPackage).subscribe({
+        next: pack => {
+          // Si hay edición en curso, actualiza el paquete existente
+          this.paquetes[index] = auxPackage;
+          this.editIndex = null; // Finaliza la edición.
+          alert("Paquete actualizado");
+        }, error: (err: HttpErrorResponse) => {
+          console.log(err);
+        }
+      })
     } else {
       // Si no hay edición, agrega un nuevo paquete al arreglo
       this.paquetes.push(auxPackage);
