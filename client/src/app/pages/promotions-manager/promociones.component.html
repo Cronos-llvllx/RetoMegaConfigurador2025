@@ -113,7 +113,7 @@
             <input [(ngModel)]="nuevaPromo.vigencia" placeholder="Vigencia" type="date">
         </div>
 
-        <button (click)="registrarPromo()">Registrar</button>
+        <button (click)="registrarPromo()">{{ editIndex !== null ? 'Actualizar' : 'Registrar' }}</button>
     </div>
 </div>
 

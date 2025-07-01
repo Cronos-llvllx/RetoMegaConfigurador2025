@@ -119,8 +119,8 @@ export class PromocionesService {
    * @param promocion Datos actualizados de la promoción
    * @returns Observable con la promoción actualizada
    */
-  actualizar(id: number, promocion: Partial<Promocion>): Observable<Promocion> {
-    return this.http.put<Promocion>(`${this.apiUrl}/${id}`, promocion);
+  actualizar(id: number, promocion: CrearPromocion): Observable<Promocion> {
+    return this.http.put<Promocion>(`${this.apiUrl}/actualizar/${id}`, promocion);
   }
 
   /**
@@ -128,7 +128,7 @@ export class PromocionesService {
    * @param id ID de la promoción a eliminar
    * @returns Observable con el resultado de la operación
    */
-  eliminar(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(`${this.apiUrl}/${id}`);
+  eliminar(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/eliminar/${id}`);
   }
 }
