@@ -63,7 +63,7 @@ public class Paquete(IPaquete repo, IContratoPaquete repoCotratoPaquete, IPaquet
         };
 
         // Registra el servicio.
-        await _repoPaqueteServicio.ActualizarAsync(dbServ);
+        await _repoPaqueteServicio.CrearAsync(dbServ);
       }
 
       return Ok(dbPaquete);
@@ -78,6 +78,7 @@ public class Paquete(IPaquete repo, IContratoPaquete repoCotratoPaquete, IPaquet
     }
     catch (Exception ex)
     {
+      Console.Error.WriteLine(ex);
       return StatusCode(500, ex.Message);
     }
   }
@@ -108,6 +109,10 @@ public class Paquete(IPaquete repo, IContratoPaquete repoCotratoPaquete, IPaquet
     {
       return NotFound(ex.Message);
     }
+    catch (UnauthorizedAccessException ex)
+    {
+      return Unauthorized(ex.Message);
+    }
     catch (Exception ex)
     {
       return StatusCode(500, ex.Message);
@@ -131,9 +136,9 @@ public class Paquete(IPaquete repo, IContratoPaquete repoCotratoPaquete, IPaquet
       if (dbPaquete.Tipo != paquete.Tipo)
       {
         // Revisa relaciones del paquete con contratos.
-        var dbContratos = await _repoCotratoPaquete.ObtenerPorReferencia(dbPaquete.Idpaquete, "Idpaquete");
+        var dbContratos = await _repoCotratoPaquete.ObtenerTodoAsync();
 
-        if (dbContratos.Any())
+        if (dbContratos.ToList().Find(c => c.Idpaquete == dbPaquete.Idpaquete) != null)
           throw new UnauthorizedAccessException("No se puede actualizar el tipo de este paquete porque ya está relacionado con contratos");
       }
 
@@ -143,7 +148,7 @@ public class Paquete(IPaquete repo, IContratoPaquete repoCotratoPaquete, IPaquet
       // Revisa los servicios.
       if (paquete.Servicios.Count > 0)
       {
-        // Elimna los servicios actualmente registrados.
+              // Elimna los servicios actualmente registrados.
         var dbServicios = await _repoPaqueteServicio.ObtenerPorReferencia(dbPaquete.Idpaquete, "Idpaquete");
 
         foreach (var serv in dbServicios)

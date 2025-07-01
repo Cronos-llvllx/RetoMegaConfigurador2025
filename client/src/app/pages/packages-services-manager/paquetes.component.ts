@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ServicioService } from '../../services/servicio.service';
 import Service from '../../models/service.model';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { PaqueteService } from '../../services/paquete.service';
 import Package from '../../models/package.model';
 
@@ -89,30 +89,48 @@ export class PaquetesComponent implements OnInit {
       auxPackage.setId(this.paquetes[this.editIndex].getId());
       const index = this.editIndex;
 
-      this.$paquetes.addNewPackage(auxPackage).subscribe({
-        next: pack => {
+      this.$paquetes.updatePackage(auxPackage).subscribe({
+        next: () => {
           // Si hay edición en curso, actualiza el paquete existente
           this.paquetes[index] = auxPackage;
           this.editIndex = null; // Finaliza la edición.
+          this.nuevoPaquete = {
+            nombre: '',
+            alcance: '',
+            precio: 0,
+            servicios: [] as string[]
+          };
+
+          this.servicioSeleccionado = ''; // Reset select
+
           alert("Paquete actualizado");
         }, error: (err: HttpErrorResponse) => {
           console.log(err);
+          alert("Ocurrió un error: " + err.message);
         }
       })
     } else {
-      // Si no hay edición, agrega un nuevo paquete al arreglo
-      this.paquetes.push(auxPackage);
+      // Si no hay edición, agrega un nuevo paquete a la db..
+      this.$paquetes.addNewPackage(auxPackage).subscribe({
+        next: pack => {
+          // Resetea el formulario a su estado inicial
+          this.nuevoPaquete = {
+            nombre: '',
+            alcance: '',
+            precio: 0,
+            servicios: [] as string[]
+          };
+
+          this.servicioSeleccionado = ''; // Reset select
+
+          this.paquetes.push(pack);
+          alert("El paquete fue agregado");
+        }, error: (err: HttpErrorResponse) => {
+          console.error(err);
+          alert(err.message);
+        }
+      });
     }
-
-    // Resetea el formulario a su estado inicial
-    this.nuevoPaquete = {
-      nombre: '',
-      alcance: '',
-      precio: 0,
-      servicios: [] as string[]
-    };
-
-    this.servicioSeleccionado = ''; // Reset select
   }
 
   // Carga los datos de un paquete para ser editado
@@ -128,7 +146,24 @@ export class PaquetesComponent implements OnInit {
 
   // Elimina un paquete del arreglo
   eliminarPaquete(index: number) {
-    this.paquetes.splice(index, 1); // Elimina el paquete por índice
+    if (confirm(`¿Estás seguro de que deseas eliminar "${this.paquetes[index].getName()}"?`)) {
+      this.$paquetes.removePackage(this.paquetes[index]).subscribe({
+        next: () => {
+          alert("El paquete fue eliminado");
+          this.paquetes.splice(index, 1); // Elimina el paquete por índice
+        }, error: (err: HttpErrorResponse) => {
+          console.error(err);
+
+          if (err.status === HttpStatusCode.Unauthorized) {
+            alert("No se puede eliminar este paquete porque ya está relacionado con contratos.")
+          } else if (err.status === HttpStatusCode.NotFound) {
+            alert("No se encontró el paquete a eliminar: " + this.paquetes[index].getId())
+          } else {
+            alert("Ocurrió un error desconocido: " + err.message);
+          }
+        }
+      })
+    }
   }
 
   // Maneja la selección del campo "Alcance" 

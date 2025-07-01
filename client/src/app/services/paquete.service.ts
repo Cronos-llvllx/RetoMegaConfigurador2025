@@ -23,7 +23,7 @@ export class PaqueteService {
 
   addNewPackage(pack: Package): Observable<Package> {
     const req: APIPackageRequest = {
-      Nombre : pack.getName(),
+      Nombre: pack.getName(),
       PrecioBase: pack.getBasePrice(),
       Servicios: pack.getServices()!.map(s => s.getId()),
       Tipo: pack.getType(),
@@ -31,10 +31,29 @@ export class PaqueteService {
 
     return this.http.post<APIPackageResponse>(`${this.apiUrl}/Paquete/registrar`, req).pipe(
       map(res => {
-        console.log(res);
         pack.setId(res.Idpaquete);
         return pack;
       })
-    )
+    );
+  }
+
+  updatePackage(pack: Package): Observable<Package> {
+    const req: APIPackageRequest = {
+      Idpaquete: pack.getId(),
+      Nombre: pack.getName(),
+      PrecioBase: pack.getBasePrice(),
+      Servicios: pack.getServices()!.map(s => s.getId()),
+      Tipo: pack.getType(),
+    }
+
+    return this.http.put<APIPackageResponse>(`${this.apiUrl}/Paquete/actualizar/${req.Idpaquete}`, req).pipe(
+      map(() => pack)
+    );
+  }
+
+  removePackage(pack: Package): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.apiUrl}/Paquete/eliminar/${pack.getId()}`).pipe(
+      map(res => res)
+    );
   }
 }

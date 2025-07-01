@@ -39,7 +39,7 @@ public class RepoContratoPaquete(MEGADbContext dbContext) : IContratoPaquete
     }
     public async Task<IEnumerable<ContratoPaquete>> ObtenerPorReferencia(int id, string nombreIdentificador)
     {
-        // CORREGIDO: Se usa 'ContratoPaquetes' en plural
+        // CORREGIDO: Se usa 'ContratoPaquetes' en plural. Devuelve BUCLE INFINITO !!! @deprecated
         return (await _dbContext.ContratoPaquetes.Include(cP => cP.Paquete).ToListAsync()).Where(pC => OperadorObj<ContratoPaquete, int>.Comparar(pC, nombreIdentificador, id));
     }
     public Task<bool> ActualizarAsync(ContratoPaquete record) => throw new NotImplementedException();
