@@ -21,7 +21,7 @@ class Promotion extends Generic {
 
   /** Convierte el precio o porcentaje de descuento en cadena. */
   pricePorcentToString() {
-    if (this._pricePorcent >= 0 && this._pricePorcent < 1)
+    if (this._pricePorcent >= 0 && this._pricePorcent <= 1)
       return `% ${this._pricePorcent * 100}`;
     else
       return Global.formatNumberToCoin(this._pricePorcent);

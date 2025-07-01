@@ -16,6 +16,7 @@
       <p>Nombre: <span>{{this.contract.getSubscriptor().getName()}}</span></p>
       <p>Fecha de contratación: <span>{{this.contract.getCreationDate()?.toISOString()?.split('T')?.at(0)}}</span></p>
       <p>Estado del servicio: <span>{{getContractStatus()}}</span></p>
+      <p>Tipo: <span>{{this.contract.getSubscriptor().getType() == 1 ? "Residencial" : "Empresarial"}}</span></p>
     </div>
     <!-- Calcular deudas. -->
     <div class="box" id="calculator">
