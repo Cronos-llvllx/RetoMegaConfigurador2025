@@ -489,6 +489,10 @@ export class PromocionesComponent implements OnInit {
     }
   }
 
+  onPaqueteEspecificoChange() {
+
+  }
+
   /**
    * Obtiene el nombre de la colonia incluyendo la ciudad (para modo colonias específicas)
    */

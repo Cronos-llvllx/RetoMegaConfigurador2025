@@ -46,6 +46,7 @@ export class PaquetesComponent implements OnInit {
         // Obtiene los paquetes registrados.
         this.$paquetes.getAllPackages().subscribe({
           next: (packages: any[]) => {
+            console.log(packages);
             this.paquetes = packages.map(p => {
               return new Package(
                 p.idpaquete,
