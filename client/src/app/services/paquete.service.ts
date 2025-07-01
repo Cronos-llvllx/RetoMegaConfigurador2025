@@ -4,13 +4,14 @@ import { map, Observable } from 'rxjs';
 import Paquete from '../models/package.model';
 import Package from '../models/package.model';
 import { APIPackageRequest, APIPackageResponse } from '../models/api/api-package.interface';
+import env from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaqueteService {
-  // Asegúrate de que el puerto coincida con tu backend (ej. 5026)
-  private apiUrl = 'http://localhost:5026/api';
+  // URL base del API usando environment
+  private apiUrl = `${env.url}`;
 
   constructor(private http: HttpClient) { }
 

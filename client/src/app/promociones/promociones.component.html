@@ -61,6 +61,32 @@
         </div>          
     
         <div class="campo">
+            <label>Paquetes:</label>
+            <div class="paquete-selector">
+                <select [(ngModel)]="paqueteSeleccionado">
+                    <option value="">Selecciona un paquete</option>
+                    <option *ngFor="let paquete of paquetesDisponibles" [value]="paquete.getId() + ' - ' + paquete.getName()">
+                        {{ paquete.getName() }} ({{ paquete.getType() === 1 ? 'Residencial' : 'Empresarial' }})
+                    </option>
+                </select>
+                <button type="button" (click)="agregarPaquete()">Agregar</button>
+            </div>
+            <div class="box-elements">
+                <div class="box-container">
+                    <div *ngFor="let p of nuevaPromo.paquetes; let i = index" class="element">
+                        <div class="content">
+                            <p>{{p}}</p>
+                            <span class="button-sim" (click)="eliminarPaquete(i)">
+                                <span class="x1"></span>
+                                <span class="x2"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="campo">
             <label>Alcance:</label>
             <div class="alcance-checkboxes">
                 <label>
@@ -100,7 +126,7 @@
         <table>
         <thead>
             <tr>
-            <th>Nombre</th><th>Tipo</th><th>Colonia</th><th>Ciudad</th>
+            <th>Nombre</th><th>Tipo</th><th>Colonia</th><th>Ciudad</th><th>Paquetes</th>
             <th>Alcance</th><th>Descuento</th><th>Duración</th><th>Vigencia</th><th>Acciones</th>
             </tr>
         </thead>
@@ -112,6 +138,7 @@
             Es un método de los arrays en JavaScript que convierte el arreglo en un solo string, uniendo cada elemento con una coma y un espacio. -->
             <td>{{ promo.colonias?.join(', ') }}</td>
             <td>{{ promo.ciudades?.join(', ') }}</td>
+            <td>{{ promo.paquetes?.join(', ') }}</td>
             <td>{{ promo.alcance }}</td>
             <td>{{ promo.descuento }}%</td>
             <td>{{ promo.duracion }}</td>
