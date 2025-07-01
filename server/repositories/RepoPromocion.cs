@@ -29,7 +29,14 @@ public class RepoPromocion(MEGADbContext dbContext) : IPromocion
       .SingleOrDefaultAsync(p => p.Idpromocion == id);
 
   }
-  public Task<Promocion> CrearAsync(Promocion promocion) => throw new NotImplementedException();
+  public async Task<Promocion> CrearAsync(Promocion promocion)
+  {
+    await _dbContext.Promociones.AddAsync(promocion);
+    await _dbContext.SaveChangesAsync();
+
+    return promocion;
+  }
+
   public Task<bool> ActualizarAsync(Promocion promocion) => throw new NotImplementedException();
   public Task<bool> EliminarAsync(Promocion promocion) => throw new NotImplementedException();
 }
