@@ -21,14 +21,14 @@ public class RepoContratoPaquete(MEGADbContext dbContext) : IContratoPaquete
     }
     public async Task<IEnumerable<ContratoPaquete>> ObtenerTodoAsync()
     {
-        // CORREGIDO: Se usa 'ContratoPaquetes' en plural
-        return await _dbContext.ContratoPaquetes.Include(cP => cP.Paquete).ToListAsync();
+        // CORREGIDO: Se usa 'ContratoPaquetes' en plural - Include removido para evitar bucle infinito
+        return await _dbContext.ContratoPaquetes.ToListAsync();
     }
     public async Task<ContratoPaquete?> ObtenerPorIdAsync(int[] id)
     {
         if (id.Length != 2) throw new ArgumentException("La cadena recibida debe contener solo dos elementos");
-        // CORREGIDO: Se usa 'ContratoPaquetes' en plural
-        return await _dbContext.ContratoPaquetes.Include(cP => cP.Paquete).SingleOrDefaultAsync(cP => cP.Idcontrato == id[0] && cP.Idpaquete == id[1]);
+        // CORREGIDO: Se usa 'ContratoPaquetes' en plural - Include removido para evitar bucle infinito
+        return await _dbContext.ContratoPaquetes.SingleOrDefaultAsync(cP => cP.Idcontrato == id[0] && cP.Idpaquete == id[1]);
     }
     public async Task<bool> EliminarAsync(ContratoPaquete record)
     {
@@ -39,8 +39,8 @@ public class RepoContratoPaquete(MEGADbContext dbContext) : IContratoPaquete
     }
     public async Task<IEnumerable<ContratoPaquete>> ObtenerPorReferencia(int id, string nombreIdentificador)
     {
-        // CORREGIDO: Se usa 'ContratoPaquetes' en plural. Devuelve BUCLE INFINITO !!! @deprecated
-        return (await _dbContext.ContratoPaquetes.Include(cP => cP.Paquete).ToListAsync()).Where(pC => OperadorObj<ContratoPaquete, int>.Comparar(pC, nombreIdentificador, id));
+        // CORREGIDO: Se usa 'ContratoPaquetes' en plural - Include removido para evitar bucle infinito
+        return (await _dbContext.ContratoPaquetes.ToListAsync()).Where(pC => OperadorObj<ContratoPaquete, int>.Comparar(pC, nombreIdentificador, id));
     }
     public Task<bool> ActualizarAsync(ContratoPaquete record) => throw new NotImplementedException();
 }
