@@ -11,29 +11,45 @@
             <label>Tipo:</label>
             <div class="tipo-checkboxes">
                 <label>
-                    <input type="checkbox" [checked]="nuevaPromo.tipo === 'Contratacion'"
-                            (change)="seleccionarTipo('Contratacion')">
-                            Contratación
+                    <input type="checkbox" [checked]="nuevaPromo.tipo === 1"
+                            (change)="seleccionarTipo('1')">
+                            Contratación (1)
                 </label>
                 <label>
-                    <input type="checkbox" [checked]="nuevaPromo.tipo === 'Mensualidad'"
-                            (change)="seleccionarTipo('Mensualidad')">
-                            Mensualidad
+                    <input type="checkbox" [checked]="nuevaPromo.tipo === 2"
+                            (change)="seleccionarTipo('2')">
+                            Mensualidad (2)
                 </label>
             </div>
         </div>
 
+        <!-- Selector de aplicación: Ciudades completas o Colonias específicas -->
         <div class="campo">
-            <label>Ciudad:</label>
-            <select [(ngModel)]="ciudadSeleccionada" (change)="onCiudadChange()" class="select-ciudad">
+            <label>Aplicar promoción por:</label>
+            <div class="aplicacion-checkboxes">
+                <label>
+                    <input type="radio" name="aplicacion" value="ciudades" [(ngModel)]="tipoAplicacion" (change)="onTipoAplicacionChange()">
+                    Ciudades completas (incluye todas sus colonias)
+                </label>
+                <label>
+                    <input type="radio" name="aplicacion" value="colonias" [(ngModel)]="tipoAplicacion" (change)="onTipoAplicacionChange()">
+                    Colonias específicas
+                </label>
+            </div>
+        </div>
+
+        <!-- Selector de Ciudades (solo si se eligió aplicar por ciudades completas) -->
+        <div class="campo" *ngIf="tipoAplicacion === 'ciudades'">
+            <label>Seleccionar Ciudades:</label>
+            <select [(ngModel)]="ciudadSeleccionada" (change)="onCiudadCompleteChange()" class="select-ciudad">
                 <option value="">Selecciona una ciudad</option>
-                <option *ngFor="let ciudad of ciudadesDisponibles" [value]="ciudad">{{ciudad}}</option>
+                <option *ngFor="let ciudad of ciudadesDisponibles" [value]="ciudad.name">{{ciudad.name}}</option>
             </select>
-            <div class="box-elements" *ngIf="nuevaPromo.ciudades.length > 0">
+            <div class="box-elements" *ngIf="nuevaPromo.ciudadesIds.length > 0">
                 <div class="box-container">
-                    <div *ngFor="let c of nuevaPromo.ciudades; let i = index" class="element">
+                    <div *ngFor="let ciudadId of nuevaPromo.ciudadesIds; let i = index" class="element">
                     <div class="content">
-                        <p>{{c}}</p>
+                        <p>{{getNombreCiudad(ciudadId)}} (todas sus colonias)</p>
                         <span class="button-sim" (click)="eliminarCiudad(i)">
                             <span class="x1"></span>
                             <span class="x2"></span>
@@ -44,20 +60,18 @@
             </div>
         </div>
 
-        <div class="campo">
-            <label>Colonia:</label>
-            <select [(ngModel)]="coloniaSeleccionada"
-                    (change)="onColoniaChange()"
-                    [disabled]="!ciudadSeleccionada"
-                    class="select-colonia">
-                <option value="">{{ciudadSeleccionada ? 'Selecciona una colonia' : 'Primero selecciona una ciudad'}}</option>
-                <option *ngFor="let colonia of coloniasDisponibles" [value]="colonia">{{colonia}}</option>
+        <!-- Selector de Colonias (solo si se eligió aplicar por colonias específicas) -->
+        <div class="campo" *ngIf="tipoAplicacion === 'colonias'">
+            <label>Seleccionar Colonias:</label>
+            <select [(ngModel)]="coloniaSeleccionada" (change)="onColoniaEspecificaChange()" class="select-colonia">
+                <option value="">Selecciona una colonia</option>
+                <option *ngFor="let colonia of todasLasColonias" [value]="colonia.name">{{colonia.name}} ({{colonia.ciudadNombre}})</option>
             </select>
-            <div class="box-elements" *ngIf="nuevaPromo.colonias.length > 0">
+            <div class="box-elements" *ngIf="nuevaPromo.coloniasIds.length > 0">
                 <div class="box-container">
-                    <div *ngFor="let c of nuevaPromo.colonias; let i = index" class="element">
+                    <div *ngFor="let coloniaId of nuevaPromo.coloniasIds; let i = index" class="element">
                     <div class="content">
-                        <p>{{c}}</p>
+                        <p>{{getNombreColoniaCompleto(coloniaId)}}</p>
                         <span class="button-sim" (click)="eliminarColonia(i)">
                             <span class="x1"></span>
                             <span class="x2"></span>
@@ -85,8 +99,8 @@
         </div>
 
         <div class="campo">
-            <label>Descuento:</label>
-            <input [(ngModel)]="nuevaPromo.descuento" placeholder="%" type="number">
+            <label>Precio/Porcentaje:</label>
+            <input [(ngModel)]="nuevaPromo.precioPorcen" placeholder="Precio o % (0-1 para porcentaje)" type="number" step="0.01">
         </div>
 
         <div class="campo">
@@ -115,15 +129,13 @@
         <tbody>
             <tr *ngFor="let promo of promociones; let i = index">
             <td>{{ promo.nombre }}</td>
-            <td>{{ promo.tipo }}</td>
-            <!---.join(', ')
-            Es un método de los arrays en JavaScript que convierte el arreglo en un solo string, uniendo cada elemento con una coma y un espacio. -->
-            <td>{{ promo.colonias?.join(', ') }}</td>
-            <td>{{ promo.ciudades?.join(', ') }}</td>
-            <td>{{ promo.alcance }}</td>
-            <td>{{ promo.descuento }}%</td>
-            <td>{{ promo.duracion }}</td>
-            <td>{{ promo.vigencia }}</td>
+            <td>{{ getTipoTexto(promo.tipo) }}</td>
+            <td>{{ getColoniasNombres(promo) }}</td>
+            <td>{{ getCiudadesNombres(promo) }}</td>
+            <td>{{ getAlcanceTexto(promo.alcance) }}</td>
+            <td>{{ promo.precioPorcen }}</td>
+            <td>{{ promo.duracion }} meses</td>
+            <td>{{ promo.vigencia | date:'short' }}</td>
             <td>
                 <button (click)="editarPromo(i)">✏️</button>
                 <button (click)="eliminarPromo(i)">🗑️</button>
