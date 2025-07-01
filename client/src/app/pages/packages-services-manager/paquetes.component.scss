@@ -33,6 +33,7 @@
   .campo {
     display: flex;
     flex-direction: column;
+    margin-bottom: .5rem;
   }
 
   .campo label {
@@ -49,6 +50,12 @@
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+
+.alcance-checkboxes {
+  display: flex;
+  flex-direction: row;
+  gap: 4rem;
 }
 
   button {
@@ -80,6 +87,8 @@
     padding: 1rem;
     text-align: left;
     border: 1px solid #ccc;
+    text-align: center;
+    vertical-align: middle;
   }
 
   th {
@@ -108,7 +117,7 @@
   }
 
   .element {
-    background-color: #007bff;
+    background-color: #284384;
     color: white;
     border-radius: 1rem;
     padding: 0.3rem 0.8rem;
@@ -117,6 +126,11 @@
     font-size: 0.9rem;
   }
 
+  .select-servicio {
+    height: 33px;
+    padding: 8px 12px;
+  }
+  
   .content {
     display: flex;
     align-items: center;
