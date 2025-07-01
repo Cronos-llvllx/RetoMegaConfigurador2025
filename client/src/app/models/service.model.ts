@@ -25,10 +25,10 @@ class Service extends Generic {
 
   /** Obtiene el servicio (solo el nombre según el tipo) */
   override toString() {
-    switch(this._type) {
-      case (Service.TYPE_INTERNET): return 'Internet';
-      case (Service.TYPE_PHONE_LINE): return 'Telefonía';
-      case (Service.TYPE_TV): return 'Televisión';
+    switch (this._type) {
+      case (Service.TYPE_INTERNET): return `Internet ${this._quantity} mega${this._quantity > 1 ? 's' : ''}`;
+      case (Service.TYPE_PHONE_LINE): return `Telefonía ${this._quantity} línea${this._quantity > 1 ? 's' : ''}`;
+      case (Service.TYPE_TV): return `Televisión ${this._quantity} canal${this._quantity > 1 ? 'es' : ''}`;
       default: return '?';
     }
   }
