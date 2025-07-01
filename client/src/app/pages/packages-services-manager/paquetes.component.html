@@ -68,10 +68,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let paquete of paquetes; let i = index">
-          <td>{{ paquete.nombre }}</td>
-          <td>{{ paquete.alcance }}</td>
-          <td>{{ paquete.servicios.join(', ') }}</td>
-          <td>${{ paquete.precio }}</td>
+          <td>{{ paquete.getName() }}</td>
+          <td>{{ obtenerAlcanceDePaquete(paquete) }}</td>
+          <td>{{ obtenerServiciosDePaquete(paquete) }}</td>
+          <td>${{ paquete.getBasePrice() }}</td>
           <td>
             <button (click)="editarPaquete(i)">✏️</button>
             <button (click)="eliminarPaquete(i)">🗑️</button>

@@ -19,12 +19,12 @@ public class RepoPaquete(MEGADbContext dbContext) : IPaquete
     return paquete;
   }
 
-  public async Task<bool> CrearAsync(Paquete paquete)
+  public async Task<Paquete> CrearAsync(Paquete paquete)
   {
     _dbContext.Paquetes.Add(paquete);
     await _dbContext.SaveChangesAsync();
 
-    return true;
+    return paquete;
   }
 
   public async Task<bool> EliminarAsync(Paquete paquete)

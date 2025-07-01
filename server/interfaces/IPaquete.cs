@@ -8,6 +8,6 @@ public interface IPaquete
   // Otros métodos.
   Task<Paquete?> ObtenerPorIdAsync(int id);
   Task<Paquete> ActualizarAsync(Paquete paquete);
-  Task<bool> CrearAsync(Paquete paquete);
+  Task<Paquete> CrearAsync(Paquete paquete);
   Task<bool> EliminarAsync(Paquete paquete);
 }
