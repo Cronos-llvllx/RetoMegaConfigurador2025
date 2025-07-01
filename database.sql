@@ -346,3 +346,6 @@ INSERT INTO PromocionPaquete (Idpromocion, Idpaquete) VALUES (2, 3);
 INSERT INTO PromocionPaquete (Idpromocion, Idpaquete) VALUES (2, 4);
 INSERT INTO PromocionPaquete (Idpromocion, Idpaquete) VALUES (2, 5);
 INSERT INTO PromocionPaquete (Idpromocion, Idpaquete) VALUES (2, 6);
+
+update Servicio set tipo = 2 where Idservicio = 2 or Idservicio = 7;
+update Servicio set tipo = 3 where Idservicio = 3 or Idservicio = 4 or Idservicio = 5 or Idservicio = 8 or Idservicio = 9 or Idservicio = 10;
