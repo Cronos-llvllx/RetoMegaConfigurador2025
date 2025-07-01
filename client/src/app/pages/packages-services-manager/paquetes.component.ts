@@ -46,13 +46,17 @@ export class PaquetesComponent implements OnInit {
         // Obtiene los paquetes registrados.
         this.$paquetes.getAllPackages().subscribe({
           next: (packages: any[]) => {
-            this.paquetes = packages.map(p => new Package(
-              p.idpaquete,
-              p.nombre,
-              p.tipo,
-              new Date(),
-              (p.servicios as any[]).map(s => this.serviciosDisponibles.find(sD => sD.getId() == s.idservicio) as Service),
-              p.precioBase));
+            this.paquetes = packages.map(p => {
+              return new Package(
+                p.idpaquete,
+                p.nombre,
+                p.tipo,
+                new Date(),
+                (p.servicios as any[]).map(s => this.serviciosDisponibles.find(sD => sD.getId() == s.idservicio) as Service),
+                undefined, // promotions
+                p.precioBase // precio base
+              );
+            });
           }
         })
       },
@@ -81,12 +85,21 @@ export class PaquetesComponent implements OnInit {
       this.nuevoPaquete.nombre,
       this.nuevoPaquete.alcance === "Empresarial" ? Package.TYPE_FOR_ENTERPRISE : Package.TYPE_FOR_RESIDENTIAL,
       new Date(Date.now()),
-      this.nuevoPaquete.servicios.map(s => this.serviciosDisponibles.find(sD => s == sD.toString())) as Service[]
+      this.nuevoPaquete.servicios.map(s => this.serviciosDisponibles.find(sD => s == sD.toString())) as Service[],
+      undefined, // promotions
+      this.nuevoPaquete.precio // precio base
     );
 
     if (this.editIndex !== null) {
-      // Asgina el id.
-      auxPackage.setId(this.paquetes[this.editIndex].getId());
+      // Asigna el id.
+      const packageId = this.paquetes[this.editIndex].getId();
+      
+      if (!packageId || packageId === 0) {
+        alert('Error: ID del paquete no válido');
+        return;
+      }
+      
+      auxPackage.setId(packageId);
       const index = this.editIndex;
 
       this.$paquetes.updatePackage(auxPackage).subscribe({

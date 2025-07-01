@@ -38,8 +38,14 @@ export class PaqueteService {
   }
 
   updatePackage(pack: Package): Observable<Package> {
+    const packageId = pack.getId();
+    
+    if (!packageId || packageId === 0) {
+      throw new Error('Package ID is invalid for update');
+    }
+    
     const req: APIPackageRequest = {
-      Idpaquete: pack.getId(),
+      Idpaquete: packageId,
       Nombre: pack.getName(),
       PrecioBase: pack.getBasePrice(),
       Servicios: pack.getServices()!.map(s => s.getId()),

@@ -142,6 +142,9 @@ public class Paquete(IPaquete repo, IContratoPaquete repoCotratoPaquete, IPaquet
           throw new UnauthorizedAccessException("No se puede actualizar el tipo de este paquete porque ya está relacionado con contratos");
       }
 
+      // Actualiza el tipo después de las validaciones
+      dbPaquete.Tipo = paquete.Tipo;
+
       // Actualiza el paquete.
       dbPaquete = await _repo.ActualizarAsync(dbPaquete);
 
