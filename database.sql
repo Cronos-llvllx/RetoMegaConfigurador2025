@@ -208,7 +208,7 @@ INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (300, 1800, 3); -- 
 -- Telefonía (para paquetes empresariales).
 INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (2, 500, 1); -- 6
 -- Televisión (para paquetes empresariales).
-INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (80, 400, 2); -- 7
+INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (120, 400, 2); -- 7
 -- Internet (para paquetes empresariales).
 INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (1000, 2500, 3); -- 8
 INSERT INTO dbo.Servicio (cantidad, precioBase, tipo) VALUES (1200, 3000, 3); -- 9
