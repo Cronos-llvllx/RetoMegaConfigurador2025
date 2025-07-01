@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PromocionesService, Promocion, CrearPromocion } from '../services/promociones.service';
 
 /**
  * Componente para administrar promociones.

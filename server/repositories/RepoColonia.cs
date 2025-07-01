@@ -42,4 +42,13 @@ public class RepoColonia(MEGADbContext dbContext) : IColonia
             auxColonia = ReducirColonia(auxColonia);
         return auxColonia;
     }
+
+    public async Task<IEnumerable<Colonia>> ObtenerPorCiudadAsync(int ciudadId)
+    {
+        var auxColonias = await _dbContext.Colonias
+            .Include(col => col.Ciudad)
+            .Where(col => col.Idciudad == ciudadId)
+            .ToListAsync();
+        return auxColonias.Select(ReducirColonia);
+    }
 }
