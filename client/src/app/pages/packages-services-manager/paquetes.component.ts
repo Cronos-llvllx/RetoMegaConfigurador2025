@@ -18,7 +18,7 @@ export class PaquetesComponent implements OnInit {
   paquetes: any[] = [];
 
   // Modelo que representa el paquete que se está creando o editando
-  nuevoPaquete: any = {
+  nuevoPaquete = {
     nombre: '',
     alcance: '',
     precio: 0,
@@ -65,6 +65,8 @@ export class PaquetesComponent implements OnInit {
       servicios: [] as string[]
     };
 
+    console.log(this.nuevoPaquete);
+
     this.servicioSeleccionado = ''; // Reset select
   }
 
@@ -92,7 +94,7 @@ export class PaquetesComponent implements OnInit {
   // Agrega un servicio al paquete si no ha sido agregado ya
   agregarServicio() {
     const servicio = this.servicioSeleccionado;
-    if (servicio && !this.nuevoPaquete.servicios.includes(servicio)) {
+    if (servicio && !this.nuevoPaquete.servicios.find(s => s.split(' ')[0] == servicio.split(' ')[0])) {
       this.nuevoPaquete.servicios.push(servicio);
     }
     this.servicioSeleccionado = ''; // Reset select
