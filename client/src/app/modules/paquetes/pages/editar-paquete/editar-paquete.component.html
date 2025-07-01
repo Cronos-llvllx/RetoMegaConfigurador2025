@@ -1,0 +1,17 @@
+<h2>Editar Paquete</h2>
+
+<form (ngSubmit)="guardarPaquete()">
+
+  <label for="nombre">Nombre:</label><br>
+  <input type="text" id="nombre" [(ngModel)]="paquete.nombre" name="nombre" required><br><br>
+
+  <label for="descripcion">Descripción:</label><br>
+  <input type="text" id="descripcion" [(ngModel)]="paquete.descripcion" name="descripcion" required><br><br>
+
+  <label for="precio">Precio Mensual:</label><br>
+  <input type="number" id="precio" [(ngModel)]="paquete.precioMensual" name="precioMensual" required><br><br>
+
+  <button type="submit">Guardar</button>
+  <button type="button" routerLink="/paquetes">Cancelar</button>
+
+</form>

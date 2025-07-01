@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'reto-mega-configurador' title`, () => {
+  it(`should have the 'admin-paquetes-servicios' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('reto-mega-configurador');
+    expect(app.title).toEqual('admin-paquetes-servicios');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, reto-mega-configurador');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, admin-paquetes-servicios');
   });
 });
