@@ -25,13 +25,16 @@
 
         <div class="campo">
             <label>Ciudad:</label>
-            <input #coloniaInput (keydown.enter)="agregarColonia(coloniaInput.value); coloniaInput.value=''" placeholder="Escribe y presiona Enter" />
-            <div class="box-elements">
+            <select [(ngModel)]="ciudadSeleccionada" (change)="onCiudadChange()" class="select-ciudad">
+                <option value="">Selecciona una ciudad</option>
+                <option *ngFor="let ciudad of ciudadesDisponibles" [value]="ciudad">{{ciudad}}</option>
+            </select>
+            <div class="box-elements" *ngIf="nuevaPromo.ciudades.length > 0">
                 <div class="box-container">
-                    <div *ngFor="let c of nuevaPromo.colonias; let i = index" class="element">
+                    <div *ngFor="let c of nuevaPromo.ciudades; let i = index" class="element">
                     <div class="content">
                         <p>{{c}}</p>
-                        <span class="button-sim" (click)="eliminarColonia(i)">
+                        <span class="button-sim" (click)="eliminarCiudad(i)">
                             <span class="x1"></span>
                             <span class="x2"></span>
                         </span>
@@ -43,13 +46,19 @@
 
         <div class="campo">
             <label>Colonia:</label>
-            <input #ciudadInput (keydown.enter)="agregarCiudad(ciudadInput.value); ciudadInput.value=''" placeholder="Escribe y presiona Enter" />
-            <div class="box-elements">
+            <select [(ngModel)]="coloniaSeleccionada"
+                    (change)="onColoniaChange()"
+                    [disabled]="!ciudadSeleccionada"
+                    class="select-colonia">
+                <option value="">{{ciudadSeleccionada ? 'Selecciona una colonia' : 'Primero selecciona una ciudad'}}</option>
+                <option *ngFor="let colonia of coloniasDisponibles" [value]="colonia">{{colonia}}</option>
+            </select>
+            <div class="box-elements" *ngIf="nuevaPromo.colonias.length > 0">
                 <div class="box-container">
-                    <div *ngFor="let c of nuevaPromo.ciudades; let i = index" class="element">
+                    <div *ngFor="let c of nuevaPromo.colonias; let i = index" class="element">
                     <div class="content">
                         <p>{{c}}</p>
-                        <span class="button-sim" (click)="eliminarCiudad(i)">
+                        <span class="button-sim" (click)="eliminarColonia(i)">
                             <span class="x1"></span>
                             <span class="x2"></span>
                         </span>
