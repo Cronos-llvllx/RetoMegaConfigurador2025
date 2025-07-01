@@ -1,0 +1,61 @@
+<h1>Administrador de Paquetes de Servicios</h1>
+
+<div class="formulario-container">
+   
+    <div class="formulario">
+      <div class="campo">
+        <label>Nombre del Paquete:</label>
+        <input [(ngModel)]="nuevoPaquete.nombre" placeholder="Ej. Paquete Plus" />
+      </div>
+  
+      <div class="campo">
+        <label>Servicios Incluidos:</label>
+        <input #servicioInput (keydown.enter)="agregarServicio(servicioInput.value); servicioInput.value=''" placeholder="Escribe un servicio y presiona Enter" />
+        
+        <div class="box-elements">
+          <div class="box-container">
+            <div *ngFor="let s of nuevoPaquete.servicios; let i = index" class="element">
+              <div class="content">
+                <p>{{s}}</p>
+                <span class="button-sim" (click)="eliminarServicio(i)">
+                  <span class="x1"></span><span class="x2"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="campo">
+        <label>Precio Mensual:</label>
+        <input [(ngModel)]="nuevoPaquete.precio" type="number" placeholder="$" />
+      </div>
+  
+      
+  
+      <button (click)="registrarPaquete()">Registrar Paquete</button>
+    </div>
+  </div>
+  
+  <div class="table-container">
+    <h1>Paquetes Registrados</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th><th>Precio</th><th>Servicios</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let paquete of paquetes; let i = index">
+          <td>{{ paquete.nombre }}</td>
+          <td>${{ paquete.precio }}</td>
+          <td>{{ paquete.servicios.join(', ') }}</td>
+          <td>
+            <button (click)="editarPaquete(i)">✏️</button>
+            <button (click)="eliminarPaquete(i)">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
