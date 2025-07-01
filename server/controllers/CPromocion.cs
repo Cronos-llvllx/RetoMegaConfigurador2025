@@ -142,6 +142,9 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
   {
     try
     {
+      if (!ModelState.IsValid)
+        throw new InvalidDataException("Modelo recibido inválido.");
+
       var dbPromo = await _repo.ObtenerPorIdAsync(idPromocion)
         ?? throw new NullReferenceException($"No existe una promoción con el id {idPromocion}");
 
