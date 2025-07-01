@@ -7,12 +7,13 @@ namespace megaapi.controllers;
 /// <param name="repoPromocion">Inyección de dependencia del repositorio.</param>
 [ApiController]
 [Route("api/[controller]")]
-public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionCiudad, IPromocionColonia repoPromocionColonia, IPromocionPaquete repoPromocionPaquete) : ControllerBase
+public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionCiudad, IPromocionColonia repoPromocionColonia, IPromocionPaquete repoPromocionPaquete, IPromocionContrato repoPromocionContrato) : ControllerBase
 {
   private readonly IPromocion _repo = repoPromocion;
   private readonly IPromocionCiudad _repoPromocionCiudad = repoPromocionCiudad;
   private readonly IPromocionColonia _repoPromocionColonia = repoPromocionColonia;
   private readonly IPromocionPaquete _repoPromocionPaquete = repoPromocionPaquete;
+  private readonly IPromocionContrato _repoPromocionContrato = repoPromocionContrato;
 
   // ** Definir endpoints...
   [HttpGet("")]
@@ -212,7 +213,7 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
 
           await _repoPromocionPaquete.CrearAsync(promoCol);
         }
-    
+
       }
 
       return Ok(dbPromo);
@@ -228,6 +229,54 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
     catch (Exception ex)
     {
       return StatusCode(500, ex.Message);
+    }
+  }
+
+  [HttpDelete("eliminar/{idPromocion}")]
+  public async Task<IActionResult> EliminarPromocion(int idPromocion)
+  {
+    try
+    {
+      var dbPromo = await _repo.ObtenerPorIdAsync(idPromocion)
+        ?? throw new NullReferenceException($"No se encontró la promoción con id {idPromocion}");
+
+      // Revisa relaciones con contratos.
+      if (dbPromo.Tipo == 1)
+      {
+        var contApp = await _repoPromocionContrato.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
+
+        if (contApp.Any())
+          throw new UnauthorizedAccessException("No se puede borrar esta promoción porque ya tiene contratos ligados");
+      }
+      else
+      {
+        // Elimina las relaciones...
+        var colPromo = await _repoPromocionColonia.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
+        var ciuPromo = await _repoPromocionCiudad.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
+        var paqPromo = await _repoPromocionPaquete.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
+
+        foreach (var col in colPromo)
+          await _repoPromocionColonia.EliminarAsync(col);
+
+        foreach (var ciu in ciuPromo)
+          await _repoPromocionCiudad.EliminarAsync(ciu);
+
+        foreach (var paq in paqPromo)
+          await _repoPromocionPaquete.EliminarAsync(paq);
+
+        // Elimina el registro.
+        await _repo.EliminarAsync(dbPromo);
+      }
+
+      return Ok();
+    }
+    catch (NullReferenceException ex)
+    {
+      return NotFound(ex.Message);
+    }
+    catch (Exception ex)
+    {
+      return StatusCode(500, ex);
     }
   }
 }
