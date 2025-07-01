@@ -9,22 +9,43 @@
       </div>
 
       <div class="campo">
-        <label>Servicios Incluidos:</label>
-        <input #servicioInput (keydown.enter)="agregarServicio(servicioInput.value); servicioInput.value=''" placeholder="Escribe un servicio y presiona Enter" />
+        <label>Alcance:</label>
+        <div class="alcance-checkboxes">
+            <label>
+                <input type="checkbox" [checked]="nuevoPaquete.alcance === 'Residencial'"
+                        (change)="seleccionarAlcance('Residencial')">
+                        Residencial
+            </label>
+            <label>
+                <input type="checkbox" [checked]="nuevoPaquete.alcance === 'Empresarial'"
+                        (change)="seleccionarAlcance('Empresarial')">
+                        Empresarial
+            </label>
+        </div>
+      </div>
 
-        <div class="box-elements">
+      <div class="campo">
+        <label>Servicios Incluidos:</label>
+        <select [(ngModel)]="servicioSeleccionado" (change)="agregarServicio()" class="select-servicio">
+          <option value="">Selecciona un servicio</option>
+          <option *ngFor="let servicio of serviciosDisponibles" [value]="servicio">{{ servicio }}</option>
+        </select>
+      
+        <div class="box-elements" *ngIf="nuevoPaquete.servicios.length > 0">
           <div class="box-container">
             <div *ngFor="let s of nuevoPaquete.servicios; let i = index" class="element">
               <div class="content">
-                <p>{{s}}</p>
+                <p>{{ s }}</p>
                 <span class="button-sim" (click)="eliminarServicio(i)">
-                  <span class="x1"></span><span class="x2"></span>
+                  <span class="x1"></span>
+                  <span class="x2"></span>
                 </span>
               </div>
             </div>
           </div>
         </div>
       </div>
+      
 
       <div class="campo">
         <label>Precio Mensual:</label>
@@ -42,14 +63,15 @@
     <table>
       <thead>
         <tr>
-          <th>Nombre</th><th>Precio</th><th>Servicios</th><th>Acciones</th>
+          <th>Nombre</th><th>Alcance</th><th>Servicios</th><th>Precio</th><th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let paquete of paquetes; let i = index">
           <td>{{ paquete.nombre }}</td>
-          <td>${{ paquete.precio }}</td>
+          <td>{{ paquete.alcance }}</td>
           <td>{{ paquete.servicios.join(', ') }}</td>
+          <td>${{ paquete.precio }}</td>
           <td>
             <button (click)="editarPaquete(i)">✏️</button>
             <button (click)="eliminarPaquete(i)">🗑️</button>
