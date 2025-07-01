@@ -1,0 +1,82 @@
+ * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Estilos para el logo */
+.navbar-logo img {
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+/* Animación: El logo se encoge ligeramente al pasar el mouse */
+.navbar-logo img:hover {
+  transform: scale(0.95);
+}
+
+/* Estilos para la lista de enlaces */
+.navbar-links {
+  list-style: none; /* Elimina los puntos de la lista */
+  margin: 0;
+  padding: 0;
+  display: flex; /* Alinea los ítems de la lista en una fila */
+  gap: 30px; /* Espaciado entre los botones */
+}
+
+/* Estilos para cada ítem de la lista (el <li>) */
+.navbar-links li {
+  position: relative; /* Necesario para la animación del subrayado */
+}
+
+/* Estilos para los enlaces (los botones) */
+.navbar-links a {
+  text-decoration: none; /* Elimina el subrayado por defecto */
+  color: #555; /* Color de texto por defecto */
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 5px 0; /* Espaciado interno para el enlace */
+  transition: color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+/* Animación: Cambia el color del texto al pasar el cursor */
+.navbar-links a:hover {
+  color: #1a73e8; /* Color azul al pasar el cursor */
+}
+
+/* Animación: El subrayado inferior para la ubicación activa */
+.navbar-links a.active-link {
+  color: #1a73e8; /* Color azul del texto para el enlace activo */
+  position: relative; /* Asegura que el pseudo-elemento se posicione correctamente */
+}
+
+/* Creación del subrayado animado para la ubicación activa */
+.navbar-links a.active-link::after {
+  content: ''; /* Contenido del pseudo-elemento */
+  position: absolute;
+  bottom: -5px; /* Posición debajo del texto */
+  left: 0;
+  width: 100%; /* Cubre el ancho del enlace */
+  height: 3px; /* Altura del subrayado */
+  background-color: #1a73e8; /* Color del subrayado */
+  animation: expand-underline 0.3s ease-out forwards; /* Aplica la animación */
+}
+
+/* Definición de la animación de expansión */
+@keyframes expand-underline {
+  from {
+    transform: scaleX(0); /* Empieza sin ancho */
+  }
+  to {
+    transform: scaleX(1); /* Termina con el ancho completo */
+  }
+}

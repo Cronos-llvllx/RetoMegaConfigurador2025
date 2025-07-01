@@ -1,9 +1,12 @@
 namespace megaapi.models;
-
-public class Paquete()
+public class Paquete
 {
-  public int Idpaquete { set; get; }
-  public string Nombre { set; get; } = null!;
-  public decimal PrecioBase { set; get; }
-  public byte Tipo { set; get; }
+    public int Idpaquete { get; set; }
+    public string Nombre { get; set; } = null!;
+    public decimal PrecioBase { get; set; }
+    public byte Tipo { get; set; }
+    // Relaciones
+    public virtual ICollection<ContratoPaquete> Contratos { get; set; } = new List<ContratoPaquete>();
+    public virtual ICollection<PaqueteServicio> Servicios { get; set; } = new List<PaqueteServicio>();
+    public virtual ICollection<PromocionPaquete> Promociones { get; set; } = new List<PromocionPaquete>();
 }

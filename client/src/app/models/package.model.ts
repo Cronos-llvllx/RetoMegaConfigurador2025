@@ -1,3 +1,4 @@
+
 import Generic from "./generic.model";
 import PackagePromotion from "./packagepromotion.model";
 import Service from "./service.model";

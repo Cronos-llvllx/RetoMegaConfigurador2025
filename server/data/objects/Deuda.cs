@@ -25,6 +25,7 @@ public static class Deuda
     else if (contrato.FechaContr > desdeFecha)
       throw new InvalidDataException("La fecha origen no debe ser mayor a la fecha de contratación.");
 
+
     DateTime fechaContratacion = contrato.FechaContr; // Fecha de contratación.
     int idCiudadSuscriptor = contrato.Suscriptor.Colonia.Idciudad; // Ciudad del suscriptor.
     int idColoniaSuscriptor = contrato.Suscriptor.Idcolonia; // Colonia del suscriptor.
@@ -48,7 +49,7 @@ public static class Deuda
 
     // Promociones que se aplican por paquete (por colonia o por ciudad a la vez).
     var promocionesPorPaquete = FiltrarPromocionesPorPaquete(
-      fechaContratacion,
+      contrato,
       idCiudadSuscriptor,
       idColoniaSuscriptor,
       paquetePromos,
@@ -213,9 +214,10 @@ public static class Deuda
       // Asigna los paquetes y promociones aplicables durante el periodo.
       contrato.Paquetes.ToList().ForEach(revisionPaqCon =>
       {
-        bool dentroDePeriodo = revisionPaqCon.FechaAdicion <= desdePeriodo;
+        // Agregado durante o después de la fecha de inicio del periodo.
+        bool dentroDePeriodo = revisionPaqCon.FechaAdicion < hastaPeriodo;
         bool noCancelado = revisionPaqCon.FechaRetiro == null
-          || revisionPaqCon.FechaRetiro < hastaPeriodo;
+          || revisionPaqCon.FechaRetiro > hastaPeriodo;
 
         // El paquete entra en este periodo.
         if (dentroDePeriodo && noCancelado)
@@ -369,23 +371,26 @@ public static class Deuda
   /// Filtra las promociones aplicados por paquete y, si aplica, por ciudad o colonia (promociones
   /// compuestas).
   /// </summary>
-  /// <param name="fechaContratacion">La fecha de contratación.</param>
+  /// <param name="contrato">El contrato.</param>
   /// <param name="idCiudadSuscriptor">El id de la ciudad donde el suscriptor vive.</param>
   /// <param name="idColoniaSuscriptor">El id de la colonia donde el suscriptor vive.</param>
   /// <param name="paquetePromos">La lista de promociones que se filtrará. Esta lista ya debe
   /// estar filtrada para los paquetes que conforman el contrato del cliente.</param>
   /// <param name="coloniaPromos">La lista de promociones por colonia que se comparará.</param>
   /// <param name="ciudadPromos">La lista de promociones por ciudad que se comparará.</param>
-  public static List<PromocionPaquete> FiltrarPromocionesPorPaquete(DateTime fechaContratacion, int idCiudadSuscriptor, int idColoniaSuscriptor, List<PromocionPaquete> paquetePromos, List<PromocionCiudad> ciudadPromos, List<PromocionColonia> coloniaPromos)
+  public static List<PromocionPaquete> FiltrarPromocionesPorPaquete(ContratoExt contrato, int idCiudadSuscriptor, int idColoniaSuscriptor, List<PromocionPaquete> paquetePromos, List<PromocionCiudad> ciudadPromos, List<PromocionColonia> coloniaPromos)
   {
     List<PromocionPaquete> promocionesPorPaquete = [];
 
     paquetePromos.ForEach(promo =>
     {
+      var paqueteExiste = contrato.Paquetes.ToList().Find(p => p.Idpaquete == promo.Idpaquete);
+
       // Alcance.
-      bool valid = (promo.Promocion.Alcance == 2 || promo.Promocion.FechaRegistro < fechaContratacion)
+      bool valid = paqueteExiste != null
+       && (promo.Promocion.Alcance == 2 || promo.Promocion.FechaRegistro < paqueteExiste.FechaAdicion)
         // Vigencia.
-        && promo.Promocion.Vigencia > fechaContratacion
+        && promo.Promocion.Vigencia >= paqueteExiste.FechaAdicion
         // No existe la promoción por ciudades o existe una promoción específica.
         && (!ciudadPromos.Exists(ciuPromo => ciuPromo.Idpromocion == promo.Idpromocion)
           || ciudadPromos.Exists(ciuPromo => ciuPromo.Idpromocion == promo.Idpromocion && ciuPromo.Idciudad == idCiudadSuscriptor))

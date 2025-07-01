@@ -1,3 +1,4 @@
+
 import Generic from "./generic.model";
 
 class Service extends Generic {

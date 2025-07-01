@@ -1,4 +1,5 @@
 using megaapi.models;
+using System.Collections.Generic;
 
 namespace megaapi.data.objects;
 
@@ -7,6 +8,8 @@ namespace megaapi.data.objects;
 /// </summary>
 public class ContratoExt : Contrato
 {
-  /// <summary>Lista de paquetes ligados al contrato.</summary>
-  public ICollection<PaqueteContratoExt> Paquetes { get; set; } = null!;
+    /// <summary>Lista de paquetes ligados al contrato.</summary>
+    // CORREGIDO: Se añade 'new' para indicar que esta propiedad oculta intencionadamente a la de la clase base.
+    // También se corrige el nombre de 'Paquete' a 'Paquetes' para ser consistente.
+    public new ICollection<PaqueteContratoExt> Paquetes { get; set; } = new List<PaqueteContratoExt>();
 }

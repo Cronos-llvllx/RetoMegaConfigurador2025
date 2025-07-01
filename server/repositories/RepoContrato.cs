@@ -2,6 +2,9 @@ using megaapi.data;
 using megaapi.interfaces;
 using megaapi.models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace megaapi.repositories;
 
@@ -43,7 +46,8 @@ public class RepoContrato(MEGADbContext dbContext) : IContrato
             Nombre = contrato.Suscriptor.Colonia.Ciudad.Nombre
           }
         }
-      }
+      },
+      Paquetes = contrato.Paquetes
     };
   }
 
@@ -54,27 +58,31 @@ public class RepoContrato(MEGADbContext dbContext) : IContrato
 
   public async Task<IEnumerable<Contrato>> ObtenerTodoAsync()
   {
-    // Incluye toda la información del suscriptor ligado.
-    var auxContratos = await _dbContext.Contrato
-      .Include(con => con.Suscriptor)
-      .Include(con => con.Suscriptor.Colonia)
-      .Include(con => con.Suscriptor.Colonia.Ciudad)
-      .ToListAsync();
+    // --- CORREGIDO AQUÍ: Se usa 'Contratos' en plural ---
+    var auxContratos = await _dbContext.Contratos
+        .Include(con => con.Suscriptor)
+            .ThenInclude(s => s.Colonia)
+                .ThenInclude(c => c.Ciudad)
+        .Include(con => con.Paquetes)
+            .ThenInclude(cp => cp.Paquete)
+        .AsNoTracking()
+        .ToListAsync();
 
-    // Refactoriza la información para evitar bucles infinitos.
     return auxContratos.Select(ReducirContrato);
   }
 
   public async Task<Contrato?> ObtenerPorIdAsync(int id)
   {
-    // Incluye toda la información del suscriptor ligado.
-    var auxContrato = await _dbContext.Contrato
-      .Include(con => con.Suscriptor)
-      .Include(con => con.Suscriptor.Colonia)
-      .Include(con => con.Suscriptor.Colonia.Ciudad)
-      .SingleOrDefaultAsync(con => con.Idcontrato == id);
+    // --- CORREGIDO AQUÍ: Se usa 'Contratos' en plural ---
+    var auxContrato = await _dbContext.Contratos
+        .Include(con => con.Suscriptor)
+            .ThenInclude(s => s.Colonia)
+                .ThenInclude(c => c.Ciudad)
+        .Include(con => con.Paquetes)
+            .ThenInclude(cp => cp.Paquete)
+        .AsNoTracking()
+        .SingleOrDefaultAsync(con => con.Idcontrato == id);
 
-    // Refactoriza la información para evitar bucles infinitos.
     if (auxContrato != null)
       auxContrato = ReducirContrato(auxContrato);
 

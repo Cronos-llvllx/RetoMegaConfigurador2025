@@ -1,11 +1,9 @@
 namespace megaapi.models;
-
-public class PromocionCiudad()
+public class PromocionCiudad
 {
-  public int Idpromocion { set; get; }
-  public int Idciudad { set; get; }
-
-  // Relaciones.
-  public Promocion Promocion { set; get; } = null!;
-  public Ciudad Ciudad { set; get; } = null!;
+    public int Idpromocion { get; set; }
+    public int Idciudad { get; set; }
+    // Relaciones
+    public virtual Promocion Promocion { get; set; } = null!;
+    public virtual Ciudad Ciudad { get; set; } = null!;
 }

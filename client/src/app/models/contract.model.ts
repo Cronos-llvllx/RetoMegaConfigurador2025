@@ -1,8 +1,9 @@
-import PackageAdition from "./packageadition.iterface";
-import ContractPromotion from "./contractpromotion.model";
-import Generic from "./generic.model";
 import Subscriptor from "./subscriptor.model";
+import Generic from "./generic.model";
+import ContratoPaquete from "./contratopaquete.model"; // Se importa el nuevo modelo
+import Promotion from "./promotion.model";
 
+/** Clase para contratos. */
 class Contract extends Generic {
   /**
    * @param id El número del contrato.
@@ -16,61 +17,33 @@ class Contract extends Generic {
   constructor(
     id: number,
     contrDate: Date,
+    private _endDate: Date | null,
     private _basePrice: number,
     private _subscriptor: Subscriptor,
-    private _promotions: ContractPromotion[],
-    private _contractPackages: PackageAdition[],
-    private _endDate?: Date
+    private _promotions: Promotion[],
+    private _contractPackages: ContratoPaquete[] // Se añade la propiedad
   ) { super(id, contrDate) }
 
-  /** Obtiene la fecha de finalización del contrato. */
-  getEndDate() {
-    return this._endDate;
-  }
-
-  /** Asigna una fecha de finalización para el contrato. */
-  setEndDate(endDate: Date) {
-    this._endDate = endDate;
-  }
-
-  /** Obtiene los paquetes de adición del contrato. */
-  getContractPackages() {
+  // --- MÉTODO AÑADIDO ---
+  // Permite acceder a la lista de paquetes desde el componente.
+  getPaquetes(): ContratoPaquete[] {
     return this._contractPackages;
   }
 
-  /** Obtiene el precio base de contratación. */
+  getEndDate(): Date | null {
+    return this._endDate;
+  }
+
   getBasePrice() {
     return this._basePrice;
   }
 
-  /** Obtiene la lista de promociones aplicadas al precio base de contratación. */
+  getSubscriptor() {
+    return this._subscriptor;
+  }
+
   getPromotions() {
     return this._promotions;
-  }
-
-  /** Obtiene el subscriptor del contrato. */
-  getSubscriptor() {
-    return this._subscriptor
-  }
-
-  /** Asigna los paquetes de adición al contrato. */
-  setContractPackages(packages: PackageAdition[]) {
-    this._contractPackages = packages;
-  }
-
-  /** Asigna el precio de contratación. */
-  setContrPrice(contrPrice: number) {
-    this._basePrice = contrPrice;
-  }
-
-  /** Asigna una lista de promociones aplicables al precio base de contratación. */
-  setPromotions(promotions: ContractPromotion[]) {
-    this._promotions = promotions;
-  }
-
-  /** Asigna un subscriptor al contrato. */
-  setSubscriptor(subscriptor: Subscriptor) {
-    this._subscriptor = subscriptor;
   }
 }
 

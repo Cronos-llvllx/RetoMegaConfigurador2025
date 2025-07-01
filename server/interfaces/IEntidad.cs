@@ -1,4 +1,5 @@
 namespace megaapi.interfaces;
+using megaapi.models;
 
 /// <summary>
 /// Interfaz genérica para las interfaces de entidades (llaves de un solo atributo).

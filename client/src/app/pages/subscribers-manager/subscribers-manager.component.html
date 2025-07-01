@@ -1,0 +1,138 @@
+<div class="main-container">
+  <header class="header-container">
+    <h1>Gestor de Suscriptores</h1>
+  </header>
+
+  <!-- Contenedor para la búsqueda -->
+  <section class="search-container">
+    <div class="search-input-group">
+      <label for="contractNumber">Número de contrato</label>
+      <input
+        id="contractNumber"
+        type="text"
+        [(ngModel)]="contractNumber"
+        placeholder="e.g., 1"
+        (keyup.enter)="searchContract()"
+        [disabled]="isLoading"
+      />
+      <button (click)="searchContract()" [disabled]="isLoading">
+        {{ isLoading ? 'Buscando...' : 'Buscar' }}
+      </button>
+    </div>
+  </section>
+
+  <!-- Mensajes de Carga y Error -->
+  <div *ngIf="isLoading" class="loading-message">
+    <p>Buscando información del contrato...</p>
+  </div>
+  <div *ngIf="errorMessage && !isLoading" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Contenedor de Tarjetas de Resultados -->
+  <section *ngIf="subscriberInfo && !isLoading" class="info-cards-container" >
+
+    <!-- Tarjeta de Información del Suscriptor -->
+    <div class="card subscriber-info-card">
+      <h2>Información del Suscriptor</h2>
+      <div class="info-grid">
+        <p>
+          <strong>ID Suscriptor:</strong>
+
+          <span>{{ subscriberInfo.getSubscriptor().getId() }}</span>
+        </p>
+        <p>
+          <strong>Nombre:</strong>
+          <span>{{ subscriberInfo.getSubscriptor().getName() }}</span>
+        </p>
+        <p>
+          <strong>Email:</strong>
+          <span>{{ subscriberInfo.getSubscriptor().getEmail() }}</span>
+        </p>
+        <p>
+          <strong>Teléfono:</strong>
+          <span>{{ subscriberInfo.getSubscriptor().getPhone() }}</span>
+        </p>
+        <p>
+          <strong>Tipo de Cliente:</strong>
+          <span class="subscriber-type">{{ getSubscriberTypeName() }}</span>
+        </p>
+        <p>
+          <strong>Ciudad:</strong>
+          <span>{{ subscriberInfo.getSubscriptor().getColonia().getCiudad().getName() }}</span>
+        </p>
+        <p>
+          <strong>Colonia:</strong>
+          <span>{{ subscriberInfo.getSubscriptor().getColonia().getNombre() }}</span>
+        </p>
+      </div>
+    </div>
+
+<!-- Tarjeta para Información del Contrato y Paquetes -->
+<div class="card contract-info-card" *ngIf="subscriberInfo && !isLoading" >
+    <h2>Gestión de Contrato y Paquetes</h2>
+
+    <!-- Información básica del contrato -->
+    <div class="info-grid">
+        <p><strong>Contrato No:</strong> <span>{{ subscriberInfo.getId() }}</span></p>
+        <p><strong>Fecha Contratación:</strong> <span>{{ subscriberInfo.getCreationDate() | date:'dd/MM/yyyy' }}</span></p>
+        <p><strong>Estado:</strong> <span [ngClass]="subscriberInfo.getEndDate() ? 'status-inactive' : 'status-active'">{{ subscriberInfo.getEndDate() ? 'INACTIVO' : 'ACTIVO' }}</span></p>
+    </div>
+
+    <hr>
+
+    <!-- Sección del Paquete Activo -->
+    <div class="package-section">
+        <h3>Paquete Activo</h3>
+        <div *ngIf="activePackage; else noActivePackage">
+            <div class="active-package-details">
+                <span><strong>{{ activePackage.getPaquete().getName() }}</strong> - (Precio: {{ activePackage.getPaquete().getBasePrice() | currency }})</span>
+                <button class="btn-cancel" (click)="cancelPackage(activePackage)">Cancelar Paquete</button>
+            </div>
+            <small>Activado el: {{ activePackage.getFechaAdicion() | date:'dd/MM/yyyy' }}</small>
+        </div>
+        <ng-template #noActivePackage>
+            <p>Este contrato no tiene ningún paquete activo.</p>
+        </ng-template>
+    </div>
+
+    <!-- Sección para Añadir Nuevo Paquete -->
+    <div class="package-section" *ngIf="!activePackage">
+        <h3>Activar Paquete</h3>
+        <div class="package-filter-notice">
+            <small class="filter-info">
+                📋 Mostrando solo paquetes para clientes <strong>{{ getSubscriberTypeName() }}</strong>
+                ({{ availablePackages.length }} disponibles)
+            </small>
+        </div>
+        <div class="add-package-controls" *ngIf="availablePackages.length > 0; else noPackagesAvailable">
+            <select [(ngModel)]="selectedNewPackageId">
+                <option [ngValue]="null" disabled>Seleccione un paquete...</option>
+                <option *ngFor="let pkg of availablePackages" [value]="pkg.getId()">
+                    {{ pkg.getName() }} ({{ pkg.getBasePrice() | currency }}) - {{ getPackageTypeName(pkg.getType()) }}
+                </option>
+            </select>
+            <button (click)="addPackage()" [disabled]="!selectedNewPackageId">Añadir Paquete</button>
+        </div>
+        <ng-template #noPackagesAvailable>
+            <div class="no-packages-message">
+                <p>⚠️ No hay paquetes disponibles para clientes <strong>{{ getSubscriberTypeName() }}</strong>.</p>
+                <small>Los paquetes se filtran automáticamente según el tipo de cliente.</small>
+            </div>
+        </ng-template>
+    </div>
+
+    <!-- Historial de Paquetes Antiguos -->
+    <div class="package-section" *ngIf="oldPackages.length > 0">
+        <details>
+            <summary>Ver Historial de Paquetes ({{ oldPackages.length }})</summary>
+            <ul>
+                <li *ngFor="let oldPkg of oldPackages">
+                    <strong>{{ oldPkg.getPaquete().getName() }}</strong> -
+                    Activado: {{ oldPkg.getFechaAdicion() | date:'shortDate' }} |
+                    Retirado: {{ oldPkg.getFechaRetiro() | date:'shortDate' }}
+                </li>
+            </ul>
+        </details>
+    </div>
+</div>

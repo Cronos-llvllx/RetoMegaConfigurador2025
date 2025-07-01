@@ -1,7 +1,7 @@
 import Global from "../shared/objects/global.object";
 import Generic from "./generic.model";
 
-/** Clase Promoción (plantilla). No crees instancias de esta clase: 
+/** Clase Promoción (plantilla). No crees instancias de esta clase:
  * Para las promociones de paquetes, utiliza PackagePromotion.
  * Para las promociones de contratación, utiliza ContractPromotion.*/
 class Promotion extends Generic {

@@ -1,10 +1,9 @@
 namespace megaapi.models;
-
-public class PaqueteServicio()
+public class PaqueteServicio
 {
-  public int Idpaquete { set; get; }
-  public int Idservicio { set; get; }
-  // Relaciones.
-  public Paquete Paquete { set; get; } = null!;
-  public Servicio Servicio { set; get; } = null!;
+    public int Idpaquete { get; set; }
+    public int Idservicio { get; set; }
+    // Relaciones
+    public virtual Paquete Paquete { get; set; } = null!;
+    public virtual Servicio Servicio { get; set; } = null!;
 }

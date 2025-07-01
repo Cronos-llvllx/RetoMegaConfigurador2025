@@ -1,4 +1,5 @@
 import Generic from "./generic.model";
+import Colony from "./colony.model"; // Se importa el modelo de Colonia
 
 /** Clase para suscriptores. */
 class Subscriptor extends Generic {
@@ -14,14 +15,21 @@ class Subscriptor extends Generic {
    * @param _email El email del suscriptor.
    * @param _phone El teléfono del suscriptor.
    * @param _type El tipo de suscriptor (Subscriptor.TYPE_...).
+   * @param _colony La colonia del suscriptor. // Parámetro añadido
    */
   constructor(
     id: number,
     private _name: string,
     private _email: string,
     private _phone: string,
-    private _type: number
+    private _type: number,
+    private _colony: Colony // Propiedad añadida
   ) { super(id) }
+
+  /** Obtiene la colonia del suscriptor. */ // Método añadido
+  getColonia() {
+    return this._colony;
+  }
 
   /** Obtiene el correo electrónico del suscriptor. */
   getEmail() {
@@ -41,6 +49,11 @@ class Subscriptor extends Generic {
   /** Obtiene el tipo de suscriptor. */
   getType() {
     return this._type;
+  }
+
+  /** Asigna la colonia al suscriptor. */ // Método añadido
+  setColonia(colony: Colony) {
+    this._colony = colony;
   }
 
   /** Asigna un correo electrónico al suscriptor. */

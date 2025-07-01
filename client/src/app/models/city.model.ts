@@ -1,3 +1,4 @@
+
 import Colony from "./colony.model";
 import Generic from "./generic.model";
 

@@ -11,6 +11,8 @@ import Package from '../models/package.model';
 import Service from '../models/service.model';
 import Promotion from '../models/promotion.model';
 import PackagePromotion from '../models/packagepromotion.model';
+import Colony from '../models/colony.model';
+import City from '../models/city.model';
 
 /** Servicio de la API para calcular deuda de contratos. */
 @Injectable({
@@ -29,12 +31,14 @@ export class APIDebtCalulatorService {
           res.suscriptor.nombre,
           res.suscriptor.email,
           res.suscriptor.telefono,
-          res.suscriptor.tipo
+          res.suscriptor.tipo,
+          new Colony(0, '', new City(0, '', []))
         );
 
         return new Contract(
           res.idcontrato,
           new Date(res.fechaContr.split('T')[0]),
+          null,
           res.precioBase,
           auxSubscriptor,
           [],
