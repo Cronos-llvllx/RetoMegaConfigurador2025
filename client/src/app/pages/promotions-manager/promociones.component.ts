@@ -45,6 +45,12 @@ export class PromocionesComponent {
 
   editIndex: number | null = null;
 
+  // Variables para los selectores
+  ciudadSeleccionada: string = '';
+  coloniaSeleccionada: string = '';
+  ciudadesDisponibles: string[] = [];
+  coloniasDisponibles: string[] = [];
+
  /**
    * Registra una nueva promoción o actualiza una existente si `editIndex` no es null.
    * Luego reinicia el formulario.
@@ -132,6 +138,29 @@ export class PromocionesComponent {
   // Elimina una ciudad de la lista según su índice.
   eliminarCiudad(index: number) {
     this.nuevaPromo.ciudades.splice(index, 1);
+  }
+
+  // Función que se ejecuta al cambiar la ciudad seleccionada
+  onCiudadChange() {
+    if (this.ciudadSeleccionada) {
+      // Aquí se puede simular la carga de colonias, por ahora datos ficticios
+      this.coloniasDisponibles = [
+        `${this.ciudadSeleccionada} - Colonia 1`,
+        `${this.ciudadSeleccionada} - Colonia 2`,
+        `${this.ciudadSeleccionada} - Colonia 3`
+      ];
+    } else {
+      this.coloniasDisponibles = [];
+    }
+    this.nuevaPromo.colonias = [];
+  }
+
+  // Función que se ejecuta al cambiar la(s) colonia(s) seleccionada(s)
+  onColoniaChange() {
+    if (this.coloniaSeleccionada) {
+      this.agregarColonia(this.coloniaSeleccionada);
+      this.coloniaSeleccionada = '';
+    }
   }
 
 }

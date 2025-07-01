@@ -1,0 +1,149 @@
+.formulario-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    margin-bottom: 1.5rem;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .formulario input,
+  .formulario button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+  }
+
+  .campo {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .campo label {
+    width: 120px;
+    font-weight: bold;
+    color: black;
+    white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: .5rem;
+}
+
+.campo input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+  button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Arial', sans-serif;
+    font-size: medium;
+  }
+
+  .table-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border: 1px solid #ccc;
+  }
+
+  th {
+    padding: 8px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+
+  td:last-child {
+    white-space: nowrap;
+  }
+
+  button {
+    margin-right: 0.5rem;
+  }
+
+  /* Box Elements */
+  .box-elements {
+    margin-top: 0.5rem;
+  }
+
+  .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .element {
+    background-color: #007bff;
+    color: white;
+    border-radius: 1rem;
+    padding: 0.3rem 0.8rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .button-sim {
+    display: flex;
+    cursor: pointer;
+    position: relative;
+    width: 14px;
+    height: 14px;
+  }
+
+  .x1, .x2 {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    height: 2px;
+    width: 14px;
+    background: white;
+  }
+
+  .x1 {
+    transform: rotate(45deg);
+  }
+
+  .x2 {
+    transform: rotate(-45deg);
+  }

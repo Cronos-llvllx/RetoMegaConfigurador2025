@@ -28,7 +28,7 @@ export const routes: Routes = [
       {
         path: 'administrador-paquetes',
         title: 'Administrador de Paquetes',
-        loadComponent: () => import('./pages/debt-calculator/debt-calculator.component').then(c => c.DebtCalculator) // Placeholder
+        loadComponent: () => import('./pages/packages-services-manager/paquetes.component').then(c => c.PaquetesComponent)
       },
       {
         path: 'gestor-suscriptores',
