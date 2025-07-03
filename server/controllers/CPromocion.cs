@@ -19,7 +19,47 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
   [HttpGet("")]
   public async Task<IActionResult> ObtenerPromociones()
   {
-    return Ok(await _repo.ObtenerTodoAsync());
+    var promociones = await _repo.ObtenerTodoAsync();
+    
+    // Transformar para evitar ciclos de referencia y obtener nombres
+    var promocionesConNombres = promociones.Select(p => new {
+      idpromocion = p.Idpromocion,
+      alcance = p.Alcance,
+      nombre = p.Nombre,
+      duracion = p.Duracion,
+      fechaRegistro = p.FechaRegistro,
+      precioPorcen = p.PrecioPorcen,
+      tipo = p.Tipo,
+      vigencia = p.Vigencia,
+      ciudades = p.Ciudades?.Select(pc => new {
+        idpromocion = pc.Idpromocion,
+        idciudad = pc.Idciudad,
+        ciudad = pc.Ciudad != null ? new {
+          idciudad = pc.Ciudad.Idciudad,
+          nombre = pc.Ciudad.Nombre
+        } : null
+      }).ToArray() ?? new object[0],
+      colonias = p.Colonias?.Select(pc => new {
+        idpromocion = pc.Idpromocion,
+        idcolonia = pc.Idcolonia,
+        colonia = pc.Colonia != null ? new {
+          idcolonia = pc.Colonia.Idcolonia,
+          nombre = pc.Colonia.Nombre
+        } : null
+      }).ToArray() ?? new object[0],
+      paquetes = p.Paquetes?.Select(pp => new {
+        idpromocion = pp.Idpromocion,
+        idpaquete = pp.Idpaquete,
+        paquete = pp.Paquete != null ? new {
+          idpaquete = pp.Paquete.Idpaquete,
+          nombre = pp.Paquete.Nombre,
+          precioBase = pp.Paquete.PrecioBase,
+          tipo = pp.Paquete.Tipo
+        } : null
+      }).ToArray() ?? new object[0]
+    });
+    
+    return Ok(promocionesConNombres);
   }
 
   [HttpGet("{id}")]
@@ -61,7 +101,7 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
         throw new InvalidDataException("Las promociones de contratación no pueden tener relaciones con ciudades, colonias ni paquetes.");
       else if (promo.Tipo == 2 && promo.Ciudaddes.Count > 0 && promo.Colonias.Count > 0)
         throw new InvalidDataException("No pueden haber colonias y ciudades a la vez");
-      else if (promo.Tipo == 2 && promo.Ciudaddes.Count == 0 && promo.Colonias.Count < 0 && promo.Paquetes.Count < 0)
+      else if (promo.Tipo == 2 && promo.Ciudaddes.Count == 0 && promo.Colonias.Count == 0 && promo.Paquetes.Count == 0)
         throw new InvalidDataException("La promocion debe aplicar para uno al menos: Ciudades, Colonias, Paquetes");
 
       // Crea una promoción.
@@ -72,6 +112,7 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
         Colonias = [],
         Contratos = [],
         Duracion = promo.Duracion,
+        FechaRegistro = DateTime.Now, // Asignar fecha actual de registro
         Nombre = promo.Nombre,
         PrecioPorcen = promo.PrecioPorcen,
         Tipo = promo.Tipo,
@@ -243,17 +284,20 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
       var dbPromo = await _repo.ObtenerPorIdAsync(idPromocion)
         ?? throw new NullReferenceException($"No se encontró la promoción con id {idPromocion}");
 
-      // Revisa relaciones con contratos.
+      // Revisa relaciones con contratos para promociones tipo 1.
       if (dbPromo.Tipo == 1)
       {
         var contApp = await _repoPromocionContrato.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
 
         if (contApp.Any())
           throw new UnauthorizedAccessException("No se puede borrar esta promoción porque ya tiene contratos ligados");
+        
+        // Si no hay contratos ligados, eliminar la promoción tipo 1
+        await _repo.EliminarAsync(dbPromo);
       }
       else
       {
-        // Elimina las relaciones...
+        // Para promociones tipo 2: Elimina las relaciones primero...
         var colPromo = await _repoPromocionColonia.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
         var ciuPromo = await _repoPromocionCiudad.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
         var paqPromo = await _repoPromocionPaquete.ObtenerPorReferencia(dbPromo.Idpromocion, "Idpromocion");
@@ -267,7 +311,7 @@ public class Promocion(IPromocion repoPromocion, IPromocionCiudad repoPromocionC
         foreach (var paq in paqPromo)
           await _repoPromocionPaquete.EliminarAsync(paq);
 
-        // Elimina el registro.
+        // Luego elimina la promoción tipo 2
         await _repo.EliminarAsync(dbPromo);
       }
 

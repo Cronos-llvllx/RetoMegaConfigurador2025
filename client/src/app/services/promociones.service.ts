@@ -110,6 +110,8 @@ export class PromocionesService {
    * @returns Observable con la promoción creada
    */
   crear(promocion: CrearPromocion): Observable<Promocion> {
+    console.log('🚀 Datos enviados al backend:', JSON.stringify(promocion, null, 2));
+    console.log('🌐 URL completa:', `${this.apiUrl}/registro`);
     return this.http.post<Promocion>(`${this.apiUrl}/registro`, promocion);
   }
 

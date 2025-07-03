@@ -15,8 +15,11 @@ public class RepoPromocion(MEGADbContext dbContext) : IPromocion
     // CORREGIDO: Se usa 'Promociones' en plural
     return await _dbContext.Promociones
       .Include(p => p.Ciudades)
+        .ThenInclude(pc => pc.Ciudad)
       .Include(p => p.Colonias)
+        .ThenInclude(pc => pc.Colonia)
       .Include(p => p.Paquetes)
+        .ThenInclude(pp => pp.Paquete)
       .ToListAsync();
   }
   public async Task<Promocion?> ObtenerPorIdAsync(int id)
@@ -24,10 +27,12 @@ public class RepoPromocion(MEGADbContext dbContext) : IPromocion
     // CORREGIDO: Se usa 'Promociones' en plural
     return await _dbContext.Promociones
       .Include(p => p.Ciudades)
+        .ThenInclude(pc => pc.Ciudad)
       .Include(p => p.Colonias)
+        .ThenInclude(pc => pc.Colonia)
       .Include(p => p.Paquetes)
+        .ThenInclude(pp => pp.Paquete)
       .SingleOrDefaultAsync(p => p.Idpromocion == id);
-
   }
   public async Task<Promocion> CrearAsync(Promocion promocion)
   {

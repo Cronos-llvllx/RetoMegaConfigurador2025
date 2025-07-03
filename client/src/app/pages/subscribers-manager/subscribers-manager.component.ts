@@ -50,7 +50,16 @@ export class SubscribersManagerComponent implements OnInit {
   ngOnInit(): void {
     this.paqueteService.getAllPackages().subscribe((packagesData: any[]) => {
       // Se construyen los objetos Paquete correctamente desde la respuesta de la API
-      this.allPackages = packagesData.map(p => new Package(p.idpaquete, p.nombre, p.tipo, new Date(), [], p.precioBase));
+      // Parámetros: id, name, type, aditionDate, services, promotions, basePrice
+      this.allPackages = packagesData.map(p => new Package(
+        p.idpaquete, 
+        p.nombre, 
+        p.tipo, 
+        new Date(), 
+        [], // services
+        [], // promotions
+        p.precioBase // basePrice
+      ));
     });
   }
 
@@ -75,8 +84,16 @@ export class SubscribersManagerComponent implements OnInit {
         const subscriptor = new Subscriptor(subData.idsuscriptor, subData.nombre, subData.email, subData.telefono, subData.tipo, colonia);
 
         const contractPackages = (data.paquetes || []).map((cp: any) => {
-            // Se pasan los 6 argumentos en el orden correcto que el constructor de 'Package' espera.
-            const paquete = new Package(cp.paquete.idpaquete, cp.paquete.nombre, cp.paquete.tipo, new Date(), [], cp.paquete.precioBase);
+            // Corregir el orden de parámetros: id, name, type, aditionDate, services, promotions, basePrice
+            const paquete = new Package(
+              cp.paquete.idpaquete, 
+              cp.paquete.nombre, 
+              cp.paquete.tipo, 
+              new Date(), 
+              [], // services
+              [], // promotions 
+              cp.paquete.precioBase // basePrice (7mo parámetro)
+            );
             return new ContratoPaquete(null, paquete, new Date(cp.fechaAdicion), cp.fechaRetiro ? new Date(cp.fechaRetiro) : null);
         });
 

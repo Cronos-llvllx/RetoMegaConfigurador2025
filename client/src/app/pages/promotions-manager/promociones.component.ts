@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LocationService } from '../../services/location.service';
 import { PromocionesService, Promocion, CrearPromocion } from '../../services/promociones.service';
+import { PaqueteService } from '../../services/paquete.service';
 
 /**
  * Componente para administrar promociones.
@@ -20,7 +21,8 @@ export class PromocionesComponent implements OnInit {
 
   constructor(
     private locationService: LocationService,
-    private promocionesService: PromocionesService
+    private promocionesService: PromocionesService,
+    private paqueteService: PaqueteService
   ) {}
 
 /**
@@ -54,15 +56,18 @@ export class PromocionesComponent implements OnInit {
   // Variables para los selectores
   ciudadSeleccionada: string = '';
   coloniaSeleccionada: string = '';
+  paqueteSeleccionado: string = '';
   ciudadesDisponibles: {id: number, name: string}[] = [];
   coloniasDisponibles: {id: number, name: string}[] = [];
   todasLasColonias: {id: number, name: string, ciudadId: number, ciudadNombre: string}[] = [];
+  paquetesDisponibles: {id: number, name: string, tipo: number}[] = [];
   
-  // Modo de aplicación: 'ciudades' o 'colonias'
+  // Modo de aplicación de UBICACIÓN: 'ciudades' o 'colonias' (paquetes siempre se requieren)
   tipoAplicacion: 'ciudades' | 'colonias' | '' = '';
 
   ngOnInit() {
     this.loadCities();
+    this.loadPaquetes();
     this.cargarPromociones();
   }
 
@@ -130,10 +135,49 @@ export class PromocionesComponent implements OnInit {
     });
   }
 
+  /**
+   * Carga los paquetes desde el backend
+   */
+  loadPaquetes() {
+    this.paqueteService.getPaquetesSimplified().subscribe({
+      next: (paquetes) => {
+        this.paquetesDisponibles = paquetes;
+        console.log('Paquetes cargados:', paquetes);
+      },
+      error: (error) => {
+        console.error('Error al cargar paquetes:', error);
+        // Fallback con datos ficticios
+        this.paquetesDisponibles = [
+          {id: 1, name: 'Paquete Básico', tipo: 1},
+          {id: 2, name: 'Paquete Premium', tipo: 1},
+          {id: 3, name: 'Paquete Empresarial', tipo: 2}
+        ];
+      }
+    });
+  }
+
  /**
    * Registra o actualiza una promoción en el backend
    */
   registrarPromo() {
+    // Validaciones específicas por tipo de promoción
+    if (this.nuevaPromo.tipo === 2) {
+      // Para tipo 2 (Mensualidad): validar que se haya seleccionado al menos una ubicación
+      if (this.nuevaPromo.ciudadesIds.length === 0 && this.nuevaPromo.coloniasIds.length === 0) {
+        alert('Error: Para promociones de mensualidad debes seleccionar al menos una ciudad o colonia.');
+        return;
+      }
+
+      // Información sobre promociones globales vs específicas (solo para tipo 2)
+      if (this.nuevaPromo.paquetesIds.length === 0) {
+        const confirmGlobal = confirm('¿Confirmas crear una promoción GLOBAL (aplicará a todos los paquetes en las ubicaciones seleccionadas)?');
+        if (!confirmGlobal) {
+          return;
+        }
+      }
+    }
+    // Para tipo 1 (Contratación): no se requieren validaciones adicionales
+
     // Preparar datos para enviar al backend
     const promocionData: CrearPromocion = {
       nombre: this.nuevaPromo.nombre,
@@ -146,6 +190,23 @@ export class PromocionesComponent implements OnInit {
       colonias: this.nuevaPromo.coloniasIds,
       paquetes: this.nuevaPromo.paquetesIds
     };
+    
+    console.log('📝 Datos de la promoción preparados:', {
+      nombre: promocionData.nombre,
+      tipo: promocionData.tipo,
+      alcance: promocionData.alcance,
+      precioPorcen: promocionData.precioPorcen,
+      duracion: promocionData.duracion,
+      vigencia: promocionData.vigencia,
+      ciudaddes: promocionData.ciudaddes,
+      colonias: promocionData.colonias,
+      paquetes: promocionData.paquetes
+    });
+    
+    // Validaciones adicionales para debug
+    if (promocionData.tipo === 2 && promocionData.ciudaddes.length === 0 && promocionData.colonias.length === 0) {
+      console.log('⚠️ WARNING: Promoción tipo 2 sin ciudades ni colonias');
+    }
 
     if (this.editIndex !== null) {
       // Actualizar promoción existente
@@ -199,13 +260,14 @@ export class PromocionesComponent implements OnInit {
       paquetesIds: promocion.paquetes?.map(p => p.idpaquete) || []
     };
     
-    // Configurar el tipo de aplicación basado en los datos existentes
+    // Configurar el tipo de aplicación de UBICACIÓN basado en los datos existentes
     if (this.nuevaPromo.ciudadesIds.length > 0) {
       this.tipoAplicacion = 'ciudades';
     } else if (this.nuevaPromo.coloniasIds.length > 0) {
       this.tipoAplicacion = 'colonias';
       this.cargarTodasLasColonias();
     }
+    // Los paquetes no definen el tipo de aplicación, son independientes
     
     this.editIndex = index;
     
@@ -268,6 +330,18 @@ export class PromocionesComponent implements OnInit {
       this.nuevaPromo.tipo = 1; // Valor por defecto
     } else {
       this.nuevaPromo.tipo = numeroTipo;
+    }
+    
+    // Si es tipo 1 (Contratación), limpiar ubicaciones y paquetes
+    if (this.nuevaPromo.tipo === 1) {
+      this.nuevaPromo.ciudadesIds = [];
+      this.nuevaPromo.coloniasIds = [];
+      this.nuevaPromo.paquetesIds = [];
+      this.tipoAplicacion = '';
+      this.ciudadSeleccionada = '';
+      this.coloniaSeleccionada = '';
+      this.paqueteSeleccionado = '';
+      console.log('⚠️ Tipo 1 seleccionado: Las promociones de contratación no pueden tener ubicaciones o paquetes específicos');
     }
   }
 
@@ -413,10 +487,11 @@ export class PromocionesComponent implements OnInit {
   }
 
   /**
-   * Cambia el tipo de aplicación (ciudades completas vs colonias específicas)
+   * Cambia el tipo de aplicación por UBICACIÓN (ciudades completas vs colonias específicas)
+   * Los paquetes son independientes y no se limpian
    */
   onTipoAplicacionChange() {
-    // Limpiar selecciones anteriores al cambiar modo
+    // Limpiar solo las selecciones de UBICACIÓN (no los paquetes)
     this.nuevaPromo.ciudadesIds = [];
     this.nuevaPromo.coloniasIds = [];
     this.ciudadSeleccionada = '';
@@ -489,8 +564,71 @@ export class PromocionesComponent implements OnInit {
     }
   }
 
+  /**
+   * Función para agregar paquete específico
+   */
   onPaqueteEspecificoChange() {
+    if (this.paqueteSeleccionado) {
+      const paqueteObj = this.paquetesDisponibles.find(p => p.name === this.paqueteSeleccionado);
+      if (paqueteObj) {
+        this.agregarPaqueteById(paqueteObj.id);
+      }
+      this.paqueteSeleccionado = '';
+    }
+  }
 
+  /**
+   * Agrega un paquete por ID a la lista de paquetes seleccionados
+   */
+  agregarPaqueteById(paqueteId: number) {
+    // Verifica que el ID no esté ya en la lista
+    if (!this.nuevaPromo.paquetesIds.includes(paqueteId)) {
+      this.nuevaPromo.paquetesIds.push(paqueteId);
+    }
+  }
+
+  /**
+   * Elimina un paquete de la lista según su índice
+   */
+  eliminarPaquete(index: number) {
+    this.nuevaPromo.paquetesIds.splice(index, 1);
+  }
+
+  /**
+   * Obtiene el nombre de un paquete por ID (para mostrar en la interfaz)
+   */
+  getNombrePaquete(paqueteId: number): string {
+    const paquete = this.paquetesDisponibles.find(p => p.id === paqueteId);
+    return paquete ? paquete.name : `Paquete ${paqueteId}`;
+  }
+
+  /**
+   * Obtiene los nombres de los paquetes de una promoción como string
+   */
+  getPaquetesNombres(promocion: Promocion): string {
+    if (!promocion.paquetes || promocion.paquetes.length === 0) {
+      return 'Global';
+    }
+    
+    // Intentar usar los nombres desde los datos de la promoción primero
+    const nombresDesdePromo = promocion.paquetes
+      .map(p => p.paquete?.nombre)
+      .filter(nombre => nombre) // Filtrar nombres válidos
+      .join(', ');
+    
+    if (nombresDesdePromo) {
+      return nombresDesdePromo;
+    }
+    
+    // Si no hay nombres en los datos de la promoción, usar la lista local de paquetes disponibles
+    const nombresDesdeLocal = promocion.paquetes
+      .map(p => {
+        const paqueteLocal = this.paquetesDisponibles.find(paq => paq.id === p.idpaquete);
+        return paqueteLocal ? paqueteLocal.name : `Paquete ${p.idpaquete}`;
+      })
+      .join(', ');
+    
+    return nombresDesdeLocal;
   }
 
   /**

@@ -23,9 +23,10 @@
             </div>
         </div>
 
-        <!-- Selector de aplicación: Ciudades completas o Colonias específicas -->
-        <div class="campo">
-            <label>Aplicar promoción por:</label>
+        <!-- Selector de aplicación por UBICACIÓN: Ciudades completas o Colonias específicas -->
+        <!-- Solo mostrar para promociones tipo 2 (Mensualidad) -->
+        <div class="campo" *ngIf="nuevaPromo.tipo === 2">
+            <label>Aplicar promoción por UBICACIÓN:</label>
             <div class="aplicacion-checkboxes">
                 <label>
                     <input type="radio" name="aplicacion" value="ciudades" [(ngModel)]="tipoAplicacion" (change)="onTipoAplicacionChange()">
@@ -81,6 +82,36 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Selector OPCIONAL de Paquetes -->
+        <!-- Solo mostrar para promociones tipo 2 (Mensualidad) -->
+        <div class="campo" *ngIf="nuevaPromo.tipo === 2">
+            <label>Seleccionar PAQUETES (opcional):</label>
+            <p class="helper-text">Selecciona paquetes específicos para la promoción, o deja vacío para promociones globales.</p>
+            <select [(ngModel)]="paqueteSeleccionado" (change)="onPaqueteEspecificoChange()" class="select-paquete">
+                <option value="">Selecciona un paquete</option>
+                <option *ngFor="let paquete of paquetesDisponibles" [value]="paquete.name">
+                    {{paquete.name}} (Tipo: {{paquete.tipo === 1 ? 'Residencial' : 'Empresarial'}})
+                </option>
+            </select>
+            <div class="box-elements" *ngIf="nuevaPromo.paquetesIds.length > 0">
+                <div class="box-container">
+                    <div *ngFor="let paqueteId of nuevaPromo.paquetesIds; let i = index" class="element">
+                    <div class="content">
+                        <p>{{getNombrePaquete(paqueteId)}}</p>
+                        <span class="button-sim" (click)="eliminarPaquete(i)">
+                            <span class="x1"></span>
+                            <span class="x2"></span>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="info-message" *ngIf="nuevaPromo.paquetesIds.length === 0">
+                ℹ️ Sin paquetes seleccionados - Promoción global
+            </div>
+        </div>
         
 
         <div class="campo">
@@ -123,7 +154,7 @@
         <table>
         <thead>
             <tr>
-            <th>Nombre</th><th>Tipo</th><th>Colonia</th><th>Ciudad</th>
+            <th>Nombre</th><th>Tipo</th><th>Colonia</th><th>Ciudad</th><th>Paquetes</th>
             <th>Alcance</th><th>Descuento</th><th>Duración</th><th>Vigencia</th><th>Acciones</th>
             </tr>
         </thead>
@@ -133,6 +164,7 @@
             <td>{{ getTipoTexto(promo.tipo) }}</td>
             <td>{{ getColoniasNombres(promo) }}</td>
             <td>{{ getCiudadesNombres(promo) }}</td>
+            <td>{{ getPaquetesNombres(promo) }}</td>
             <td>{{ getAlcanceTexto(promo.alcance) }}</td>
             <td>{{ promo.precioPorcen }}</td>
             <td>{{ promo.duracion }} meses</td>

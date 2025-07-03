@@ -43,21 +43,29 @@ export class PaquetesComponent implements OnInit {
       next: (res) => {
         this.serviciosDisponibles = res;
 
-        // Obtiene los paquetes registrados.
+        // Obtiene los paquetes registrados (usando endpoint básico temporalmente)
         this.$paquetes.getAllPackages().subscribe({
           next: (packages: any[]) => {
-            console.log(packages);
+            console.log('Paquetes recibidos:', packages);
             this.paquetes = packages.map(p => {
+              // Por ahora usar servicios vacíos hasta que se solucione el endpoint completo
+              const servicios: Service[] = [];
+              
               return new Package(
                 p.idpaquete,
                 p.nombre,
                 p.tipo,
                 new Date(),
-                (p.servicios as any[]).map(s => this.serviciosDisponibles.find(sD => sD.getId() == s.idservicio) as Service),
+                servicios, // servicios vacíos temporalmente
                 undefined, // promotions
                 p.precioBase // precio base
               );
             });
+          },
+          error: (err) => {
+            console.error('Error al cargar paquetes:', err);
+            // Mensaje de ayuda al usuario
+            alert('Error al cargar paquetes. Por favor, asegúrate de que el servidor esté ejecutándose.');
           }
         })
       },

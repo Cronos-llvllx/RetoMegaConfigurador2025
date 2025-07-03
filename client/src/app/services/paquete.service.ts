@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import Paquete from '../models/package.model';
 import Package from '../models/package.model';
 import { APIPackageRequest, APIPackageResponse } from '../models/api/api-package.interface';
@@ -16,10 +17,40 @@ export class PaqueteService {
   constructor(private http: HttpClient) { }
 
   /**
-   * Obtiene todos los paquetes disponibles desde el backend.
+   * Obtiene todos los paquetes disponibles desde el backend (datos básicos).
    */
   getAllPackages(): Observable<Paquete[]> {
     return this.http.get<Paquete[]>(`${this.apiUrl}Paquete`);
+  }
+
+  /**
+   * Obtiene todos los paquetes con información completa incluyendo servicios (para gestión).
+   */
+  getAllPackagesComplete(): Observable<any[]> {
+    console.log('Llamando al endpoint completo:', `${this.apiUrl}Paquete/admin/completos`);
+    return this.http.get<any[]>(`${this.apiUrl}Paquete/admin/completos`).pipe(
+      map(paquetes => {
+        console.log('Paquetes completos recibidos:', paquetes);
+        return paquetes;
+      })
+    );
+  }
+
+  /**
+   * Obtiene todos los paquetes en formato simplificado para selectores.
+   */
+  getPaquetesSimplified(): Observable<{id: number, name: string, tipo: number}[]> {
+    console.log('Llamando al endpoint:', `${this.apiUrl}Paquete`);
+    return this.http.get<any[]>(`${this.apiUrl}Paquete`).pipe(
+      map(paquetes => {
+        console.log('Paquetes recibidos del backend:', paquetes);
+        return paquetes.map(p => ({
+          id: p.idpaquete,
+          name: p.nombre,
+          tipo: p.tipo
+        }));
+      })
+    );
   }
 
   addNewPackage(pack: Package): Observable<Package> {

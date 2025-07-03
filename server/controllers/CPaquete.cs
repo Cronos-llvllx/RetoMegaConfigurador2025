@@ -15,6 +15,52 @@ public class Paquete(IPaquete repo, IContratoPaquete repoCotratoPaquete, IPaquet
   private readonly IPaqueteServicio _repoPaqueteServicio = repoPaqueteServicio;
 
   // ** Definir endpoints...
+  [HttpGet("")]
+  public async Task<IActionResult> ObtenerTodosPaquetes()
+  {
+    try
+    {
+      var paquetes = await _repo.ObtenerTodoAsync();
+      // Devolver solo los datos básicos para evitar problemas de serialización
+      var paquetesSimplificados = paquetes.Select(p => new {
+        idpaquete = p.Idpaquete,
+        nombre = p.Nombre,
+        precioBase = p.PrecioBase,
+        tipo = p.Tipo
+      });
+      return Ok(paquetesSimplificados);
+    }
+    catch (Exception ex)
+    {
+      return StatusCode(500, ex.Message);
+    }
+  }
+
+  [HttpGet("admin/completos")]
+  public async Task<IActionResult> ObtenerPaquetesCompletos()
+  {
+    try
+    {
+      var paquetes = await _repo.ObtenerTodoAsync();
+      // Devolver paquetes con servicios para gestión completa
+      var paquetesCompletos = paquetes.Select(p => new {
+        idpaquete = p.Idpaquete,
+        nombre = p.Nombre,
+        precioBase = p.PrecioBase,
+        tipo = p.Tipo,
+        servicios = p.Servicios?.Select(ps => new {
+          idservicio = ps.Idservicio,
+          idpaquete = ps.Idpaquete
+        }).ToArray() ?? new object[0]
+      });
+      return Ok(paquetesCompletos);
+    }
+    catch (Exception ex)
+    {
+      return StatusCode(500, ex.Message);
+    }
+  }
+
   [HttpGet("{id}")]
   public async Task<IActionResult> ObtenerPaquetePorId(int id)
   {
