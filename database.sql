@@ -25,7 +25,7 @@ CREATE TABLE Promocion (
 	Alcance TINYINT DEFAULT NULL,
 	Nombre NVARCHAR(50) NOT NULL,
 	Duracion INTEGER DEFAULT NULL,
-	FechaRegistro DATE DEFAULT CAST(GETDATE() AS DATE),
+	FechaRegistro DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
 	PrecioPorcen NUMERIC(6, 2) NOT NULL,
 	Tipo TINYINT NOT NULL,
 	Vigencia DATE NOT NULL
@@ -143,6 +143,10 @@ CREATE TABLE PromocionContrato (
 	CONSTRAINT fk_promocioncontrato_idcontrato FOREIGN KEY(Idcontrato) REFERENCES dbo.Contrato(Idcontrato)
 );
 GO
+
+-- VISTAS.
+CREATE VIEW PromocionGlobal AS SELECT * FROM Promocion p WHERE p.Tipo = 2 AND p.Idpromocion NOT IN (SELECT pciu.Idpromocion FROM PromocionCiudad pciu) AND p.Idpromocion NOT IN (SELECT pcol.Idpromocion FROM PromocionColonia pcol) AND p.Idpromocion NOT IN (SELECT ppaq.Idpromocion FROM PromocionPaquete ppaq);
+
 
 -- FUNCIONES Y PROCEDIMIENTOS.
 
